@@ -6,4 +6,8 @@
 			<result>/index.jsp</result>
 		</action>
 	</package>
+	<package name="chenkai" extends="struts-default">
+		<action name="shw" class="zx.ffts.web.action.chenkai.ChenKaiAction">
+		</action>
+	</package>
 </struts>    
