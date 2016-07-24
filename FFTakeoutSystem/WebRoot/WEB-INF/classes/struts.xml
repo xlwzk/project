@@ -10,4 +10,8 @@
 		<action name="shw" class="zx.ffts.web.action.chenkai.ChenKaiAction">
 		</action>
 	</package>
+	<package name="xiongli" extends="struts-default">
+		<action name="shw1" class="zx.ffts.web.action.xiongli.XiongLiAction">
+		</action>
+	</package>
 </struts>    
