@@ -7,11 +7,15 @@
 		</action>
 	</package>
 	<package name="chenkai" extends="struts-default">
-		<action name="shw" class="zx.ffts.web.action.chenkai.ChenKaiAction">
+		<action name="shwk" class="zx.ffts.web.action.chenkai.ChenKaiAction">
 		</action>
 	</package>
 	<package name="xiongli" extends="struts-default">
-		<action name="shw1" class="zx.ffts.web.action.xiongli.XiongLiAction">
+		<action name="shwx" class="zx.ffts.web.action.xiongli.XiongLiAction">
+		</action>
+	</package>
+	<package name="yyq" extends="struts-default">
+		<action name="shwy" class="zx.ffts.web.action.yyq.YYQAction">
 		</action>
 	</package>
 </struts>    
