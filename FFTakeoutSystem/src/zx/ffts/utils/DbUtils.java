@@ -17,6 +17,10 @@ public class DbUtils {
 	 */
 	private static ThreadLocal<Connection> tl = new ThreadLocal<Connection>();
 
+	/**
+	 * 获取UUID
+	 * @return
+	 */
 	public static String getUUID(){
 		return UUID.randomUUID().toString().replace("-", "").toUpperCase();
 	}

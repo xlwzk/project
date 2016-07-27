@@ -8,6 +8,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
@@ -16,6 +18,7 @@ import zx.ffts.utils.ExtenseQueryRunner;
 
 
 public class DataDao {
+	
 	private QueryRunner qr = new ExtenseQueryRunner();
 
 	/**
@@ -121,6 +124,36 @@ public class DataDao {
 		try {
 			int number = qr.update(sql, params);
 			return number;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	/**
+	 * 获取实体对象
+	 * @param sql
+	 * @param t
+	 * @param params
+	 * @return
+	 */
+	protected  <T> T getEntity(String sql,T t,Object... params){
+		try {
+			return qr.query(sql, new BeanHandler<T>((Class<T>) t.getClass()),params);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	/**
+	 * 获取实体集合
+	 * @param sql
+	 * @param t
+	 * @param params
+	 * @return
+	 */
+	protected <T> List<T> getEntities(String sql,T t,Object... params){
+		try {
+			return qr.query(sql, new BeanListHandler<T>((Class<T>) t.getClass()),params);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
