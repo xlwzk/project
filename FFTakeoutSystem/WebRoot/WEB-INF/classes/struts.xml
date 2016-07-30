@@ -15,7 +15,9 @@
 		</action>
 	</package>
 	<package name="yyq" extends="struts-default">
-		<action name="shwy" class="zx.ffts.web.action.yyq.YYQAction">
+		<action name="shop" class="zx.ffts.web.action.yyq.YYQAction">
+		<result name="ShopList">/pages/yyq/ShopInfo.jsp</result>
+		<result name="MenuList">/pages/yyq/MenuList.jsp</result>
 		</action>
 	</package>
 </struts>    

@@ -11,7 +11,7 @@
 			//声明sql
 			String sql = "insert into product values(product_seq.nextval,?,?,?,?,?,?,?)";
 			//调用方法返回结果，参数顺序要和？顺序一致
-			return update(sql, pname, brand, type, price, picture, desc, sales);
+			return update(sql,  c, brand, type, price, picture, desc, sales);
 		}
 		
 		//从数据库读取数据，使用自定义方法(不常见)
