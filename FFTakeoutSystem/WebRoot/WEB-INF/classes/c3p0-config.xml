@@ -4,8 +4,8 @@
 	<default-config>
 		<property name="jdbcUrl">jdbc:oracle:thin:@localhost:1521:ORCL</property>
 		<property name="driverClass">oracle.jdbc.driver.OracleDriver</property>
-		<property name="user">xiong</property>
-		<property name="password">xiong</property>
+		<property name="user">ts</property>
+		<property name="password">ts</property>
 		<property name="acquireIncrement">3</property>
 		<property name="initialPoolSize">10</property>
 		<property name="minPoolSize">3</property>
