@@ -8,6 +8,8 @@
 	</package>
 	<package name="chenkai" extends="struts-default">
 		<action name="shwk" class="zx.ffts.web.action.chenkai.ChenKaiAction">
+			<result name="success">main.jsp</result>
+			<result name="error">reg.jsp</result>
 		</action>
 	</package>
 	<package name="xiongli" extends="struts-default">
