@@ -1,7 +1,8 @@
 package zx.ffts.dao.chenkai;
 
 import java.util.List;
-import java.util.Map;
+
+import org.junit.Test;
 
 import zx.ffts.dao.DataDao;
 import zx.ffts.entity.chenkai.TsUser;
@@ -26,6 +27,8 @@ public class TsUserDao extends DataDao {
 		List<TsUser>  list=getEntities(sql,user , (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;
 	}
+	
+	
 	//通过id查询用户
 	public TsUser findUserById(Integer id){
 		TsUser user=new TsUser();
