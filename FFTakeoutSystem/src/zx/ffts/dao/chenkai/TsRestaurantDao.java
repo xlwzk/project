@@ -9,9 +9,10 @@ import zx.ffts.entity.chenkai.TsRestaurant;
 public class TsRestaurantDao extends DataDao {
 	
 	//查询所有店家
-	public List<Map<String, Object>>  getRestList(Integer nowPage,Integer pageSize){
+	public List<TsRestaurant>  getRestList(Integer nowPage,Integer pageSize){
+		TsRestaurant rest=new TsRestaurant();
 		String sql="select * from (select t.*,rownum rn from(select * from ts_restaurant)t)where rn between ? and ?";	
-		List<Map<String, Object>> list=getMapList(sql, (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
+		List<TsRestaurant> list=getEntities(sql,rest,(((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;
 	}
 	//通过id查询店家
@@ -42,7 +43,7 @@ public class TsRestaurantDao extends DataDao {
 	//查询所有店家数量
 	public Integer restCount(){
 		String sql="select count(*) as cou from ts_restaurant";
-		Integer i=scalarNumber(sql, null);
+		Integer i=scalarNumber(sql);
 		return i;
 	}
 }

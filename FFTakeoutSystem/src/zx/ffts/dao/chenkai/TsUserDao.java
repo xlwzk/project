@@ -57,7 +57,7 @@ public class TsUserDao extends DataDao {
 	//查询所有用户数量
 	public Integer userCount(){
 		String sql="select count(*) as cou from ts_user";
-		Integer i=scalarNumber(sql, null);
+		Integer i=scalarNumber(sql);
 		return i;
 	}
 }
