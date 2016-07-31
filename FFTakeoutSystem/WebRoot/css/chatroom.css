@@ -1,0 +1,9 @@
+#accordion ul li a {
+	height: 70px;
+	line-height: 70px;
+	padding: 0px 0px 0px 30px;
+}
+
+#accordion ul li a img {
+	padding: 0px 10px;
+}
