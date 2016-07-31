@@ -1,4 +1,4 @@
-package zx.ffts.xiong.dao;
+package zx.ffts.dao.xiong;
 
 import java.sql.Connection;
 import java.util.List;

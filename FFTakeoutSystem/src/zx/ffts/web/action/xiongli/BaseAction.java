@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
-import zx.ffts.xiong.dao.RestaurantDao;
+import zx.ffts.dao.xiong.RestaurantDao;
 
 import com.opensymphony.xwork2.ActionSupport;
 
