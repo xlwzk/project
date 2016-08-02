@@ -48,6 +48,18 @@ public class OrderDao extends DataDao {
 			return update(addsql, userid, menuid, dianid);
 		}
 	}
+	
+	/**
+	 * 删除小于1的订单
+	 * @param userid
+	 * @param menuid
+	 * @param dianid
+	 * @return
+	 */
+	public int deleteShp(Integer userid, Integer menuid, Integer dianid){
+		String sql="delete from  ts_order where ouserid=? and omuid=? and ortid=? and ostatus=0";
+			return update(sql, userid, menuid, dianid);
+	}
 
 	/**
 	 * 点了去结算时展现所有的订单信息
@@ -56,22 +68,39 @@ public class OrderDao extends DataDao {
 	 * @param restuantid
 	 * @return
 	 */
-	public List<Map<String, Object>> getDetail(Integer userid,
+	public Map<String, Object> getDetail(Integer userid,
 			Integer restuantid) {
 		String sql = "select oid,ocount,muname,muprice,rtname,username,gender,tel,address from ts_order o  "
 				+ "inner join ts_menu m  on o.omuid=m.muid "
 				+ " inner join ts_restaurant r on o.ortid=r.rtid "
 				+ "inner join ts_user u on o.ouserid=u.userid "
-				+ "  where o.oserid=? and r.rtid=? and ostatus=0";
-		return getMapList(sql, userid, restuantid);
+				+ "  where o.ouserid=? and r.rtid=? and ostatus=0";
+		System.out.println(sql);		
+		return getObject(sql, userid,restuantid);
 	}
 
-	// public static void main(String[] args) {
-	// RestaurantDao rd=new RestaurantDao();
-	// System.out.println(rd.getShopping().size());
-	// for (Map<String,Object> item : rd.getShopping()) {
-	// System.out.println(item.get("RTNAME").toString());
-	// }
-	//    	
-	// }
+	/**
+	 * 查看购物车
+	 * @param userid
+	 * @param shopid
+	 * @return
+	 */
+	public List<Map<String, Object>> getCar(Integer userid, Integer shopid) {
+		String sql = "select muname,omuid,ortid,muprice,ocount,rtname from ts_order o "
+				+ "inner join ts_menu m on m.muid=o.omuid "
+				+ "inner join ts_restaurant r on o.ortid=r.rtid "
+				+ "where ouserid=?  and  ostatus=0 and r.rtid=?";
+		return getMapList(sql, userid, shopid);
+	}
+	
+	/**
+	 * 清空购物车
+	 * @param userid
+	 * @param shopid
+	 * @return
+	 */
+	public int deleteCar(Integer userid,Integer shopid){
+		String sql=" delete  from ts_order where ouserid=? and ortid=? and ostatus=0";
+		return update(sql, userid,shopid); 
+	}
 }

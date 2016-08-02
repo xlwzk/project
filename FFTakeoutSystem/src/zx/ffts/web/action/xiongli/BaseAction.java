@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
-import zx.ffts.dao.xiong.RestaurantDao;
+import zx.ffts.dao.xiong.OrderDao;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -16,7 +16,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,Ser
 	protected HttpServletRequest request;
 	protected HttpSession session;
 	protected HttpServletResponse response;
-	protected RestaurantDao rdao=new RestaurantDao();
+	protected OrderDao odao=new OrderDao();
 	@Override
 	public void setServletRequest(HttpServletRequest request) {
 		
