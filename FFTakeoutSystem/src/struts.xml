@@ -12,6 +12,11 @@
 	</package>
 	<package name="xiongli" extends="struts-default">
 		<action name="shwx" class="zx.ffts.web.action.xiongli.XiongLiAction">
+		   <result name="addCar" type="redirect">/pages/yyq/MenuList.jsp</result>
+		   <result name="searchCar">/pages/xiong/showCar.jsp</result>
+		   <result name="deleteCar" >/pages/yyq/MenuList.jsp</result>
+		   <result name="getDetail">/pages/xiong/showDetail.jsp</result>
+		   
 		</action>
 	</package>
 	<package name="yyq" extends="struts-default">

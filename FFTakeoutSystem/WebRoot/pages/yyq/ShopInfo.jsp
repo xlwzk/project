@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <table align="center">
     <c:forEach items="${shop}" var="s">
     <tr>
-     <td width="25%" align="center"><a href="shop!MenuList.action?rtid=${s.rtid}"><img src="image/${s.rtpic}"width="143" height="112" border="0" /></a></td>
+     <td width="25%" align="center"><a href="shop!MenuList.action?rtid=${s.rtid}"><img src="<%=path %>/image/${s.rtpic}"width="143" height="112" border="0" /></a></td>
     <td><h2><a href="shop!MenuList.action?rtid=${s.rtid}">${s.rtname}</a></h2><br><h5>${s.rtaddr}</h5><br><h5>${s.rtcontent}</h5></td>
     </tr>
     </c:forEach>
