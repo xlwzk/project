@@ -18,6 +18,9 @@
 		<action name="shop" class="zx.ffts.web.action.yyq.YYQAction">
 		<result name="ShopList">/pages/yyq/ShopInfo.jsp</result>
 		<result name="MenuList">/pages/yyq/MenuList.jsp</result>
+		<result name="MenuMessage">/pages/yyq/MenuInfoById.jsp</result>
+		<result name="shopmessage">/pages/yyq/ShopMessById.jsp</result>
+		<result name="sd">/pages/yyq/ShopInfoById.jsp</result>
 		</action>
 	</package>
 </struts>    
