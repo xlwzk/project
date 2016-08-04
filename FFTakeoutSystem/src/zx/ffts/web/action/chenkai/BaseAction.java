@@ -1,5 +1,6 @@
 package zx.ffts.web.action.chenkai;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,27 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,Ser
 	protected HttpServletResponse res;
 	protected TsUser tsuser;
 	protected List<TsUser> userlist;
+	protected File abc;		// 用于填充上传的文件
+	protected String abcFileName;		// 用于填充上传的文件名称
+	
+
+	public File getAbc() {
+		System.out.println(abc);
+		return abc;
+	}
+
+	public void setAbc(File abc) {
+		this.abc = abc;
+	}
+
+	public String getAbcFileName() {
+		System.out.println(abcFileName);
+		return abcFileName;
+	}
+
+	public void setAbcFileName(String abcFileName) {
+		this.abcFileName = abcFileName;
+	}
 
 	public TsUser getTsuser() {
 		return tsuser;

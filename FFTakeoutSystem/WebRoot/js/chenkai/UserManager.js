@@ -1,3 +1,29 @@
+$.extend($.fn.datagrid.defaults.editors, {   
+	image: {   
+ init: function(container, options){   
+			var str="<form action='shwk!inio.action' method='post' enctype='multipart/form-data'><input type='file' name='abc' id='abc'/><input type='submit' value='上传'/><form>";
+             var input = $(str).appendTo(container);
+             return input;   
+          },   
+ getValue: function(target){   
+             return $(target).val();   
+         },   
+ setValue: function(target, value){   
+             $(target).val(value);   
+        },   
+ resize: function(target, width){   
+ 
+             var input = $(target);   
+             if ($.boxModel == true){   
+                 input.width(width - (input.outerWidth() - input.width()));   
+             } else {   
+                 input.width(width);   
+             }   
+         }   
+     }   
+ }); 
+
+
 $(function() {
 	/* 用户管理 */
 	$("#user").click(function() {
@@ -30,7 +56,7 @@ $(function() {
 						});
 					} else {
 						$.each(rows, function(index, r) {
-							$.get("User?v=" + Math.random(),{"method":"dele","userid":r.userid});
+							$.get("shwk!deleUser.action?v=" + Math.random(),{"id":r.userid});
 							});
 						$.messager.show( {
 							showType : 'slide',
@@ -91,29 +117,29 @@ $(function() {
 			onAfterEdit : function(index, r) {
 				if (type == "add") {
 					//向数据表中，添加数据
-					$.get("User?v=" + Math.random() + "&method=add",r,function(data){
+					$.post("shwk!addUser.action?v=" + Math.random(),r,function(data){
 						$.messager.show({
 							showType:'slide',
 							showSpeed:600,
 							title:'提示',
-							msg:'添加成功',
+							msg:'商品添加成功',
 							timeout:3000
 						});
 						 $("#mytable").datagrid("load");
 					});
 				} else if (type == "update") {					
-					$.get("User?v=" + Math.random() + "&method=update",r,function(data){
+					$.post("shwk!updaUser.action?v=" + Math.random(),r,function(data){
 						$.messager.show({
 							showType:'slide',
 							showSpeed:600,
 							title:'提示',
-							msg:'修改成功',
+							msg:'商品修改成功',
 							timeout:3000
 						});
 						 $("#mytable").datagrid("load");
 					});
 				}
-			},
+				},
 			idField:'userid',//标识id字段
 			url : "shwk!getUserList.action?v=" + Math.random(),
 			fitColumns : true,
@@ -145,14 +171,8 @@ $(function() {
 			},{field : 'photo',title : '图片',width : 100,align : 'center',sortable : true,
 				formatter:function(value,row){
 					return "<img src='"+value+"' width='50px' height='50px'>"    	
-			},editor : {
-				type : "validatebox",
-				options : {
-					required : true,
-					missingMessage : '图片不能为空'
-				}
-			}
-			
+			},editor:'image'	
+				
 			},{field : 'tel',title : '电话',width : 100,align : 'center',sortable : true,editor : {
 				type : "validatebox",
 				options : {
@@ -259,6 +279,5 @@ $(function() {
 				}
 			} ] ]
 		})
-
 	})
 })

@@ -10,6 +10,7 @@
 		<action name="shwk" class="zx.ffts.web.action.chenkai.ChenKaiAction">
 			<result name="success">main.jsp</result>
 			<result name="error">reg.jsp</result>
+			<result name="desuccess"/>
 		</action>
 	</package>
 	<package name="xiongli" extends="struts-default">
