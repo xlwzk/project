@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
+import zx.ffts.dao.yyq.findpage;
+import zx.ffts.dao.yyq.pagelist;
 import zx.ffts.dao.yyq.ts_restaurant_dao;
 
 public class YYQAction {
@@ -16,10 +18,17 @@ public class YYQAction {
 	HttpServletResponse res=ServletActionContext.getResponse();
 	HttpSession session=req.getSession();
 	ts_restaurant_dao dao=new ts_restaurant_dao();
+	findpage pg=new findpage();
 	//加载所有商店信息
 	public String ShopList(){
-		List<Map<String,Object>> shop=dao.getShopList();
-		session.setAttribute("shop",shop);
+		
+		Integer nowpage=1;
+		String nw=req.getParameter("nowpage");
+		if(nw!=null && !"".equals(nw)){
+			nowpage=Integer.parseInt(nw);
+		}
+		pagelist lis=pg.findShop(nowpage);
+		session.setAttribute("shop",lis);
 		return "ShopList";
 	}
 	
@@ -33,6 +42,7 @@ public class YYQAction {
 		session.setAttribute("MenuList",menu);
 		session.setAttribute("MenuType",type);
 		session.setAttribute("shopById",shopinfo);
+		session.setAttribute("shopid",rtid);
 		return "MenuList";
 	}
 	//商店详细信息
@@ -45,8 +55,13 @@ public class YYQAction {
 
 	//菜单评价
 	public String MenuMessage(){
+		Integer nowpage=1;
+		String nw=req.getParameter("nowpage");
+		if(nw!=null && !"".equals(nw)){
+			nowpage=Integer.parseInt(nw);
+		}
 		Integer muid=Integer.parseInt(req.getParameter("muid"));
-		List<Map<String,Object>> lis=dao.MenuMessage(muid);
+		pagelist lis= pg.findMenuMess(muid, nowpage);
 		Map<String,Object> info=dao.GetMenuInfo(muid);
 		session.setAttribute("menuInfo",info);
 		session.setAttribute("menuMess",lis);

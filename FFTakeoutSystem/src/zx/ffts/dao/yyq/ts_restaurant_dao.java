@@ -9,14 +9,21 @@ import zx.ffts.dao.DataDao;
 
 public class ts_restaurant_dao extends DataDao{
 //加载所有的商店信息
-	public List<Map<String,Object>> getShopList(){
-		String sql="select * from ts_restaurant";
-		return getMapList(sql);
+	public List<Map<String,Object>> getShopList(pageinfo info){
+		String sql="select * from (select s.*,rownum r from ts_restaurant s where rownum<=?)re where re.r>?";
+		return getMapList(sql,info.getEnd(),info.getStar());
 		
 	}
+	//获得商店总数
+	public int ShopCount(){
+		String sql="select count(*) from ts_restaurant";
+		System.out.println(scalarNumber(sql));
+		return scalarNumber(sql);
+	}
+	
 	//根据商家id加载所以的菜单信息
 	public List<Map<String,Object>> getMenuList(Integer rtid){
-		String sql="select * from ts_menu where murtid=?  order by mutype";
+		String sql="select * from ts_menu tm left outer join ts_order t on tm.muid=t.omuid where murtid=?";
 		return getMapList(sql,rtid);	
 	}
 	
@@ -26,10 +33,7 @@ public class ts_restaurant_dao extends DataDao{
 		return getMapList(sql,rtid);
 	}
 	
-	@Test
-	public void test(){
-		getMenuType(1);
-	}
+	
 	//根据id查询商店的详细信息
 	public  Map<String, Object> getshopInfo(Integer rtid){
 		String sql="select * from  ts_restaurant where rtid=?";
@@ -43,10 +47,20 @@ public class ts_restaurant_dao extends DataDao{
 		
 	}
 	//根据菜的id查看所有评价
-	public List<Map<String,Object>> MenuMessage(Integer muid){
-		String sql="select u.username as mm,m.mmcontent,m.mmdate from ts_menumsg m,ts_user u,ts_menu n where u.userid=m.mmuserid and n.muid=m.mmmuid and n.muid=?";
-		return getMapList(sql,muid);
+	public List<Map<String,Object>> MenuMessage(Integer muid,pageinfo info){
+		String sql="select * from (select u.username as mm,m.mmcontent,m.mmdate,rownum r from ts_menumsg m,ts_user u,ts_menu n where u.userid=m.mmuserid and n.muid=m.mmmuid and n.muid=? and rownum<=?) t where t.r>?";
+		return getMapList(sql,muid,info.getEnd(),info.getStar());
 		
+	}
+	//查询所有的菜单评价总数
+	public int MenuMessCount(Integer muid){
+		String sql="select count(*) from ts_menumsg where mmmuid=?";
+		System.out.println(scalarNumber(sql,muid));
+		return scalarNumber(sql,muid);
+	}
+	@Test
+	public void test(){
+		MenuMessCount(1);
 	}
 	//根据菜单id查看商店现象信息
 	public  Map<String, Object> GetMenuInfo(Integer muid){
