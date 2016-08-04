@@ -26,13 +26,17 @@ public class YYQAction {
 	//加载菜单信息
 	public String MenuList(){
 		Integer rtid=Integer.parseInt(req.getParameter("rtid"));
+		System.out.println(rtid);
 		List<Map<String,Object>> menu=dao.getMenuList(rtid);
 		//菜单类型
 		List<Map<String,Object>> type=dao.getMenuType(rtid);
 		Map<String,Object> shopinfo=dao.getshopInfo(rtid);
+	  
 		session.setAttribute("MenuList",menu);
 		session.setAttribute("MenuType",type);
 		session.setAttribute("shopById",shopinfo);
+		session.setAttribute("shopid",rtid);
+		
 		return "MenuList";
 	}
 

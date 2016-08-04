@@ -3,16 +3,24 @@ package zx.ffts.web.action.xiongli;
 import java.util.List;
 import java.util.Map;
 
+import zx.ffts.dao.yyq.ts_restaurant_dao;
+import zx.ffts.web.action.yyq.YYQAction;
+
 public class XiongLiAction extends BaseAction{
 	/**
 	 * 点击购买
 	 * @return
 	 */
+	YYQAction yyq=new YYQAction();
+	ts_restaurant_dao rt=new ts_restaurant_dao();
 	public String addCar(){
-		Integer shopid=Integer.parseInt(request.getParameter("shopid"));
+		Integer rtid=Integer.parseInt(request.getParameter("shopid"));
 		Integer menuid=Integer.parseInt(request.getParameter("menuid"));
 		Integer userid=1;
-		odao.addOrder(userid, menuid, shopid);
+		odao.addOrder(userid, menuid, rtid);
+		List<Map<String,Object>> menu=rt.getMenuList(rtid);
+		session.setAttribute("MenuList",menu);
+		//session.setAttribute("shopid",rtid);
 		return "addCar";
 	}
 	
@@ -71,9 +79,17 @@ public class XiongLiAction extends BaseAction{
 		Integer shopid=Integer.parseInt(request.getParameter("sid"));
 		Integer userid=1;
 		odao.deleteCar(userid, shopid);
+		session.removeAttribute("MenuList");
+		Integer rtid=(Integer) session.getAttribute("shopid");
+		List<Map<String,Object>> menu=rt.getMenuList(rtid);
+		session.setAttribute("MenuList",menu);
 		return "deleteCar";
 	}
 	
+	/**
+	 * 点击去结算显示详情信息
+	 * @return
+	 */
 	public String getDetail(){
 		Integer shopid=Integer.parseInt(request.getParameter("sid")); //商店id
 		Integer userid=1;		
@@ -88,6 +104,29 @@ public class XiongLiAction extends BaseAction{
 		request.setAttribute("sid", shopid);
 		request.setAttribute("mapdetail", mapdetail);
 		return "getDetail";
+	}
+	
+	/**
+	 * 继续购买
+	 * @return
+	 */
+	public String Back(){		
+		Integer rtid=(Integer) session.getAttribute("shopid");
+		List<Map<String,Object>> menu=rt.getMenuList(rtid);
+		session.setAttribute("MenuList",menu);
+		return "addCar";
+	}
+	
+	/**
+	 * 
+	 * 
+	 */
+	public String deletes(){
+		Integer shopid=Integer.parseInt(request.getParameter("sid")); //商店id
+		Integer menuid=Integer.parseInt(request.getParameter("meuid")); //菜的id
+		Integer userid=1;
+		odao.deletes(userid, menuid, shopid);
+		return Back();
 	}
 
 }
