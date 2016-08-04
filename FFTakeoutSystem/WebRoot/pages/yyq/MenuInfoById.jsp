@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <%
 String path = request.getContextPath();
@@ -45,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <tr>
    <td colspan="2"><h3>商品评价</h3><hr/></td>
    </tr>
-   <s:iterator value="#session.menuMess" var="m">
+   <c:forEach items="${menuMess.list}" var="m">
    <tr>
    <td width="200px">${m.mmdate}</td>
    <td align="right">${m.mm}</td>
@@ -53,7 +54,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <tr>
    <td colspan="2">${m.mmcontent}<hr/></td>
    </tr>
-   </s:iterator>
+   </c:forEach>
+   <tr>
+			<td colspan="2" align="right"><a
+				href="shop!MenuMessage.action?muid=${menuInfo.muid}&nowpage=1">首页</a> <c:if
+					test="${menuMess.info.nowpage==1 }">上一页</c:if> <c:if
+					test="${menuMess.info.nowpage>1 }">
+					<a href="shop!MenuMessage.action?muid=${menuInfo.muid}&nowpage=${menuMess.info.nowpage-1 }">上一页</a>
+				</c:if> <c:if test="${menuMess.info.nowpage<menuMess.info.sumpage}">
+					<a href="shop!MenuMessage.action?muid=${menuInfo.muid}&nowpage=${menuMess.info.nowpage+1 }">下一页</a>
+				</c:if> <c:if test="${menuMess.info.nowpage==menuMess.info.sumpage}">下一页</c:if> <a
+				href="shop!MenuMessage.action?muid=${menuInfo.muid}&nowpage=${menuMess.info.sumpage}">尾页</a></td>
+		</tr>
    </table>
   </body>
 </html>
