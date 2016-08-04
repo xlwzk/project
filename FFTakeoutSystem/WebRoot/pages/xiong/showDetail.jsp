@@ -44,14 +44,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            </td>
          </tr>
          <tr>
+            <td colspan="3" align="center">&nbsp;&nbsp;&nbsp;&nbsp;支付方式&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               &nbsp;&nbsp;&nbsp;&nbsp;在线支付&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+         </tr>
+         <tr>
             <td colspan="3" align="center">&nbsp;&nbsp;&nbsp;&nbsp;${mapdetail.rtname }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                &nbsp;&nbsp;&nbsp;&nbsp;由商家配送&nbsp;&nbsp;&nbsp;&nbsp;
             </td>
          </tr>
           <c:forEach items="${requestScope.list}" var="car">
              <tr>
-                <td align="center">&nbsp;&nbsp;&nbsp;&nbsp;${car.muname }</td>
-                <td align="center">x<span style="color:red">${car.ocount}&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                <td align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${car.muname }</td>
+                <td align="center">x<span style="color:red">${car.ocount}</span></td>
                 <td align="center"><span style="color:red">￥${car.ocount*car.muprice}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
              </tr>
           </c:forEach>

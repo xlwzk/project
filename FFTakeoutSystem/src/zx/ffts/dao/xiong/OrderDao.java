@@ -10,11 +10,8 @@ public class OrderDao extends DataDao {
 	 * 点击加号是将菜加入到购物车中
 	 * 
 	 * @param userid
-	 *            当前用户
 	 * @param menuid
-	 *            那个菜
 	 * @param dianid
-	 *            那个店
 	 * @return
 	 */
 	public int addOrder(Integer userid, Integer menuid, Integer dianid) {
@@ -60,7 +57,17 @@ public class OrderDao extends DataDao {
 		String sql="delete from  ts_order where ouserid=? and omuid=? and ortid=? and ostatus=0";
 			return update(sql, userid, menuid, dianid);
 	}
-
+   /**
+    * 在菜单中减数量
+    * @param userid
+    * @param menuid
+    * @param dianid
+    * @return
+    */
+	public int deletes(Integer userid, Integer menuid, Integer dianid){
+		String sql="update ts_order set ocount=ocount-1 where  ouserid=? and omuid=? and ortid=? ";
+		return update(sql, userid, menuid, dianid);
+	}
 	/**
 	 * 点了去结算时展现所有的订单信息
 	 * 
@@ -75,12 +82,11 @@ public class OrderDao extends DataDao {
 				+ " inner join ts_restaurant r on o.ortid=r.rtid "
 				+ "inner join ts_user u on o.ouserid=u.userid "
 				+ "  where o.ouserid=? and r.rtid=? and ostatus=0";
-		System.out.println(sql);		
 		return getObject(sql, userid,restuantid);
 	}
 
 	/**
-	 * 查看购物车
+	 * 查看我的订单
 	 * @param userid
 	 * @param shopid
 	 * @return
@@ -89,7 +95,7 @@ public class OrderDao extends DataDao {
 		String sql = "select muname,omuid,ortid,muprice,ocount,rtname from ts_order o "
 				+ "inner join ts_menu m on m.muid=o.omuid "
 				+ "inner join ts_restaurant r on o.ortid=r.rtid "
-				+ "where ouserid=?  and  ostatus=0 and r.rtid=?";
+				+ "where ouserid=?  and  ostatus=0 and r.rtid=? and ocount>=1";
 		return getMapList(sql, userid, shopid);
 	}
 	
@@ -102,5 +108,27 @@ public class OrderDao extends DataDao {
 	public int deleteCar(Integer userid,Integer shopid){
 		String sql=" delete  from ts_order where ouserid=? and ortid=? and ostatus=0";
 		return update(sql, userid,shopid); 
+	}
+	
+	/**
+	 * 修改订单中的状态
+	 * @param userid
+	 * @param shopid
+	 * @return
+	 */
+	public int updateStatus(Integer userid,Integer shopid){
+		String sql="update ts_order set ostatus=1 where ouserid=? and ortid=?";
+		return update(sql, userid,shopid);
+	}
+	
+	/**
+	 * 修改用户的余额
+	 * @param userid
+	 * @param money
+	 * @return
+	 */
+	public int updateMoney(Integer userid,Integer money){
+		String sql="update ts_order set balance=balance-? where userid=?";
+		return update(sql, money,userid);
 	}
 }

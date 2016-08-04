@@ -26,11 +26,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
       <table  width="50%" align="center">
            <tr>
-              <td colspan="3" align="center"><a href="shwx!deleteCar.action?sid=${requestScope.sid}">清空购物车</a></td>
+              <td colspan="3" align="center">
+              <a href="shwx!Back.action" style="text-decoration: none"><span style="color:red;font-size:22px">继续购买&nbsp;&nbsp;&nbsp;</span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <a href="shwx!deleteCar.action?sid=${requestScope.sid}" style="text-decoration: none;font-size:22px">清空购物车</a>
+              </td>
            </tr>
           <c:forEach items="${requestScope.list}" var="car">
              <tr>
-                <td align="center">${car.muname }</td>
+                <td align="center">&nbsp;${car.muname }</td>
                 <td align="center"><span style="color:red">￥${car.ocount*car.muprice}</span></td>
                 <td align="center"><a href="shwx!deleteShop.action?sid=${car.ortid}&meuid=${car.omuid}&num=${car.ocount}"><input type="button" value="-"/></a>&nbsp;&nbsp;<span style="color:red">${car.ocount }</span>&nbsp;&nbsp;<a href="shwx!addShop.action?sid=${car.ortid}&meuid=${car.omuid}"><input type="button" value="+"/></a></td>
              </tr>

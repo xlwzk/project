@@ -41,6 +41,7 @@ h3 {
 }
 ;
 </style>
+
 	</head>
 
 	<body>
@@ -99,10 +100,14 @@ h3 {
 										￥${m.muprice}
 									</h3>
 									&nbsp;&nbsp;
-									<a
-										href="shwx!addCar.action?shopid=${shopById.rtid }&menuid=${m.muid}"><input
-											type="button" value="点击购买" />
-									</a>&nbsp;&nbsp;
+								
+									<c:if test="${m.ocount>=1}">
+									<a href="shwx!deletes.action?sid=${shopById.rtid}&meuid=${m.omuid}"><input type="button" value="-" /></a>
+									</c:if>									
+									<c:if test="${m.ocount!=0}">
+									  <span style="color:red">&nbsp;${m.ocount }&nbsp;</span>
+									</c:if>
+									<a href="shwx!addCar.action?shopid=${shopById.rtid }&menuid=${m.muid}" ><input type="button" value="+"/></a>
 								</td>
 							</tr>
 						</c:forEach>
@@ -114,8 +119,12 @@ h3 {
 			   <td colspan="3">
 			      <table>
 			          <tr>
-			            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="shwx!searchCar.action?sid=${shopById.rtid}"><input type="button" value="查看我的订单"/></a></td>
-			            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=""><input type="button" value="查看我的订单"/></a></td>
+			            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			            <a href="shwx!searchCar.action?sid=${shopById.rtid}" style="text-decoration: none">查看我的订单</a>
+			            </td>
+			            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			            <span style="color:red;font-size:22px"><a href="shwx!getDetail.action?sid=${shopById.rtid}" style="text-decoration: none">去结算</a></span>
+			            </td>
 			          </tr>
 			      </table>
 			   </td>
