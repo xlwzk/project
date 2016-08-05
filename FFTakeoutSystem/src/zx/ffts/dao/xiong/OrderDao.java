@@ -77,7 +77,7 @@ public class OrderDao extends DataDao {
 	 */
 	public Map<String, Object> getDetail(Integer userid,
 			Integer restuantid) {
-		String sql = "select oid,ocount,muname,muprice,rtname,username,gender,tel,address from ts_order o  "
+		String sql = "select oid,ocount,muname,muprice,rtname,username,gender,tel,address,rtid from ts_order o  "
 				+ "inner join ts_menu m  on o.omuid=m.muid "
 				+ " inner join ts_restaurant r on o.ortid=r.rtid "
 				+ "inner join ts_user u on o.ouserid=u.userid "
@@ -130,5 +130,27 @@ public class OrderDao extends DataDao {
 	public int updateMoney(Integer userid,Integer money){
 		String sql="update ts_order set balance=balance-? where userid=?";
 		return update(sql, money,userid);
+	}
+	
+	/**
+	 * 修改当前菜的销售量
+	 * @param userid
+	 * @param shopid
+	 * @param menuid
+	 * @return
+	 */
+	public int updateSale(Integer userid,Integer shopid,Integer menuid){
+		String sql="update ts_menu set musale=musale+(select ocount from ts_order where ouserid=? and omuid=? and ortid=?) where muid=? and murtid=?";
+		return update(sql, userid,menuid,shopid,menuid,shopid);
+	}
+	
+	/**
+	 * 根据商店id查商店信息
+	 * @param shopid
+	 * @return
+	 */
+	public Map<String, Object> getShop(Integer shopid){
+		String sql="select rtname,rtaddr,rtpic,tel from ts_restaurant r inner join ts_user u on r.rtowner=u.userid  where rtid=?";
+		return getObject(sql, shopid);
 	}
 }

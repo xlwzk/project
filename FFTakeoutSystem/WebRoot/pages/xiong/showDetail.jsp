@@ -39,8 +39,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </td >
          </tr>
          <tr>
-           <td colspan="3" align="center">
-              ${mapdetail.address }
+           <td colspan="3" >
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mapdetail.address }
            </td>
          </tr>
          <tr>
@@ -62,7 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </c:forEach>
           <tr>
             <td colspan="3" align="center">&nbsp;&nbsp;&nbsp;&nbsp;待支付：<span style="color:red;font-size:22px">￥${sumMoney }</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span style="color:red;font-size:22px"><a href="" style="text-decoration: none">提交订单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span></td>
+                <span style="color:red;font-size:22px"><a href="shwx!getShop.action?sid=${mapdetail.rtid }&money=${sumMoney }" style="text-decoration: none">提交订单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></span></td>
           </tr>
     </table>
   </body>
