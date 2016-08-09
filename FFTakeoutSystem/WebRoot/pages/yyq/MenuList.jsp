@@ -44,7 +44,7 @@ h3 {
 </head>
 
 <body>
-	<a href="shop!ShopList.action">返回商店列表</a>
+	   <a href="shop!ShopList.action">返回商店列表</a>
 	<table bgcolor="#gray" width="600px" align="center">
 		<tr>
 			<td width="25%" align="center"><img
@@ -65,36 +65,77 @@ h3 {
 				href="shop!shangdian.action?rtid=${shopById.rtid}">商店</a></td>
 		</tr>
 	</table>
-	<table width="600px" align="center">
+		<table align="center">
+			
+			<tr>
+				<td colspan="3">
+					<h5>
+						公告：${shopById.rtcontent}
+					</h5>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<table>
+						<c:forEach items="${MenuType}" var="t">
+							<tr>
+								<td>
+									${t.mutype}
+								</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</td>
+				<td>
+					<table>
+						<c:forEach items="${MenuList}" var="m">
+							<tr>
+								<td width="25%" align="center">
+									<a href="shop!MenuMessage.action?muid=${m.muid}"><img src="image/${m.mupic}" width="143"
+											height="112" border="0" />
+									</a>
+								</td>
+								<td>
+									<h2>
+										<a href="shop!MenuMessage.action?muid=${m.muid}">${m.muname}</a>
+									</h2>
+									<h4>
+										${m.mudesc}
+									</h4>
+									<h3 style="color: red">
+										￥${m.muprice}
+									</h3>
+									&nbsp;&nbsp;
+								
+									<c:if test="${m.ocount>=1}">
+									<a href="shwx!deletes.action?sid=${shopById.rtid}&meuid=${m.omuid}"><input type="button" value="-" /></a>
+									</c:if>									
+									<c:if test="${m.ocount!=0}">
+									  <span style="color:red">&nbsp;${m.ocount }&nbsp;</span>
+									</c:if>
+									<a href="shwx!addCar.action?shopid=${shopById.rtid }&menuid=${m.muid}" ><input type="button" value="+"/></a>
+								</td>
+							</tr>
+						</c:forEach>
+					</table>
+                    
+				</td>
+			</tr>
+			<tr>
+			   <td colspan="3">
+			      <table>
+			          <tr>
+			            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			            <a href="shwx!searchCar.action?sid=${shopById.rtid}" style="text-decoration: none">查看我的订单</a>
+			            </td>
+			            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			            <span style="color:red;font-size:22px"><a href="shwx!getDetail.action?sid=${shopById.rtid}" style="text-decoration: none">去结算</a></span>
+			            </td>
+			          </tr>
+			      </table>
+			   </td>
+			</tr>
+		</table>
 
-		<tr>
-			<td colspan="2">
-				<table>
-					<c:forEach items="${MenuType}" var="t">
-						<tr>
-							<td>${t.mutype}</td>
-						</tr>
-					</c:forEach>
-				</table>
-			</td>
-			<td>
-				<table>
-					<c:forEach items="${MenuList}" var="m">
-						<tr>
-							<td width="25%" align="center"><a
-								href="shop!MenuMessage.action?muid=${m.muid}"><img
-									src="image/${m.mupic}" width="143" height="112" border="0" />
-							</a></td>
-							<td><h2>
-									<a href="shop!MenuMessage.action?muid=${m.muid}">${m.muname}</a>
-								</h2>
-								<h4>${m.mudesc}</h4>
-								<h3 style="color: red">￥${m.muprice}</h3></td>
-						</tr>
-					</c:forEach>
-				</table>
-			</td>
-		</tr>
-	</table>
-</body>
+	</body>
 </html>
