@@ -7,10 +7,33 @@
 		</action>
 	</package>
 	<package name="chenkai" extends="struts-default">
-		<action name="shwk" class="zx.ffts.web.action.chenkai.ChenKaiAction">
-			<result name="success">main.jsp</result>
-			<result name="error">reg.jsp</result>
-			<result name="desuccess"/>
+		<action name="shwk" class="zx.ffts.web.action.chenkai.ChenKaiTsUserAction">
+			<result name="success">/pages/chenkai/main.jsp</result>
+			<result name="error">/pages/chenkai/reg.jsp</result>
+		</action>
+		<action name="shwkrest" class="zx.ffts.web.action.chenkai.ChenKaiTsRestaurantAction">
+			<result name="success">/pages/chenkai/main.jsp</result>
+		</action>
+		<action name="shwkmess" class="zx.ffts.web.action.chenkai.ChenKaiTsMessageAction">
+			<result name="success">/pages/chenkai/main.jsp</result>
+		</action>
+		<action name="shwkmenu" class="zx.ffts.web.action.chenkai.ChenKaiTsMenuAction">
+			<result name="success">/pages/chenkai/main.jsp</result>
+		</action>
+		<action name="shwkmenumsg" class="zx.ffts.web.action.chenkai.ChenKaiTsMenuMsgAction">
+			<result name="success">/pages/chenkai/main.jsp</result>
+		</action>
+		<action name="shwkorder" class="zx.ffts.web.action.chenkai.ChenKaiTsOrderAction">
+			<result name="success">/pages/chenkai/main.jsp</result>
+		</action>
+		<action name="shwkpay" class="zx.ffts.web.action.chenkai.ChenKaiTsPayAction">
+			<result name="success">/pages/chenkai/main.jsp</result>
+		</action>
+		<action name="shwkgift" class="zx.ffts.web.action.chenkai.ChenKaiTsGiftAction">
+			<result name="success">/pages/chenkai/main.jsp</result>
+		</action>
+		<action name="shwkgiftrec" class="zx.ffts.web.action.chenkai.ChenKaiTsGiftRecordAction">
+			<result name="success">/pages/chenkai/main.jsp</result>
 		</action>
 	</package>
 	<package name="xiongli" extends="struts-default">

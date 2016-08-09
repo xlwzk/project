@@ -6,6 +6,7 @@ public class TsPay implements Serializable{
 	private Integer pid;		//编号
 	private String ptype;		//支付方式
 	private Integer poid;		//对那张订单
+	
 	public Integer getPid() {
 		return pid;
 	}

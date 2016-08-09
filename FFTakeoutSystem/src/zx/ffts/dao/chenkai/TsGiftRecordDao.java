@@ -9,11 +9,8 @@ import zx.ffts.entity.chenkai.TsPay;
 public class TsGiftRecordDao extends DataDao {
 	
 	//查询所有兑换记录
-	public List<TsGiftRecord>  getTsGiftRecordList(Integer nowPage,Integer pageSize,String sort,String order){
-		String sql="select * from (select t.*,rownum rn from(select * from ts_giftrecord)t)where rn between ? and ?";	
-		if (sort!=null) {
-			sql+=" order by "+sort+" "+order;
-		}
+	public List<TsGiftRecord>  getTsGiftRecordList(Integer nowPage,Integer pageSize){
+		String sql="select * from (select t.*,rownum rn from(select ts_giftrecord.*,(select gname from ts_gift where ts_gift.gid=ts_giftrecord.grgid) as grgname,(select username from ts_user where ts_user.userid=ts_giftrecord.gruserid) as grusername from ts_giftrecord)t)where rn between ? and ?";	
 		TsGiftRecord  pay=new TsGiftRecord();
 		List<TsGiftRecord>  list=getEntities(sql,pay , (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;
@@ -23,7 +20,7 @@ public class TsGiftRecordDao extends DataDao {
 	//通过id查询兑换记录
 	public TsGiftRecord findGiftRecordById(Integer id){
 		TsGiftRecord pay=new TsGiftRecord();
-		String sql="select * from ts_giftrecord where pid=?";
+		String sql="select * from ts_giftrecord where grid=?";
 		TsGiftRecord ts=getEntity(sql, pay, id);
 		return ts;
 	}
@@ -41,8 +38,8 @@ public class TsGiftRecordDao extends DataDao {
 	}
 	//修改兑换记录
 	public Integer updateGiftRecord(Integer grgid,Integer gruserid,Integer grnum,String grdate,Integer grstatus,Integer grid){
-		String sql="update ts_giftrecord set grgid=?,gruserid=?,grnum=?,grdate=?,grstatus=? where grid=? ";
-		Integer i=update(sql,grgid,gruserid,grnum,grdate,grstatus,grid);
+		String sql="update ts_giftrecord set grgid=?,gruserid=?,grnum=?,grdate=to_date('"+grdate+"','yyyy-MM-dd hh24:mi:ss'),grstatus=? where grid=? ";
+		Integer i=update(sql,grgid,gruserid,grnum,grstatus,grid);
 		return i;
 	}
 	//查询所有兑换记录数量

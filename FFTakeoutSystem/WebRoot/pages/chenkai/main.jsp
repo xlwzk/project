@@ -10,7 +10,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'main.jsp' starting page</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -20,59 +19,92 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<link rel="stylesheet" type="text/css" href="<%=path %>/easyui/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="<%=path %>/easyui/themes/icon.css">
 	
-	<script type="text/javascript" src="<%=path %>/js/jquery-1.12.0.js"></script>
-	<script type="text/javascript" src="<%=path %>/easyui/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src="<%=path %>/easyui/locale/easyui-lang-zh_CN.js"></script>
-	<script type="text/javascript" src="<%=path %>/js/chenkai/UserManager.js"></script>
-	
+	<title>订餐系统后台模板管理系统</title>
+	<link type="text/css" rel="stylesheet" href="<%=path %>/css/style.css" />
+	<script type="text/javascript" src="<%=path %>/js/chenkai/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="<%=path %>/js/chenkai/menu.js"></script>
+	<script type="text/javascript" src="<%=path %>/js/chenkai/Manager.js"></script>
+	<style type="text/css">
+		a {text-decoration:underline;cursor:pointer} 
+	</style>
 	
   </head>
-  
-<body class="easyui-layout">  
-    <div region="north" title="North Title" style="height:100px;">
-    		<table align="center" width="100%" border="0" cellspacing="0" cellpadding="0">
-  				<tr align="center">
-    				<td>
-    					<c:if test="${sessionScope.user!=null}">欢迎您,
-    					<c:out value="${sessionScope.user.username}"></c:out>
-    					</c:if>
-    				</td>
-  				</tr>
-			</table>
-	</div>  
-      	<div region="west" title="West" style="width:200px;"> 
-      		<div class="easyui-accordion" style="width:200px;">  
-     		<div id="Title1" title="用户管理" iconCls="icon-save"  style="overflow:auto;padding:10px;">
-     			<a id="user">用户管理</a>
-     		</div>  
-			<div id="Title2" title="店铺管理" iconCls="icon-reload" style="padding:10px;">
-     			<a id="rest">店铺管理</a><br/>
-     			&nbsp;<br/>
-     			<a id="message">店铺评论</a>
-     		</div>  
-			<div id="Title3" title="菜单管理" style="padding:10px;">
-     			<a id="menu">菜单管理</a><br/>
-     			&nbsp;<br/>
-     			<a id="menumsg">菜单评论</a>
-  			</div>   	
-  			<div id="Title4" title="订单管理" style="padding:10px;">
-     			<a id="order">订单管理</a> 
-  			</div>  
-  			<div id="Title5" title="支付表管理" style="padding:10px;">
-     			<a id="pay">支付表管理</a> 
-  			</div>  
-  			<div id="Title6" title="积分表管理" style="padding:10px;">
-     			<a id="gift">礼品表管理</a><br/>
-     			&nbsp;<br/>
-     			<a id="giftrecord">兑换表管理</a>  
-  			</div>  
-  		</div> 
-    </div>  
-    <div region="center" title="center title" style="padding:5px;background:#eee;">
-    	<div id="mydiv"></div>  
-    </div>
-  </body>  
+  <body>
+<div class="top"></div>
+<div id="header">
+	<div class="logo">订餐后台管理系统</div>
+	<div class="navigation">
+		<ul>
+		 	<li>欢迎您！</li>
+			<li><span>${sessionScope.user.username}</span></li>
+			<li><input type="hidden" id="id" name="id" value="${sessionScope.user.userid}"> </li>
+			
+			<li><a href='<%=basePath%>pages/chenkai/reg.jsp'>退出</a></li>
+		</ul>
+	</div>
+</div>
+<div id="content">
+	<div class="left_menu">
+				<ul id="nav_dot">
+      <li>
+          <h4 class="M1"><span></span>用户管理</h4>
+          <div class="list-item none">
+            <a id="findalluser">查询所有用户</a>
+            <a id="addUser">新增用户</a>
+          </div>
+        </li>
+        <li>
+          <h4 class="M2"><span></span>店家管理</h4>
+          <div class="list-item none">
+            <a id="findallrest">查询所有店家</a>
+            <a id='addRest'>新增店家</a>   
+            <a id='findaddMess'>查询所有店家评论</a>   
+           </div>
+        </li>
+        <li>
+          <h4 class="M3"><span></span>菜单管理</h4>
+          <div class="list-item none">
+            <a id="findallmenu">查询所有菜单</a>
+            <a id="findallmenumsg">查询所有菜单评论</a>
+          </div>
+        </li>
+				<li>
+          <h4 class="M4"><span></span>订单管理</h4>
+          <div class="list-item none">
+            <a id='findallorder'>查询所有订单</a>
+            
+          </div>
+        </li>
+				<li>
+          <h4 class="M5"><span></span>支付管理</h4>
+          <div class="list-item none">
+            <a id='findallpay'>查询所有订单支付方式</a>
+        
+          </div>
+        </li>
+				<li>
+          <h4  class="M6"><span></span>礼品管理</h4>
+          <div class="list-item none">
+            <a id='findallgift'>查询所有礼品</a>
+            <a id='addgift'>添加礼品</a>
+            <a id='findallgiftRec'>查询所有礼品兑换记录</a>
+          </div>
+        </li>
+  </ul>
+		</div>
+		<div class="m-right">
+			<div class="right-nav">
+					
+			</div>
+			<div id="mydiv" class="main">
+				
+			</div>
+		</div>
+</div>
+<div class="bottom"></div>
+<div id="footer"><p>Copyright©  2016 版权所有 京ICP备08082016号-110  </p></div>
+<script>navList(12);</script>
+</body>
+
 </html>

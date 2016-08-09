@@ -6,7 +6,8 @@ public class TsRestaurant implements Serializable{
 	private Integer rtid;			//编号
 	private String rtname;			//店名
 	private String rtaddr;			//地址
-	private Integer rtowner;		//店主
+	private Integer rtowner;		//店主编号
+	private String owner;			//店主名
 	private String rtpic;			//图片
 	private String rtcontent;		//公告
 	private String rtdate;			//开店时间
@@ -35,6 +36,12 @@ public class TsRestaurant implements Serializable{
 	}
 	public void setRtowner(Integer rtowner) {
 		this.rtowner = rtowner;
+	}
+	public String getOwner() {
+		return owner;
+	}
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 	public String getRtpic() {
 		return rtpic;
@@ -71,26 +78,22 @@ public class TsRestaurant implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 	public TsRestaurant(Integer rtid, String rtname, String rtaddr,
-			Integer rtowner, String rtpic, String rtcontent, String rtdate,
-			String rtonbuz, Integer rtstatus) {
+			Integer rtowner, String owner, String rtpic, String rtcontent,
+			String rtdate, String rtonbuz, Integer rtstatus) {
 		super();
 		this.rtid = rtid;
 		this.rtname = rtname;
 		this.rtaddr = rtaddr;
 		this.rtowner = rtowner;
+		this.owner = owner;
 		this.rtpic = rtpic;
 		this.rtcontent = rtcontent;
 		this.rtdate = rtdate;
 		this.rtonbuz = rtonbuz;
 		this.rtstatus = rtstatus;
 	}
-	@Override
-	public String toString() {
-		return "TsRestaurant [rtaddr=" + rtaddr + ", rtcontent=" + rtcontent
-				+ ", rtdate=" + rtdate + ", rtid=" + rtid + ", rtname="
-				+ rtname + ", rtonbuz=" + rtonbuz + ", rtowner=" + rtowner
-				+ ", rtpic=" + rtpic + ", rtstatus=" + rtstatus + "]";
-	}
+
+	
 	
 	
 }

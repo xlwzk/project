@@ -8,11 +8,8 @@ import zx.ffts.entity.chenkai.TsMessage;
 public class TsMessageDao extends DataDao {
 
 	//查询所有店铺评论
-	public List<TsMessage>  getMessageList(Integer nowPage,Integer pageSize,String sort,String order){
-		String sql="select * from (select t.*,rownum rn from(select a.*,b.username,c.rtname from ts_message a,ts_user b,ts_restaurant c where a.muserid=b.userid and a.mrtid=c.rtid)t)where rn between ? and ?";	
-		if (sort!=null) {
-			sql+=" order by "+sort+" "+order;
-		}
+	public List<TsMessage>  getMessageList(Integer nowPage,Integer pageSize){
+		String sql="select * from (select t.*,rownum rn from(select a.*,b.username as musername,c.rtname as mrtname from ts_message a,ts_user b,ts_restaurant c where a.muserid=b.userid and a.mrtid=c.rtid)t)where rn between ? and ?";	
 		TsMessage  pay=new TsMessage();
 		List<TsMessage>  list=getEntities(sql,pay , (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;
@@ -39,9 +36,9 @@ public class TsMessageDao extends DataDao {
 		return i;
 	}
 	//修改兑换记录
-	public Integer updateMessage(Integer muserid,Integer mrtid,String mcontent,String mdate){
-		String sql="update ts_message set muserid=?,mrtid=?,mcontent=?,mdate=? where mid=? ";
-		Integer i=update(sql,muserid,mrtid,mcontent,mdate);
+	public Integer updateMessage(Integer muserid,Integer mrtid,String mcontent,String mdate,Integer mid){
+		String sql="update ts_message set muserid=?,mrtid=?,mcontent=?,mdate=to_date('"+mdate+"','yyyy-MM-dd hh24:mi:ss') where mid=? ";
+		Integer i=update(sql,muserid,mrtid,mcontent,mid);
 		return i;
 	}
 	//查询所有兑换记录数量

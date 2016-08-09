@@ -26,7 +26,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<s:form action="shwk!Login.action" method="post" theme="simple">
     		姓名：<s:textfield name="tsuser.username" /><br/>
     		密码：<s:password name="tsuser.pwd"/><br/>
-    		确认密码：<s:password name="tsuser.confirmPwd"/><br/>
     		${error}
     		<s:submit value="提交"></s:submit>
     </s:form>

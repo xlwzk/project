@@ -5,7 +5,9 @@ import java.io.Serializable;
 public class TsGiftRecord implements Serializable{
 	private Integer grid;		//编号
 	private Integer grgid;		//礼物编号
-	private Integer gruserid;	//兑换人
+	private String grgname;		//礼物名
+	private Integer gruserid;	//兑换人id
+	private String grusername;	//兑换人
 	private Integer grnum;		//兑换数量
 	private String grdate;		//兑换日期
 	private Integer grstatus;	//兑换状态，0
@@ -21,11 +23,23 @@ public class TsGiftRecord implements Serializable{
 	public void setGrgid(Integer grgid) {
 		this.grgid = grgid;
 	}
+	public String getGrgname() {
+		return grgname;
+	}
+	public void setGrgname(String grgname) {
+		this.grgname = grgname;
+	}
 	public Integer getGruserid() {
 		return gruserid;
 	}
 	public void setGruserid(Integer gruserid) {
 		this.gruserid = gruserid;
+	}
+	public String getGrusername() {
+		return grusername;
+	}
+	public void setGrusername(String grusername) {
+		this.grusername = grusername;
 	}
 	public Integer getGrnum() {
 		return grnum;
@@ -49,12 +63,15 @@ public class TsGiftRecord implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public TsGiftRecord(Integer grid, Integer grgid, Integer gruserid,
-			Integer grnum, String grdate, Integer grstatus) {
+	public TsGiftRecord(Integer grid, Integer grgid, String grgname,
+			Integer gruserid, String grusername, Integer grnum, String grdate,
+			Integer grstatus) {
 		super();
 		this.grid = grid;
 		this.grgid = grgid;
+		this.grgname = grgname;
 		this.gruserid = gruserid;
+		this.grusername = grusername;
 		this.grnum = grnum;
 		this.grdate = grdate;
 		this.grstatus = grstatus;
@@ -62,8 +79,9 @@ public class TsGiftRecord implements Serializable{
 	@Override
 	public String toString() {
 		return "TsGiftRecord [grdate=" + grdate + ", grgid=" + grgid
-				+ ", grid=" + grid + ", grnum=" + grnum + ", grstatus="
-				+ grstatus + ", gruserid=" + gruserid + "]";
+				+ ", grgname=" + grgname + ", grid=" + grid + ", grnum="
+				+ grnum + ", grstatus=" + grstatus + ", gruserid=" + gruserid
+				+ ", grusername=" + grusername + "]";
 	}
-
+	
 }

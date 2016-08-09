@@ -8,11 +8,8 @@ import zx.ffts.entity.chenkai.TsPay;
 public class TsPayDao extends DataDao {
 	
 	//查询所有支付方式
-	public List<TsPay>  getPayList(Integer nowPage,Integer pageSize,String sort,String order){
+	public List<TsPay>  getPayList(Integer nowPage,Integer pageSize){
 		String sql="select * from (select t.*,rownum rn from(select * from ts_pay)t)where rn between ? and ?";	
-		if (sort!=null) {
-			sql+=" order by "+sort+" "+order;
-		}
 		TsPay  pay=new TsPay();
 		List<TsPay>  list=getEntities(sql,pay , (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;
@@ -39,8 +36,8 @@ public class TsPayDao extends DataDao {
 		return i;
 	}
 	//修改支付方式
-	public Integer updatePay(String ptype,Integer poid,Integer pid){
-		String sql="update ts_pay set ptype=?,poid=? where pid=? ";
+	public Integer updatePay(String ptype,Integer pid){
+		String sql="update ts_pay set ptype=? where pid=? ";
 		Integer i=update(sql,ptype,pid);
 		return i;
 	}

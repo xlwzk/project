@@ -3,6 +3,7 @@ package zx.ffts.entity.chenkai;
 public class TsMenu {
 	private Integer muid;		//菜单编号
 	private Integer murtid;  	//所属商店
+	private String mrtname;		//所属商店名
 	private String muname;		//菜单名称
 	private Integer muprice;	//价格
 	private String mupic;		//图片
@@ -21,6 +22,12 @@ public class TsMenu {
 	}
 	public void setMurtid(Integer murtid) {
 		this.murtid = murtid;
+	}
+	public String getMrtname() {
+		return mrtname;
+	}
+	public void setMrtname(String mrtname) {
+		this.mrtname = mrtname;
 	}
 	public String getMuname() {
 		return muname;
@@ -68,12 +75,13 @@ public class TsMenu {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public TsMenu(Integer muid, Integer murtid, String muname, Integer muprice,
-			String mupic, String mutype, String mudesc, Integer musale,
-			Integer mustatus) {
+	public TsMenu(Integer muid, Integer murtid, String mrtname, String muname,
+			Integer muprice, String mupic, String mutype, String mudesc,
+			Integer musale, Integer mustatus) {
 		super();
 		this.muid = muid;
 		this.murtid = murtid;
+		this.mrtname = mrtname;
 		this.muname = muname;
 		this.muprice = muprice;
 		this.mupic = mupic;
@@ -84,11 +92,13 @@ public class TsMenu {
 	}
 	@Override
 	public String toString() {
-		return "TsMenu [mudesc=" + mudesc + ", muid=" + muid + ", muname="
-				+ muname + ", mupic=" + mupic + ", muprice=" + muprice
-				+ ", murtid=" + murtid + ", musale=" + musale + ", mustatus="
-				+ mustatus + ", mutype=" + mutype + "]";
+		return "TsMenu [mrtname=" + mrtname + ", mudesc=" + mudesc + ", muid="
+				+ muid + ", muname=" + muname + ", mupic=" + mupic
+				+ ", muprice=" + muprice + ", murtid=" + murtid + ", musale="
+				+ musale + ", mustatus=" + mustatus + ", mutype=" + mutype
+				+ "]";
 	}
+
 	
 	
 }
