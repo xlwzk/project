@@ -37,7 +37,7 @@ public class TsOrderDao extends DataDao {
 	//通过id查询订单
 	public TsOrder findOrderById(Integer id){
 		TsOrder order=new TsOrder();
-		String sql="select oid,(select username from ts_user b where b.userid=a.ouserid ) as ousername,(select muname from ts_menu c where c.muid=a.omuid) as omuname, (select rtname from ts_restaurant d where d.rtid=a.ortid) as ortname,ocount,(select username from ts_user b where b.userid=a.osender ) as osendername,odate,ouuid,ostatus from ts_order a where oid=?";
+		String sql="select * from ts_order a where oid=?";
 		TsOrder ts=getEntity(sql, order, id);
 		return ts;
 	}
@@ -49,9 +49,9 @@ public class TsOrderDao extends DataDao {
 		return i;
 	}
 	//修改订单
-	public Integer updateOrder(Integer ouserid,Integer omuid,Integer ortid,Integer ocount,Integer osender,String odate,String ouuid,Integer ostatus){
+	public Integer updateOrder(Integer ouserid,Integer omuid,Integer ortid,Integer ocount,Integer osender,String odate,String ouuid,Integer ostatus,Integer oid){
 		String sql="update ts_order set ouserid=?,omuid=?,ortid=?,ocount=?,osender=?,odate=to_date('"+odate+"','yyyy-MM-dd hh24:mi:ss'),ouuid=?,ostatus=? where oid=? ";
-		Integer i=update(sql,ouserid,omuid,ortid,ocount,osender,ouuid,ostatus);
+		Integer i=update(sql,ouserid,omuid,ortid,ocount,osender,ouuid,ostatus,oid);
 		return i;
 	}
 	//查询所有订单数量

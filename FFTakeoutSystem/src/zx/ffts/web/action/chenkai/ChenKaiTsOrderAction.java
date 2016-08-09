@@ -29,7 +29,7 @@ public class ChenKaiTsOrderAction extends BaseAction {
 		String rowStr = req.getParameter("rows");
 		
 		Integer page=1;
-		Integer row=5;
+		Integer row=2;
 		if (pageStr!=null&&!"".equals(pageStr)) {
 			page=Integer.parseInt(pageStr);
 		}
@@ -55,7 +55,7 @@ public class ChenKaiTsOrderAction extends BaseAction {
 	}
 	
 
-	//获得所有菜单的集合
+	//获得所有订单的集合
 	public void getAllOrder() throws IOException{
 		orderlist=myorder.getAllOrder();		
 		PrintWriter out = res.getWriter();
@@ -66,39 +66,40 @@ public class ChenKaiTsOrderAction extends BaseAction {
 		out.close();
 	}
 	
-	//删除店家评论
+	//删除订单
 	public void deleOrder(){
 		Integer id=Integer.parseInt(req.getParameter("id"));	
 		myorder.deleteOrder(id);
 	}
 
-	//通过id查询某个店家评论
+	//通过id查询某个订单
 	public void FindOrderbyId() throws Exception{
 		Integer id=Integer.parseInt(req.getParameter("id"));
 		TsOrder ts=myorder.findOrderById(id);
 		PrintWriter out = res.getWriter();
 		JSONObject json = new JSONObject();
-		json.put("menu", ts);
+		json.put("order", ts);
 		out.write(json.toString());
 		out.flush();
 		out.close();
 	}
 	
-	//修改某个菜单
+	//修改某个订单
 	public String UpdaOrder() throws Exception{
 		req.setCharacterEncoding("UTF-8");
 		res.setContentType("text/html;charset=UTF-8");
-		Integer muid=Integer.parseInt(req.getParameter("muid"));
-		String murtid=req.getParameter("murtid");
-		String muname=req.getParameter("muname");
-		String muprice=req.getParameter("muprice");
-		String pic=req.getParameter("pic");
-		String mutype=req.getParameter("mutype");
-		String mudesc=req.getParameter("mudesc");
-		String musale=req.getParameter("musale");
-		String mustatus=req.getParameter("mustatus");
+		Integer oid=Integer.parseInt(req.getParameter("oid"));
+		String ouserid=req.getParameter("ouserid");
+		String omuid=req.getParameter("omuid");
+		String ortid=req.getParameter("ortid");
+		String ocount=req.getParameter("ocount");
+		String osender=req.getParameter("osender");
+		String odate=req.getParameter("odate");
+		String ouuid=req.getParameter("ouuid");
+		String ostatus=req.getParameter("ostatus");
 
-		
+		myorder.updateOrder(Integer.parseInt(ouserid), Integer.parseInt(omuid), Integer.parseInt(ortid), Integer.parseInt(ocount),  Integer.parseInt(osender), odate, ouuid, Integer.parseInt(ostatus),oid);
+		//myorder.updateOrder(, , , ,, odate, ouuid, ,oid);
 		
 		return "success";
 	}

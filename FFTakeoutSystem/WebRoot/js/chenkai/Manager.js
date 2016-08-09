@@ -472,7 +472,6 @@ function MenuMsgrollback(data) {
 
 //订单回调函数
 function Orderrollback(data) {
-	alert("AAAAAAAAA")
 	var page = data.pages;
 	var sum = data.total;
 	var getAllOrder = data.rows;
@@ -480,7 +479,6 @@ function Orderrollback(data) {
 	var s = "<table align='center' border='1' width='90%'>";
 	s += "<tr align='center'><td>编号</td><td>下单用户</td><td>菜名</td><td>店名</td><td>数量</td><td>配送员</td><td>下单时间</td><td>UUID</td><td>订单状态</td><td>操作</td></tr>"
 	for ( var i = 0; i < getAllOrder.length; i++) {
-		alert(getAllOrder[i].OID)
 		var k = getAllOrder[i];
 		
 		var str=""
@@ -520,28 +518,28 @@ function Orderrollback(data) {
 	s += "<tr valign='bottom' align='center'>"
 	s += "<td colspan='3' width='100%'>"
 	if (page != 1) {
-		s += "<a  onclick='getMenuMsgList(1)'><font color='blue'>首页</font></a>"
+		s += "<a  onclick='getOrderList(1)'><font color='blue'>首页</font></a>"
 
 	} else {
 		s += "<span>首页</span>"
 	}
 	s += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	if (page > 1) {
-		s += "<a  onclick='getMenuMsgList(" + (page - 1)
+		s += "<a  onclick='getOrderList(" + (page - 1)
 				+ ")'><font color='blue'>上一页</font></a>"
 	} else {
 		s += "<span>上一页</span>"
 	}
 	s += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	if (page < sum) {
-		s += "<a  onclick='getMenuMsgList(" + (page + 1)
+		s += "<a  onclick='getOrderList(" + (page + 1)
 				+ ")'><font color='blue'>下一页</font></a>"
 	} else {
 		s += "<span>下一页</span>"
 	}
 	s += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	if (page != sum) {
-		s += "<a onclick='getMenuMsgList(" + (sum)
+		s += "<a onclick='getOrderList(" + (sum)
 				+ ")'><font color='blue'>尾页</font></a>"
 	} else {
 		s += "<span>尾页</span>"
@@ -807,6 +805,19 @@ function getMenuMsgList(pages) {
 		},
 		dataType : "json",
 		success : MenuMsgrollback
+	})
+}
+
+//分页查询订单
+function getOrderList(pages){
+	$.ajax( {
+		url : "shwkorder!getOrderList.action?v=" + Math.random(),
+		type : "post",
+		data : {
+			"page" : pages
+		},
+		dataType : "json",
+		success : Orderrollback
 	})
 }
 
@@ -1141,6 +1152,93 @@ function findmenumsgbyid(id){
 	})
 }
 
+//通过id查询订单
+function findorderbyid(id){
+	$.ajax( {
+		url : "shwkorder!FindOrderbyId.action?v=" + Math.random(),
+		type : "post",
+		data : {
+			"id" : id
+		},
+		dataType : "json",
+		success : function(data){		
+			var ts=data.order;
+			alert(ts.ouserid)
+			var str="";
+			var str2="";
+			var str3="";
+			var str4="";
+			$.getJSON("shwk!getAllUser.action?v=" + Math.random(), function(data){
+				var getAllUser = data.rows;
+				
+				for ( var i = 0; i < getAllUser.length; i++) {
+					var k = getAllUser[i]   
+					if (ts.ouserid==k.userid) {
+							str +="<option value="+k.userid+"  selected='selected'>"+k.username+"</option>"
+					}
+					str +="<option value="+k.userid+">"+k.username+"</option>"			
+					if (ts.osender==k.userid) {
+						str2 +="<option value="+k.userid+"  selected='selected'>"+k.username+"</option>"
+					}
+					str2 +="<option value="+k.userid+">"+k.username+"</option>"			
+			
+				}
+				$.getJSON("shwkrest!getAllRest.action?v=" + Math.random(), function(data){
+					var getAllRest = data.rows;
+					for ( var i = 0; i < getAllRest.length; i++) {
+						var k = getAllRest[i]                  
+						if (ts.ortid==k.rtid) {
+								str3 +="<option value="+k.rtid+"  checked='checked'>"+k.rtname+"</option>"
+						}
+						str3 +="<option value="+k.rtid+">"+k.rtname+"</option>"				
+					}
+			$.getJSON("shwkmenu!getAllMenu.action?v=" + Math.random(), function(data){
+					var getAllMenu = data.rows;
+					for ( var i = 0; i < getAllMenu.length; i++) {
+						var k = getAllMenu[i]     
+						if (ts.omuid==k.muid) {
+								str4 +="<option value="+k.muid+"  selected='selected'>"+k.muname+"</option>"
+						}
+						str4 +="<option value="+k.muid+">"+k.muname+"</option>"				
+					}
+			var s = "<form  action='shwkorder!UpdaOrder.action'  method='post' enctype='multipart/form-data'>";
+			s +="<table align='center'>";
+			s += "<tr><td><input type='hidden' id='oid' name='oid' value="+ts.oid+" /></td></tr>"
+			s += "<tr><td>下单用户：<select id='ouserid' name='ouserid'>"+str+"<select></td></tr>"
+			s += "<tr><td>店家：<select id='ortid' name='ortid'>"+str3+"<select></td></tr>"
+			s += "<tr><td>菜名：<select id='omuid' name='omuid'>"+str4+"<select></td></tr>"
+			s += "<tr><td>数量：<input type='text' id='ocount' name='ocount' value="+ts.ocount+" /></td></tr>"
+			s += "<tr><td>配送员：<select id='osender' name='osender'>"+str2+"<select></td></tr>"
+			s += "<tr><td>下单日期：<input type='text' id='odate' name='odate' value="+ts.odate+" /></td></tr>"
+			s += "<tr><td>OUUID：<input type='text' id='ouuid' name='ouuid' value="+ts.ouuid+" /></td></tr>"
+			if (ts.osattus==0) {
+				s += "<tr><td>订单状态:<select id='ostatus' name='ostatus'><option value='0' selected='selected'>购物车中</option><option value='1'>已下单（未支付）</option><option value='2'>已支付</option><option value='3'>商家已接单</option><option value='4'>配送中</option> <option value='5'>订单完成</option></select></td></tr>"
+			}else if(ts.osattus==1){
+				s += "<tr><td>订单状态:<select id='ostatus' name='ostatus'><option value='0' >购物车中</option><option value='1' selected='selected'>已下单（未支付）</option><option value='2'>已支付</option><option value='3'>商家已接单</option><option value='4'>配送中</option> <option value='5'>订单完成</option></select></td></tr>"	
+			}else if(ts.osattus==2){
+				s += "<tr><td>订单状态:<select id='ostatus' name='ostatus'><option value='0' >购物车中</option><option value='1'>已下单（未支付）</option><option value='2' selected='selected'>已支付</option><option value='3'>商家已接单</option><option value='4'>配送中</option><option value='5'>订单完成</option> </select></td></tr>"	
+			}else if(ts.osattus==3){
+				s += "<tr><td>订单状态:<select id='ostatus' name='ostatus'><option value='0' >购物车中</option><option value='1'>已下单（未支付）</option><option value='2'>已支付</option><option value='3' selected='selected'>商家已接单</option><option value='4'>配送中</option><option value='5'>订单完成</option> </select></td></tr>"	
+			}else if(ts.osattus==4){
+				s += "<tr><td>订单状态:<select id='ostatus' name='ostatus'><option value='0' >购物车中</option><option value='1'>已下单（未支付）</option><option value='2'>已支付</option><option value='3'>商家已接单</option><option value='4' selected='selected'>配送中</option><option value='5'>订单完成</option> </select></td></tr>"	
+			}else {
+				s += "<tr><td>订单状态:<select id='ostatus' name='ostatus'><option value='0' >购物车中</option><option value='1'>已下单（未支付）</option><option value='2'>已支付</option><option value='3'>商家已接单</option><option value='4'>配送中</option> <option value='5' selected='selected'>订单完成</option></select></td></tr>"	
+			}
+			
+			s += "<tr><td><input type='submit' value='提交'/><input type='button' id='btn' value='取消'/></td></tr>"
+			s +="</table>"
+			s += "</form>"
+			$("#mydiv").html(s);
+			$("#btn").click(function() {
+				$.getJSON("shwkorder!getOrderList.action?v=" + Math.random(), Orderrollback)
+			})
+			})
+			})
+			})
+		}
+	})
+}
+
 //通过id查询订单支付方式
 function findpaybyid(id){
 	$.ajax( {
@@ -1218,7 +1316,6 @@ function findGiftRecbyid(id){
 		dataType : "json",
 		success : function(data){		
 			var ts=data.grec;
-			alert("AAAAAAAAAAAAAAAA")
 			var str="";
 			var str2="";
 			$.getJSON("shwk!getAllUser.action?v=" + Math.random(), function(data){
@@ -1340,6 +1437,21 @@ function deleMenumsg(id){
 		dataType : "json",
 		success : function(){
 			$.getJSON("shwkmenumsg!getMenuMsgList.action?v=" + Math.random(), MenuMsgrollback)
+		}
+	})
+}
+
+//删除订单
+function deleOrder(id){
+	$.ajax( {
+		url : "shwkorder!deleOrder.action?v=" + Math.random(),
+		type : "post",
+		data : {
+			"id" : id
+		},
+		dataType : "json",
+		success : function(){
+			$.getJSON("shwkorder!getOrderList.action?v=" + Math.random(), Orderrollback)
 		}
 	})
 }
