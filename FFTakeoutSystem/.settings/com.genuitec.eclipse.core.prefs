@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 eclipse.preferences.version=1
 validator.Checked=WebRoot/js/chenkai/jquery-1.8.3.min.js
+=======
+#Fri Aug 05 16:41:54 CST 2016
+eclipse.preferences.version=1
+validator.Checked=/
+>>>>>>> 6748796fc754c93047578a1bc50b67c0a63e88fb
 validator.Unchecked=

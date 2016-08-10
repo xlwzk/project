@@ -48,7 +48,7 @@
 		   <result name="searchCar">/pages/xiong/showCar.jsp</result>
 		   <result name="deleteCar" >/pages/yyq/MenuList.jsp</result>
 		   <result name="getDetail">/pages/xiong/showDetail.jsp</result>
-		   
+		   <result name="getShop">/pages/xiong/account.jsp</result>
 		</action>
 	</package>
 	<package name="yyq" extends="struts-default">
@@ -60,4 +60,18 @@
 		<result name="sd">/pages/yyq/ShopInfoById.jsp</result>
 		</action>
 	</package>
+	
+	
+	<package name="chenshun" extends="struts-default">             <!-- 陈顺-->
+		<action name="cs" class="zx.ffts.web.action.chenshun.ChenShunAction">
+		</action>
+		
+		<action name="login" class="zx.ffts.web.action.chenshun.ChenShunAction"> <!-- 陈顺登录验证 -->
+		</action>	
+		
+		
+		<action name="echarts" class="zx.ffts.web.action.chenshun.ChenShunAction" /><!-- 陈顺图形进入 -->
+	
+	</package>
+	
 </struts>    
