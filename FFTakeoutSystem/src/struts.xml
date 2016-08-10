@@ -2,8 +2,14 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
 	<package name="pain" extends="struts-default">
-		<action name="myaction" class="zx.ffts.web.action.pain.PainAction">
-			<result>/index.jsp</result>
+		<action name="user" class="zx.ffts.web.action.pain.UserAction">
+			<result>/pages/pain/login.jsp</result>
+			<result name="loginSuccess">index.jsp</result>
+			<result name="loginFailed">/pages/pain/login.jsp</result>
+		</action>
+		<action name="page" class="zx.ffts.web.action.pain.PageDispatcherAction">
+			<result name="loginPage" type="redirect">/pages/pain/login.jsp?purpose=login</result>
+			<result name="registPage" type="redirect">/pages/pain/login.jsp?purpose=regist</result>
 		</action>
 	</package>
 	<package name="chenkai" extends="struts-default">

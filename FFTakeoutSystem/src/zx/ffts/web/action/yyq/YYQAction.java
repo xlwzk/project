@@ -9,15 +9,15 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
-import zx.ffts.dao.yyq.Ts_restaurant_dao;
 import zx.ffts.dao.yyq.findpage;
 import zx.ffts.dao.yyq.pagelist;
+import zx.ffts.dao.yyq.ts_restaurant_dao;
 
 public class YYQAction {
 	HttpServletRequest req = ServletActionContext.getRequest();
 	HttpServletResponse res = ServletActionContext.getResponse();
 	HttpSession session = req.getSession();
-	Ts_restaurant_dao dao = new Ts_restaurant_dao();
+	ts_restaurant_dao dao = new ts_restaurant_dao();
 	findpage pg = new findpage();
 
 	// 加载所有商店信息

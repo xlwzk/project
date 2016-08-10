@@ -6,7 +6,7 @@ import java.util.Map;
 public class findpage {
 	//商店分页
   public pagelist findShop(int nowpage){
-	  Ts_restaurant_dao dd=new Ts_restaurant_dao();
+	  ts_restaurant_dao dd=new ts_restaurant_dao();
 	  int ShopCount=dd.ShopCount();
 	  pageinfo info= new pageinfo();
 	  info.setNowpage(nowpage);
@@ -19,7 +19,7 @@ public class findpage {
   }
   //菜单评价分页
   public pagelist findMenuMess(Integer muid,int nowpage){
-	  Ts_restaurant_dao dd=new Ts_restaurant_dao();
+	  ts_restaurant_dao dd=new ts_restaurant_dao();
 	  int MenuMessCount=dd.MenuMessCount(muid);
 	  System.out.println("muid"+muid);
 	  pageinfo info= new pageinfo();

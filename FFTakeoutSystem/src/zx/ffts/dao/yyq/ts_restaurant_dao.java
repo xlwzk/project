@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import zx.ffts.dao.DataDao;
 
-public class Ts_restaurant_dao extends DataDao{
+public class ts_restaurant_dao extends DataDao{
 //加载所有的商店信息
 	public List<Map<String,Object>> getShopList(pageinfo info){
 		String sql="select * from (select s.*,rownum r from ts_restaurant s where rownum<=?)re where re.r>?";

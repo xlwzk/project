@@ -3,7 +3,7 @@ package zx.ffts.web.action.xiongli;
 import java.util.List;
 import java.util.Map;
 
-import zx.ffts.dao.yyq.Ts_restaurant_dao;
+import zx.ffts.dao.yyq.ts_restaurant_dao;
 import zx.ffts.web.action.yyq.YYQAction;
 
 public class XiongLiAction extends BaseAction{
@@ -12,7 +12,7 @@ public class XiongLiAction extends BaseAction{
 	 * @return
 	 */
 	YYQAction yyq=new YYQAction();
-	Ts_restaurant_dao rt=new Ts_restaurant_dao();
+	ts_restaurant_dao rt=new ts_restaurant_dao();
 	public String addCar(){
 		Integer rtid=Integer.parseInt(request.getParameter("shopid"));
 		Integer menuid=Integer.parseInt(request.getParameter("menuid"));
