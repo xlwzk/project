@@ -119,7 +119,7 @@ public class XiongLiAction extends BaseAction{
 	
 	/**
 	 * 
-	 * 
+	 * 在前台点减号
 	 */
 	public String deletes(){
 		Integer shopid=Integer.parseInt(request.getParameter("sid")); //商店id
@@ -127,6 +127,31 @@ public class XiongLiAction extends BaseAction{
 		Integer userid=1;
 		odao.deletes(userid, menuid, shopid);
 		return Back();
+	}
+	
+	/**
+	 * 查询商店信息
+	 * @return
+	 */
+	public String getShop(){
+		Integer shopid=Integer.parseInt(request.getParameter("sid")); //商店id
+		Integer money=Integer.parseInt(request.getParameter("money"));
+		Map<String, Object> map=odao.getShop(shopid);
+		request.setAttribute("shopDetail", map);
+		request.setAttribute("money",money);
+		return "getShop";
+	}
+	
+	
+	/**
+	 * 点击确认支付
+	 * @return
+	 */
+	public String account(){
+		Integer userid=1;  //指定当前用户为1 当前用户的余额为100000000
+		Integer shopid=Integer.parseInt(request.getParameter("sid")); //商店id
+		Integer menuid=Integer.parseInt(request.getParameter("meuid")); //菜的id 
+		return"";
 	}
 
 }

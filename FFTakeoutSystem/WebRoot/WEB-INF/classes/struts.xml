@@ -48,7 +48,7 @@
 		   <result name="searchCar">/pages/xiong/showCar.jsp</result>
 		   <result name="deleteCar" >/pages/yyq/MenuList.jsp</result>
 		   <result name="getDetail">/pages/xiong/showDetail.jsp</result>
-		   
+		   <result name="getShop">/pages/xiong/account.jsp</result>
 		</action>
 	</package>
 	<package name="yyq" extends="struts-default">
