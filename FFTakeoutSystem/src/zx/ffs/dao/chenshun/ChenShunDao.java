@@ -1,4 +1,4 @@
-package zx.ffts.dao;
+package zx.ffs.dao.chenshun;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import java.util.Map;
 import net.sf.json.JSONArray;
 
 
+import zx.ffts.dao.DataDao;
 import zx.java.entity.chenshun.ts_menu;
 import zx.java.entity.chenshun.ts_order;
 
@@ -56,6 +57,15 @@ public class ChenShunDao extends DataDao {
 	
 		return scalarNumber(sql,id);
 		
+	}
+	/**
+	 * 返回某家店的所有菜
+	 * @param id
+	 * @return
+	 */
+	public List<Map<String,Object>> GetMenuList(Integer id){
+		String sql="select * from ts_menu where murtid=?";
+		return getMapList(sql, id);	
 	}
 
 	
@@ -139,6 +149,16 @@ public class ChenShunDao extends DataDao {
         
            return list;
 	}
+	/**
+	 * 加载某个店所有的订单啊
+	 * @param id
+	 * @return
+	 */
+	  public List<Map<String,Object>> GetListOrder(Integer id){
+		  String sql="select  k.oid,u.username,m.muname,m.muprice,k.odate,k.ostatus,k.ocount,(m.muprice*k.ocount) as sum from ( select t.*,rownum r from ts_order t     where ortid=? ) k    inner join ts_menu m  on k.omuid=m.muid  inner join ts_user u  on u.userid=k.ouserid";
+		  return getMapList(sql, id);
+		  
+	  }
 	
 	/**
 	 * 修改订单
@@ -178,10 +198,10 @@ public class ChenShunDao extends DataDao {
 	 * @return
 	 * @throws Exception
 	 */
-	 public Map<String,Object> getList() throws Exception{
+	 public Map<String,Object> getList(Integer id) throws Exception{
 		 Map<String,Object> map=new HashMap<String, Object>();
-		 String sql="select * from ts_menu";
-		 List<Map<String,Object>> list=getMapList(sql, null);
+		 String sql="select * from ts_menu where murtid=?";
+		 List<Map<String,Object>> list=getMapList(sql, id);
 		 for (Map<String, Object> map2 : list) {
 			  map.put(map2.get("MUNAME").toString(), map2.get("MUPRICE").toString());
 
@@ -189,8 +209,90 @@ public class ChenShunDao extends DataDao {
 		 return map;
 		 
 	 }
-
+	 /**
+	  * 返回某家店所有还没有处理的订单
+	  * @param id
+	  * @return
+	  */
+	 public List<Map<String,String>> OrderListNo(Integer id){  //店的id
+		 List<Map<String,String>>  list=new ArrayList<Map<String,String>>();
+		 String sql="select  k.oid,u.username,m.muname,m.muprice,k.odate,k.ostatus,k.ocount,(m.muprice*k.ocount) as sum,ouuid from ( select t.*, rownum r from ts_order t     where ortid=? and ostatus =2 )k    inner join ts_menu m  on k.omuid=m.muid  inner join ts_user u  on u.userid=k.ouserid";
+         for (Map<String, Object> map : getMapList(sql, id)) {
+			   Map<String,String>  map2=new HashMap<String, String>();
+			    map2.put("OID", map.get("OID").toString());
+			    map2.put("USERNAME", map.get("USERNAME").toString());
+			    map2.put("MUNAME", map.get("MUNAME").toString());
+			    map2.put("MUPRICE", map.get("MUPRICE").toString());
+			    map2.put("ODATE", map.get("ODATE").toString());
+			    map2.put("OSTATUS", map.get("OSTATUS").toString());
+			    map2.put("OCOUNT", map.get("OCOUNT").toString());
+			    map2.put("SUM", map.get("SUM").toString());
+			    map2.put("OUUID", map.get("OUUID").toString());
+			    list.add(map2);
+		}
+		 
+		 return list;
+	 }
 	 
+	 /**
+	  * 没处理的总数
+	  * @param id
+	  * @return
+	  */
+		public int OrderNumNo(Integer id){
+			String sql="select count(*) from ts_order where ortid=? and ostatus =2";
+			return scalarNumber(sql,id);
+			
+		}
+    /**
+     * 返回某家店所有已经处理过的订单
+     * @param id
+     * @return
+     */
+	 public List<Map<String,String>> OrderListYes(Integer id){
+		 List<Map<String,String>>  list=new ArrayList<Map<String,String>>();
+		 String sql ="select  k.oid,u.username,m.muname,m.muprice,k.odate,k.ostatus,k.ocount,(m.muprice*k.ocount) as sum,ouuid from ( select t.*, rownum r from ts_order t     where ortid=1 and ostatus in(3,4,5) )k    inner join ts_menu m  on k.omuid=m.muid  inner join ts_user u  on u.userid=k.ouserid";
+		 for (Map<String, Object> map : getMapList(sql, id)) {
+			   Map<String,String>  map2=new HashMap<String, String>();
+			    map2.put("OID", map.get("OID").toString());
+			    map2.put("USERNAME", map.get("USERNAME").toString());
+			    map2.put("MUNAME", map.get("MUNAME").toString());
+			    map2.put("MUPRICE", map.get("MUPRICE").toString());
+			    map2.put("ODATE", map.get("ODATE").toString());
+			    map2.put("OSTATUS", map.get("OSTATUS").toString());
+			    map2.put("OCOUNT", map.get("OCOUNT").toString());
+			    map2.put("SUM", map.get("SUM").toString());
+			    map2.put("OUUID", map.get("OUUID").toString());
+			    list.add(map2);
+		}
+		 
+		 return list;
+		 
+	 }
+	 /**
+	  * 已处理订单的总数
+	  * @param id
+	  * @return
+	  */
+		public int OrderNumYes(Integer id){
+			String sql="select count(*) from ts_order where ortid=? and ostatus in(3,4,5)";
+			return scalarNumber(sql,id);
+			
+		}
+		
+		
+		
+		/**
+		 * 单机接单的时候
+		 * @param id
+		 * @return
+		 */
+	public int JieDanOrder(Integer id){  //订单的主键来修改
+		String sql="update ts_order set ostatus=3 where oid=?";
+		return update(sql, id);
+		
+		
+	}
 	 
 	
 	

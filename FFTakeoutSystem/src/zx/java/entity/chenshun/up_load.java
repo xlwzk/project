@@ -9,28 +9,39 @@ import java.io.Serializable;
  *
  */
 public class up_load implements Serializable  { //上传必须实现serializable
-        protected File name;
-        protected String nameFileName;
-		public File getName() {
-			return name;
-		}
-		public void setName(File name) {
-			this.name = name;
-		}
-		public String getNameFileName() {
-			return nameFileName;
-		}
-		public void setNameFileName(String nameFileName) {
-			this.nameFileName = nameFileName;
-		}
-		public up_load(File name, String nameFileName) {
-			super();
-			this.name = name;
-			this.nameFileName = nameFileName;
-		}
-		public up_load() {
-			super();
-			// TODO Auto-generated constructor stub
-		}
-        
+	protected  File abc;
+    protected String abcContentType;
+    protected String abcFileName;
+	public File getAbc() {
+		return abc;
+	}
+	public void setAbc(File abc) {
+		this.abc = abc;
+	}
+	public String getAbcContentType() {
+		return abcContentType;
+	}
+	public void setAbcContentType(String abcContentType) {
+		this.abcContentType = abcContentType;
+	}
+	public String getAbcFileName() {
+		return abcFileName;
+	}
+	public void setAbcFileName(String abcFileName) {
+		this.abcFileName = abcFileName;
+	}
+	public up_load(File abc, String abcContentType, String abcFileName) {
+		super();
+		this.abc = abc;
+		this.abcContentType = abcContentType;
+		this.abcFileName = abcFileName;
+	}
+	public up_load() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+    
 }
