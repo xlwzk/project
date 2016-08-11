@@ -1,15 +1,16 @@
 $(function() {
-	
 	// 绑定添加事件
 	$(".btnAdd").click(function(event) {
 		// 判断用户是否登录
 		if($("#infos").attr("userid")==""){
 			$("#s-modal-body").text("请您先登录");
 			$("#s-modal-body-addon").removeClass().addClass("glyphicon glyphicon-exclamation-sign");
+			$("#logBtn").removeClass("sr-only");
 			$(this).attr("data-toggle","modal");
 			$(this).attr("data-target",".bs-example-modal-sm");
 		}else{
 			// 加入购物车代码
+			$("#logBtn").addClass("sr-only");
 			var userid = $("#infos").attr("userid");
 			var rtid = $("#infos").attr("rtid");
 			var muid = $(this).attr("muid");
@@ -58,10 +59,12 @@ $(function() {
 		if($("#infos").attr("userid")==""){
 			$("#s-modal-body").text("请您先登录");
 			$("#s-modal-body-addon").removeClass().addClass("glyphicon glyphicon-exclamation-sign");
+			$("#logBtn").removeClass("sr-only");
 			$(this).attr("data-toggle","modal");
 			$(this).attr("data-target",".bs-example-modal-sm");
 		}else{
 			// 加入购物车代码
+			$("#logBtn").addClass("sr-only");
 			var userid = $("#infos").attr("userid");
 			var rtid = $("#infos").attr("rtid");
 			var muid = $(this).attr("muid");
@@ -74,15 +77,13 @@ $(function() {
 			flyer.fly({
 				start : {
 					left : offset.left + 10, // 开始位置（必填）#fly元素会被设置成position:
-					top : offset.top + 10, // 开始位置（必填）
-					width : 20,
-					height : 20
+					top : offset.top + 10 // 开始位置（必填）
 				},
 				end : {
 					left : event.clientX, // 结束位置（必填）
 					top : event.clientY, // 结束位置（必填）
-					width : 5, // 结束时宽度
-					height : 5 // 结束时高度
+					width : 0, // 结束时宽度
+					height : 0 // 结束时高度
 				},
 				onEnd : function() { // 结束回调
 					flyer.hide();
@@ -212,7 +213,7 @@ function loadCart(userid,rtid){
 			var li = $("<li><a href='#'><span class='glyphicon glyphicon-barcode'>&nbsp;</span><span>"+json[i].muname+"</span><span class='pull-right' style='width:60px;text-align:right;'>￥:"+sum+"</span><span class='pull-right'>"+json[i].ocount+"</span></a></li>");
 			list.append(li);
 		}
-		list.append($("<li><a href='#' onclick='orderNow("+rtid+","+userid+",this)'><span class='glyphicon glyphicon-cutlery'>&nbsp;</span>立即下单<span class='pull-right' style='width:60px;text-align:right;'>￥:"+account+"</span><span class='pull-right'>总计</span></a></li>"));
+		list.append($("<li><a href='#' class='disabled' onclick='orderNow("+rtid+","+userid+",this)'><span class='glyphicon glyphicon-cutlery'>&nbsp;</span>立即下单<span class='pull-right' style='width:60px;text-align:right;'>￥:"+account+"</span><span class='pull-right'>总计</span></a></li>"));
 	});
 }
 
@@ -220,13 +221,8 @@ function loadCart(userid,rtid){
 function orderNow(rtid,userid,i){
 	$.post("order!getCart.action",{"userid":userid,"rtid":rtid},function(json){
 		var length = eval(json).length;
-		if(length==0){
-			$("#s-modal-body").text("购物车是空的");
-			$("#s-modal-body-addon").removeClass().addClass("glyphicon glyphicon-exclamation-sign");
-			$(i).attr("data-toggle","modal");
-			$(i).attr("data-target",".bs-example-modal-sm");
-		}else{
-			$.post("order!orderNow.action",{"userid":userid,"rtid":rtid});
+		if(length!=0){
+			window.location.href="order!orderNow.action?userid="+userid+"&rtid="+rtid;
 		}
 	});
 }

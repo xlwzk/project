@@ -1,10 +1,8 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ page import="java.text.SimpleDateFormat"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	String path = request.getContextPath();
-	request.setAttribute("path", path);
 %>
 <!DOCTYPE HTML>
 <html>
@@ -32,17 +30,17 @@
 <link href="<%=path%>/css/responsive.css" rel="stylesheet"
 	type="text/css"></link>
 <%--通用样式 --%>
-<link href="<%=path%>/css/main2.css" rel="stylesheet" type="text/css"></link>
+<link href="<%=path%>/css/main.css" rel="stylesheet" type="text/css"></link>
 <link href="<%=path%>/css/page.css" rel="stylesheet" type="text/css"></link>
 <script type="text/javascript" src="<%=path%>/js/jquery-1.12.0.js"></script>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=path%>/js/goodslist.js"></script>
-<script type="text/javascript" src="<%=path%>/js/wow.min.js"></script>
 <script type="text/javascript" src="<%=path%>/js/lightbox.min.js"></script>
+<script type="text/javascript" src="<%=path%>/js/xiongli/order-load.js"></script>
 </head>
+
 <body>
-		<a id="infos" class="sr-only" rtid="${sessionScope.shopid}"
-		userid="${sessionScope.user.userid}"></a>
+	<a id="infos" class="sr-only" rtid="${sessionScope.shopid}"
+		userid="${sessionScope.user.userid}" uuid="${param.uuid}"></a>
 	<!--此处是导航条 -->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
@@ -57,7 +55,8 @@
 				</button>
 				<!--品牌logo -->
 				<a class="navbar-brand text-success" href="shop!ShopList.action"><span
-					class="glyphicon glyphicon-globe text-success">&nbsp;</span>F.Flame 在线订餐系统</a><a class="navbar-brand visible-xs"
+					class="glyphicon glyphicon-globe text-success">&nbsp;</span>F.Flame
+					在线订餐系统</a> <a class="navbar-brand visible-xs"
 					href="shop!ShopList.action"><span
 					class="glyphicon glyphicon-circle-arrow-left text-danger"></span> </a>
 			</div>
@@ -71,7 +70,9 @@
 								userid="${sessionScope.user.userid}"
 								username="${sessionScope.user.username}" class="dropdown-toggle"
 								data-toggle="dropdown" role="button" aria-haspopup="true"
-								aria-expanded="false"><img src="<%=path%>/${sessionScope.user.photo}" class="img20 img-circle"/>&nbsp;&nbsp;${sessionScope.user.username}
+								aria-expanded="false"><img
+									src="<%=path%>/${sessionScope.user.photo}"
+									class="img20 img-circle" />&nbsp;&nbsp;${sessionScope.user.username}
 									&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 							</a>
 								<ul class="dropdown-menu">
@@ -79,18 +80,14 @@
 										href="<c:url value='/page?method=userCenter&userid=${sessionScope.userid}'/>">用户中心</a>
 									</li>
 									<c:if test="${sessionScope.user.authority eq 3}">
-										<li><a href="page!restaurantMain.action">店铺管理</a>
-										</li>
+										<li><a href="page!restaurantMain.action">店铺管理</a></li>
 									</c:if>
 									<c:if test="${sessionScope.user.authority >= 4}">
-										<li><a href="page!adminMain.action">后台管理</a>
-										</li>
+										<li><a href="page!adminMain.action">后台管理</a></li>
 									</c:if>
 									<li role="separator" class="divider"></li>
-									<li><a href="user!logout.action">退出登录</a>
-									</li>
-								</ul>
-							</li>
+									<li><a href="user!logout.action">退出登录</a></li>
+								</ul></li>
 						</ul>
 					</c:when>
 					<c:otherwise>
@@ -98,7 +95,8 @@
 						<ul class="nav navbar-nav navbar-right">
 							<li><a id="logMsg" href="user!willLog.action">
 									点击登录&nbsp;&nbsp;&nbsp;&nbsp;<span
-									class="glyphicon glyphicon-log-in"></span> </a></li>
+									class="glyphicon glyphicon-log-in"></span> </a>
+							</li>
 						</ul>
 					</c:otherwise>
 				</c:choose>
@@ -106,43 +104,72 @@
 		</div>
 	</nav>
 	<div class="clearfix" style="margin-top: 60px;"></div>
-	<!-- 主要内容 -->
+	<%--主体内容 --%>
 	<div class="container">
-		<ul style="margin: 0px;padding: 0px;">
-			<c:forEach items="${shop.list}" var="s" varStatus="su">
-				<li><c:if test="${su.first}">
-						<div class="page-header"
-							style="margin:5px 0px 5px 0px;padding: 0px;"></div>
-					</c:if>
-					<div class="media panel panel-info">
-						<a href="shop!MenuList.action?rtid=${s.rtid}" class="pull-left"><img
-							src="<%=path%>/${s.rtpic}" width="143" height="112" border="0" />
-						</a>
-						 <div class="media-body panel-body">
-							<a href="shop!MenuList.action?rtid=${s.rtid}">${s.rtname}</a>
-						<h5>${s.rtaddr}</h5>
-						<h5>${s.rtcontent}</h5>
+
+		<div class="row clearfix">
+			<div class="panel panel-default borderCircle"
+				style="margin: 0px 10px 0px 10px;">
+				<div class="panel-body">
+					<div class="media">
+						<div class="media-left">
+							<img src="<%=path%>/image/defaults/shop.png" class="img40" />
+						</div>
+						<div class="media-body">
+							<h5 style="padding: 0px;margin: 0px;" id="orderStatus">订单状态</h5>
+							<a><span id="orderDate">2016年8月11日16:01:36</span>
+							</a>
 						</div>
 					</div>
-					<div class="page-header clearfix"
-						style="margin:5px 0px 5px 0px;padding: 0px;"></div></li>
-			</c:forEach>
-		</ul>
+				</div>
+				<div class="panel-footer" style="font-size: 10px;padding-bottom: 16px;">
+					<span class="pull-left statusSpan">订单已提交</span>
+					<div style="text-align: center;border-bottom: 1px #ddd dotted;">
+						<span style="padding-bottom: 5px;" class="statusSpan">等待商家接单</span>
+						<span class="pull-right statusSpan">等待送达</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row" style="padding: 10px;margin-top: 20px;margin-bottom:70px;">
+			<table class="table">
+				<tbody id="main">
+					<tr>
+						<td><span class="pull-left" style="padding-left:10px;">
+							<img id="rtpic" src="" class="img40"/>
+						</span>
+							<a id="rtname" href="" style="padding-left: 10px;line-height: 30px"></a>
+						</td>
+					</tr>
+					<tr class="orderInfo">
+						<td><span class="pull-left" style="padding-left:10px;">支付方式</span>
+							<span class="pull-right" style="padding-right:10px;">
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
-	<h1 align="center">商店信息</h1>
-	<table align="center">
 
-		<tr>
-			<td colspan="2" align="right"><a
-				href="shop!ShopList.action?nowpage=1">首页</a> <c:if
-					test="${shop.info.nowpage==1 }">上一页</c:if> <c:if
-					test="${shop.info.nowpage>1 }">
-					<a href="shop!ShopList.action?nowpage=${shop.info.nowpage-1 }">上一页</a>
-				</c:if> <c:if test="${shop.info.nowpage<shop.info.sumpage}">
-					<a href="shop!ShopList.action?nowpage=${shop.info.nowpage+1 }">下一页</a>
-				</c:if> <c:if test="${shop.info.nowpage==shop.info.sumpage}">下一页</c:if> <a
-				href="shop!ShopList.action?nowpage=${shop.info.sumpage}">尾页</a></td>
-		</tr>
-	</table>
+	<nav class="navbar navbar-default navbar-inverse navbar-fixed-bottom">
+		<div class="container">
+			<!--导航首部 -->
+			<div class="navbar-header">
+				<a href="shop!ShopList.action"
+					class="navbar-toggle collapsed pull-left span"
+					style="background-color:#444;"><span
+					class="glyphicon glyphicon-circle-arrow-left"
+					style="color:#dab074;">&nbsp;</span>返回主页 </a>
+			</div>
+			<div id="footbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-left">
+					<li class="return"><a href="shop!ShopList.action" class="span"><span
+							class="glyphicon glyphicon-circle-arrow-left">&nbsp;</span>返回主页</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 </body>
 </html>

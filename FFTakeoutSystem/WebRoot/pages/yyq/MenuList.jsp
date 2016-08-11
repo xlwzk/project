@@ -46,6 +46,12 @@
 	background-position: center center;
 	background-size: cover;
 }
+.img20{
+	width: 20px;
+	height: 20px;
+	background-position: center center;
+	background-size: cover;
+}
 </style>
 </head>
 <body onscroll="setMenuBar(document.documentElement.scrollTop)">
@@ -65,20 +71,12 @@
 				</button>
 				<!--品牌logo -->
 				<a class="navbar-brand text-success" href="shop!ShopList.action"><span
-					class="glyphicon glyphicon-globe text-success">&nbsp;</span>Flowing
-					Flame 在线订餐系统</a> <a class="navbar-brand visible-xs"
+					class="glyphicon glyphicon-globe text-success">&nbsp;</span>F.Flame 在线订餐系统</a> <a class="navbar-brand visible-xs"
 					href="shop!ShopList.action"><span
 					class="glyphicon glyphicon-circle-arrow-left text-danger"></span> </a>
 			</div>
 			<!--导航条实际内容 -->
 			<div id="navbar" class="navbar-collapse collapse">
-				<!--站内导航 -->
-				<ul class="nav navbar-nav navbar-left">
-					<%--此项只为空一块出来 --%>
-					<li><div class="col-md-1"></div></li>
-					<li><a href="<c:url value='/page?method=goodsList' />"><span
-							class="glyphicon glyphicon-list">&nbsp;</span>Default</a></li>
-				</ul>
 				<!--用于显示用户中心 -->
 				<c:choose>
 					<c:when test="${not empty sessionScope.user}">
@@ -87,7 +85,7 @@
 								userid="${sessionScope.user.userid}"
 								username="${sessionScope.user.username}" class="dropdown-toggle"
 								data-toggle="dropdown" role="button" aria-haspopup="true"
-								aria-expanded="false">${sessionScope.user.username}
+								aria-expanded="false"><img src="<%=path%>/${sessionScope.user.photo}" class="img20 img-circle"/>&nbsp;&nbsp;${sessionScope.user.username}
 									&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 							</a>
 								<ul class="dropdown-menu">
@@ -247,7 +245,6 @@
 				<!--站内导航 -->
 				<ul class="nav navbar-nav navbar-left">
 					<%--此项只为空一块出来 --%>
-					<li><div class="col-md-1"></div></li>
 					<li><a href="shop!ShopList.action"><span
 							class="glyphicon glyphicon-circle-arrow-left">&nbsp;</span>返回</a></li>
 					<li><div class="col-md-1"></div></li>
@@ -261,7 +258,7 @@
 						role="button" data-placement="top" data-content="加入购物车成功"></a>
 					<li><a href="#" id="showCart"><span
 							class="glyphicon glyphicon-shopping-cart">&nbsp;</span>我的购物车</a></li>
-					<li><a href="#" id="clearCart2"> <span
+					<li><a href="#" id="clearCart2"><span
 							class="glyphicon glyphicon-remove-circle" style="color:#dab074;">&nbsp;</span>清空
 					</a>
 			</div>
@@ -293,7 +290,9 @@
 						id="s-modal-body" class="h4"></span>
 				</div>
 				<div class="modal-footer" style="padding:5px;">
-					<button type="button" class="btn btn-info btn-block"
+					<a href="page!loginPage.action" id="logBtn" type="button" class="btn btn-info sr-only"
+						>登陆</a>
+					<button type="button" class="btn btn-info"
 						data-dismiss="modal">确认</button>
 				</div>
 			</div>

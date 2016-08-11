@@ -4,7 +4,7 @@
 	<package name="pain" extends="struts-default">
 		<action name="user" class="zx.ffts.web.action.pain.UserAction">
 			<result>/pages/pain/login.jsp</result>
-			<result name="loginSuccess" type="redirect">index.jsp</result>
+			<result name="loginSuccess" type="redirect">/index.jsp</result>
 			<result name="loginFailed">/pages/pain/login.jsp</result>
 		</action>
 		<action name="page" class="zx.ffts.web.action.pain.PageDispatcherAction">
@@ -55,11 +55,16 @@
 			<result name="addCar" type="redirect">/pages/yyq/MenuList.jsp</result>
 			<result name="searchCar">/pages/xiong/showCar.jsp</result>
 			<result name="deleteCar">/pages/yyq/MenuList.jsp</result>
-			<result name="getDetail">/pages/xiong/showDetail.jsp</result>
+			<result name="getDetail">/pages/xiong/orderDetail.jsp</result>
 			<result name="getShop">/pages/xiong/account.jsp</result>
 		</action>
-		<action name="order" class="zx.ffts.dao.xiong.OrderAction">
+		<action name="order" class="zx.ffts.web.action.xiongli.OrderAction">
 			<result name="accountPage">/pages/xiong/</result>
+			<result name="orderConfirm">/pages/xiong/orderConfirm.jsp</result>
+			<result name="orderPay">/pages/xiong/jump.jsp</result>
+			<result name="payPage">/pages/xiong/orderPay.jsp</result>
+		</action>
+		<action name="pay" class="zx.ffts.web.action.xiongli.PayAction">
 		</action>
 	</package>
 	<package name="yyq" extends="struts-default">

@@ -95,18 +95,21 @@ public class DataAccessObject extends SQLExecutor {
 
 	@Override
 	public Integer executeScalarInteger(String sql, Object... params) {
-		return new Integer(executeScalarString(sql, params));
+		String number = executeScalarString(sql, params);
+		return number == null ? 0 : new Integer(number);
 	}
 
 	@Override
 	public Double executeScalarDouble(String sql, Object... params) {
-		return new Double(executeScalarString(sql, params));
+		String number = executeScalarString(sql, params);
+		return number == null ? 0 : new Double(number);
 	}
 
 	@Override
 	public String executeScalarString(String sql, Object... params) {
 		try {
-			return qr.query(sql, new ScalarHandler(), params).toString();
+			Object obj = qr.query(sql, new ScalarHandler(), params);
+			return obj == null ? null : obj.toString();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -199,10 +202,10 @@ public class DataAccessObject extends SQLExecutor {
 		} catch (SQLException e) {
 			try {
 				DbUtils.rollbackTransaction();
+				return "Fail:" + e.getMessage();
 			} catch (SQLException ex) {
 				throw new RuntimeException(ex);
 			}
-			throw new RuntimeException(e);
 		}
 	}
 
@@ -268,7 +271,7 @@ public class DataAccessObject extends SQLExecutor {
 			sb.append(Arrays.toString(order).replace("[", " ")
 					.replace("]", " "));
 			sb.append(") rw ");
-		}else{
+		} else {
 			sb.append(",rownum rw ");
 		}
 		sb.append(sql.substring(sql.indexOf("from")));

@@ -38,7 +38,7 @@
 								<li
 									class="<c:if test="${param.purpose eq 'regist'}">active</c:if>"><a
 									href="page!registPage.action">注册</a></li>
-								<li><a href="index.jsp">主页</a>
+								<li><a href="<%=path%>/index.jsp">主页</a>
 								</li>
 							</ul>
 						</nav>

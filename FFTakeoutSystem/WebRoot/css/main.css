@@ -40,6 +40,13 @@ a span {
 	text-decoration: none;
 }
 
+
+td span {
+	color: #a5732a;
+	font-size: 12px;
+	text-decoration: none;
+}
+
 a.span {
 	color: #dab074;
 	font-size: 12px;
