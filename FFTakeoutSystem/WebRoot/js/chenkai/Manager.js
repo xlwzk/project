@@ -7,17 +7,17 @@ $(function() {
 	//添加用户
 	$("#addUser").click(function() {
 					var s = "<form  action='shwk!addUser.action'  method='post' enctype='multipart/form-data'>";
-						s+="<table align='center' class='table table-hover'>";
-						s += "<tr><td class='active'>姓名：<input type='text' id='username' name='username'/></td></tr>"
-						s += "<tr><td class='success'>密码：<input type='text' id='pwd' name='pwd'/></td></tr>"
-						s += "<tr><td class='warning'>电话：<input type='text' id='tel' name='tel'/></td></tr>"
-						s += "<tr><td class='danger'>邮件：<input type='text' id='email' name='email'/></td></tr>"
-						s += "<tr><td class='info'>地址：<input type='text' id='address' name='address'/></td></tr>"
-						s += "<tr><td class='active'>真实姓名：<input type='text' id='realname' name='realname'/></td></tr>"
-						s += "<tr><td class='success'>余额：<input type='text' id='balance' name='balance'/></td></tr>"
-						s += "<tr><td class='warning'>性别:<input type='radio' id='gender' name='gender' value='男' checked='checked'>男<input type='radio' id='gender' name='gender' value='女'> 女</td></tr>"
-						s += "<tr><td class='danger'>权限:<select id='authority' name='authority'><option value='1'>普通用户</option><option value='2'>配送员</option><option value='3'>店主</option><option value='4'>普通管理员</option><option value='5'>系统管理员</option> </select></td></tr>"
-						s += "<tr><td class='info'>图片：<input type='file' id='photo' name='photo' accept='image/gif, image/jpeg, image/png'/></td></tr>"
+						s+="<table align='center' >";
+						s += "<tr><td >姓名：<input type='text' id='username' name='username'/></td></tr>"
+						s += "<tr><td >密码：<input type='text' id='pwd' name='pwd'/></td></tr>"
+						s += "<tr><td >电话：<input type='text' id='tel' name='tel'/></td></tr>"
+						s += "<tr><td >邮件：<input type='text' id='email' name='email'/></td></tr>"
+						s += "<tr><td >地址：<input type='text' id='address' name='address'/></td></tr>"
+						s += "<tr><td >真实姓名：<input type='text' id='realname' name='realname'/></td></tr>"
+						s += "<tr><td >余额：<input type='text' id='balance' name='balance'/></td></tr>"
+						s += "<tr><td >性别:<input type='radio' id='gender' name='gender' value='男' checked='checked'>男<input type='radio' id='gender' name='gender' value='女'> 女</td></tr>"
+						s += "<tr><td >权限:<select id='authority' name='authority'><option value='1'>普通用户</option><option value='2'>配送员</option><option value='3'>店主</option><option value='4'>普通管理员</option><option value='5'>系统管理员</option> </select></td></tr>"
+						s += "<tr><td >图片：<input type='file' id='photo' name='photo' accept='image/gif, image/jpeg, image/png'/></td></tr>"
 						s += "<tr><td><input type='submit' value='提交'/><input type='reset' value='取消'/></td></tr>"
 						s +="</table>"
 						s += "</form>"
