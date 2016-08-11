@@ -10,7 +10,7 @@ public class TsGiftDao extends DataDao {
 	
 	//查询所有礼品
 	public List<TsGift>  getGiftList(Integer nowPage,Integer pageSize){
-		String sql="select * from (select t.*,rownum rn from(select * from ts_gift)t)where rn between ? and ?";	
+		String sql="select * from (select t.*,rownum rn from(select * from ts_gift order by gid)t)where rn between ? and ?";	
 		TsGift  gift=new TsGift();
 		List<TsGift>  list=getEntities(sql,gift , (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;
@@ -18,7 +18,7 @@ public class TsGiftDao extends DataDao {
 	
 	//查询所有礼品
 	public List<TsGift>  getAllGift(){
-		String sql="select * from ts_gift";	
+		String sql="select * from ts_gift order by gid";	
 		TsGift  gift=new TsGift();
 		List<TsGift>  list=getEntities(sql,gift );
 		return list;

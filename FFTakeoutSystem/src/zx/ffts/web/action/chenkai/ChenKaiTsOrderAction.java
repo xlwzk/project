@@ -99,7 +99,6 @@ public class ChenKaiTsOrderAction extends BaseAction {
 		String ostatus=req.getParameter("ostatus");
 
 		myorder.updateOrder(Integer.parseInt(ouserid), Integer.parseInt(omuid), Integer.parseInt(ortid), Integer.parseInt(ocount),  Integer.parseInt(osender), odate, ouuid, Integer.parseInt(ostatus),oid);
-		//myorder.updateOrder(, , , ,, odate, ouuid, ,oid);
 		
 		return "success";
 	}

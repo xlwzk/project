@@ -9,7 +9,7 @@ public class TsPayDao extends DataDao {
 	
 	//查询所有支付方式
 	public List<TsPay>  getPayList(Integer nowPage,Integer pageSize){
-		String sql="select * from (select t.*,rownum rn from(select * from ts_pay)t)where rn between ? and ?";	
+		String sql="select * from (select t.*,rownum rn from(select * from ts_pay order by pid)t)where rn between ? and ?";	
 		TsPay  pay=new TsPay();
 		List<TsPay>  list=getEntities(sql,pay , (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;

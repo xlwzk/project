@@ -9,7 +9,7 @@ public class TsMenumsgDao extends DataDao {
 	
 	//查询所有菜单评论
 	public List<TsMenuMsg>  getMenuMsgList(Integer nowPage,Integer pageSize){
-		String sql="select * from (select t.*,rownum rn from(select a.*,b.username as mmusername,c.muname as mmmuname from ts_menumsg a,ts_user b,ts_menu c where a.mmuserid=b.userid and a.mmmuid=c.muid)t)where rn between ? and ?";	
+		String sql="select * from (select t.*,rownum rn from(select a.*,b.username as mmusername,c.muname as mmmuname from ts_menumsg a,ts_user b,ts_menu c where a.mmuserid=b.userid and a.mmmuid=c.muid order by mmid)t)where rn between ? and ?";	
 		TsMenuMsg  pay=new TsMenuMsg();
 		List<TsMenuMsg>  list=getEntities(sql,pay , (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;

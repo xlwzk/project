@@ -55,7 +55,17 @@ public class ChenKaiTsMenuAction extends BaseAction {
 		out.flush();
 		out.close();
 	}
-	
+	//获得所有菜单的集合通过店家
+	public void getAllMenuByRest()throws IOException{
+		Integer murtid=Integer.parseInt(req.getParameter("murtid"));
+		menulist=mymenu.getAllMenuByRest(murtid);		
+		PrintWriter out = res.getWriter();
+		JSONObject json = new JSONObject();
+		json.put("rows", menulist);
+		out.write(json.toString());
+		out.flush();
+		out.close();
+	}
 
 	//获得所有菜单的集合
 	public void getAllMenu() throws IOException{

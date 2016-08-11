@@ -9,7 +9,7 @@ public class TsMessageDao extends DataDao {
 
 	//查询所有店铺评论
 	public List<TsMessage>  getMessageList(Integer nowPage,Integer pageSize){
-		String sql="select * from (select t.*,rownum rn from(select a.*,b.username as musername,c.rtname as mrtname from ts_message a,ts_user b,ts_restaurant c where a.muserid=b.userid and a.mrtid=c.rtid)t)where rn between ? and ?";	
+		String sql="select * from (select t.*,rownum rn from(select a.*,b.username as musername,c.rtname as mrtname from ts_message a,ts_user b,ts_restaurant c where a.muserid=b.userid and a.mrtid=c.rtid order by mid)t)where rn between ? and ?";	
 		TsMessage  pay=new TsMessage();
 		List<TsMessage>  list=getEntities(sql,pay , (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;

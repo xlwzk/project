@@ -20,7 +20,7 @@ public class TsOrderDao extends DataDao {
 				"inner join ts_user b on a.ouserid =b.userid " +
 				"inner join ts_restaurant c on a.ortid=c.rtid " +
 				"inner join ts_menu d on a.omuid=d.muid " +
-				"inner join ts_user e on a.osender=e.userid)t) where rn between ? and ?";	
+				"inner join ts_user e on a.osender=e.userid order by oid)t) where rn between ? and ?";	
 		//List<TsOrder> list=getEntities(sql,rest,(((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		List<Map<String, Object>> list=getMapList(sql, (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;
@@ -28,7 +28,7 @@ public class TsOrderDao extends DataDao {
 	
 	//查询所有订单
 	public List<TsOrder>  getAllOrder(){
-		String sql="select * from ts_order ";	
+		String sql="select * from ts_order order by oid";	
 		TsOrder order=new TsOrder();
 		List<TsOrder>  list=getEntities(sql, order);
 		return list;

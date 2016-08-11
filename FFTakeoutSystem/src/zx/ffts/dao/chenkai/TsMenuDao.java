@@ -10,9 +10,17 @@ public class TsMenuDao extends DataDao {
 	
 	//查询所有菜单
 	public List<TsMenu>  getMenuList(Integer nowPage,Integer pageSize){
-		String sql="select * from (select t.*,rownum rn from(select a.*,b.rtname as mrtname from ts_menu a,ts_restaurant b where a.murtid=b.rtid )t)where rn between ? and ?";	
+		String sql="select * from (select t.*,rownum rn from(select a.*,b.rtname as mrtname from ts_menu a,ts_restaurant b where a.murtid=b.rtid order by muid )t)where rn between ? and ?";	
 		TsMenu  menu=new TsMenu();
 		List<TsMenu>  list=getEntities(sql,menu , (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
+		return list;
+	}
+	
+	//查询所有菜单
+	public List<TsMenu>  getAllMenuByRest(Integer murtid){
+		String sql="select * from ts_menu where murtid=?";	
+		TsMenu  ts=new TsMenu();
+		List<TsMenu>  list=getEntities(sql,ts,murtid);
 		return list;
 	}
 	

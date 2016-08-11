@@ -2,30 +2,31 @@ $(function() {
 	//查询所有用户
 	$("#findalluser").click(function() {
 		$.getJSON("shwk!getUserList.action?v=" + Math.random(), Userrollback)
-	})
+	});
+	
 	//添加用户
 	$("#addUser").click(function() {
 					var s = "<form  action='shwk!addUser.action'  method='post' enctype='multipart/form-data'>";
-						s+="<table align='center'>";
-						s += "<tr><td>姓名：<input type='text' id='username' name='username'/></td></tr>"
-						s += "<tr><td>密码：<input type='text' id='pwd' name='pwd'/></td></tr>"
-						s += "<tr><td>电话：<input type='text' id='tel' name='tel'/></td></tr>"
-						s += "<tr><td>邮件：<input type='text' id='email' name='email'/></td></tr>"
-						s += "<tr><td>地址：<input type='text' id='address' name='address'/></td></tr>"
-						s += "<tr><td>真实姓名：<input type='text' id='realname' name='realname'/></td></tr>"
-						s += "<tr><td>余额：<input type='text' id='balance' name='balance'/></td></tr>"
-						s += "<tr><td>性别:<input type='radio' id='gender' name='gender' value='男' checked='checked'>男<input type='radio' id='gender' name='gender' value='女'> 女</td></tr>"
-						s += "<tr><td>权限:<select id='authority' name='authority'><option value='1'>普通用户</option><option value='2'>配送员</option><option value='3'>店主</option><option value='4'>普通管理员</option><option value='5'>系统管理员</option> </select></td></tr>"
-						s += "<tr><td>图片：<input type='file' id='photo' name='photo' accept='image/gif, image/jpeg, image/png'/></td></tr>"
+						s+="<table align='center' class='table table-hover'>";
+						s += "<tr><td class='active'>姓名：<input type='text' id='username' name='username'/></td></tr>"
+						s += "<tr><td class='success'>密码：<input type='text' id='pwd' name='pwd'/></td></tr>"
+						s += "<tr><td class='warning'>电话：<input type='text' id='tel' name='tel'/></td></tr>"
+						s += "<tr><td class='danger'>邮件：<input type='text' id='email' name='email'/></td></tr>"
+						s += "<tr><td class='info'>地址：<input type='text' id='address' name='address'/></td></tr>"
+						s += "<tr><td class='active'>真实姓名：<input type='text' id='realname' name='realname'/></td></tr>"
+						s += "<tr><td class='success'>余额：<input type='text' id='balance' name='balance'/></td></tr>"
+						s += "<tr><td class='warning'>性别:<input type='radio' id='gender' name='gender' value='男' checked='checked'>男<input type='radio' id='gender' name='gender' value='女'> 女</td></tr>"
+						s += "<tr><td class='danger'>权限:<select id='authority' name='authority'><option value='1'>普通用户</option><option value='2'>配送员</option><option value='3'>店主</option><option value='4'>普通管理员</option><option value='5'>系统管理员</option> </select></td></tr>"
+						s += "<tr><td class='info'>图片：<input type='file' id='photo' name='photo' accept='image/gif, image/jpeg, image/png'/></td></tr>"
 						s += "<tr><td><input type='submit' value='提交'/><input type='reset' value='取消'/></td></tr>"
 						s +="</table>"
 						s += "</form>"
 						$("#mydiv").html(s);
-					})
+					});
 	//查询所有商家
 	$("#findallrest").click(function() {
 		$.getJSON("shwkrest!getRestList.action?v=" + Math.random(), Restrollback)
-	})
+	});
 	//添加商家
 	$("#addRest").click(function() {
 		$.getJSON("shwk!getAllUser.action?v=" + Math.random(), function(data){
@@ -49,37 +50,37 @@ $(function() {
 			s += "</form>"
 			$("#mydiv").html(s);	
 		})
-	})
+	});
 	
 	//查询所有商家评论
 	$("#findaddMess").click(function(){
 		$.getJSON("shwkmess!getMessList.action?v=" + Math.random(), Messrollback)
-	})
+	});
 	
 	//查询所有菜单
 	$("#findallmenu").click(function(){
 		$.getJSON("shwkmenu!getMenuList.action?v=" + Math.random(), Menurollback)
-	})
+	});
 	
 	//查询所有菜单评论
 	$("#findallmenumsg").click(function(){
 		$.getJSON("shwkmenumsg!getMenuMsgList.action?v=" + Math.random(), MenuMsgrollback)
-	})
+	});
 		
 	//查询所有订单
 	$("#findallorder").click(function(){
 		$.getJSON("shwkorder!getOrderList.action?v=" + Math.random(), Orderrollback)
-	})
+	});
 	
 	//查询所有订单支付方式
 	$("#findallpay").click(function(){
 		$.getJSON("shwkpay!getPayList.action?v=" + Math.random(), Payrollback)
-	})
+	});
 	
 	//查询所有礼品
 	$("#findallgift").click(function(){
 		$.getJSON("shwkgift!getGiftList.action?v=" + Math.random(), Giftrollback)
-	})
+	});
 	
 	//添加礼品
 	$("#addgift").click(function() {
@@ -94,14 +95,16 @@ $(function() {
 			s +="</table>"
 			s += "</form>"
 			$("#mydiv").html(s);	
-		})
+		});
 		
 		//查询所有礼品兑换记录
 		$("#findallgiftRec").click(function(){
 			$.getJSON("shwkgiftrec!getGiftRecordList.action?v=" + Math.random(), GiftRecrollback)
-		})
-	})
-
+		});
+		
+		
+		
+});
 
 
 
@@ -884,7 +887,7 @@ function findbyid(id){
 			s += "<tr><td>真实姓名：<input type='text' id='realname' name='realname' value="+us.realname+" /></td></tr>"
 			s += "<tr><td>余额：<input type='text' id='balance' name='balance' value="+us.balance+" /></td></tr>"
 			s += "<tr><td>积分：<input type='text' id='score' name='score' value="+us.score+" /></td></tr>"
-			s += "<tr><td>注册日期：<input type='text' id='regdate' name='regdate' value="+us.regdate+" /></td></tr>"
+			s += "<tr><td>注册日期：<input type='date' id='regdate' name='regdate' value="+us.regdate+" /></td></tr>"
 			if (us.gender=='男') {
 				s += "<tr><td>性别:<input type='radio' id='gender' name='gender' value='男' checked='checked'>男<input type='radio' id='gender' name='gender' value='女'> 女</td></tr>"
 			}else{
@@ -932,8 +935,9 @@ function findrestbyid(id){
 					var k = getAllUser[i]   
 					if (ts.rtowner==k.userid) {
 							str +="<option value="+k.userid+"  selected='selected'>"+k.username+"</option>"
+					}else{
+							str +="<option value="+k.userid+">"+k.username+"</option>"
 					}
-					str +="<option value="+k.userid+">"+k.username+"</option>"	
 					
 				}
 			var s = "<form  action='shwkrest!UpdaRest.action'  method='post' enctype='multipart/form-data'>";
@@ -945,7 +949,7 @@ function findrestbyid(id){
 			s += "<tr><td><input type='hidden' id='pic' name='pic' value="+ts.rtstatus+" /></td></tr>"
 			s += "<tr><td>图片：<img src="+ts.rtpic+" width=50px height:50px/><input type='file' id='photo' name='photo' accept='image/gif, image/jpeg, image/png'/></td></tr>"
 			s +="<tr><td>公告<textarea rows='3' cols='20' id='rtcontent' name='rtcontent'>"+ts.rtcontent+"</textarea></td></tr>"
-			s += "<tr><td>开店时间：<input type='text' id='rtdate' name='rtdate' value="+ts.rtdate+" /></td></tr>"
+			s += "<tr><td>开店时间：<input type='date' id='rtdate' name='rtdate' value="+ts.rtdate+" /></td></tr>"
 			s += "<tr><td>营业时间：<input type='text' id='rtonbuz' name='rtonbuz'value="+ts.rtonbuz+" /></td></tr>"
 			if (ts.rtstatus==0) {
 				s += "<tr><td>营业状态:<select id='rtstatus' name='rtstatus'><option value='0' selected='selected'>正在营业</option><option value='1'>休息中</option> </select></td></tr>"
@@ -983,8 +987,9 @@ function findmessbyid(id){
 					var k = getAllUser[i]   	
 					if (ts.muserid==k.userid) {
 							str +="<option value="+k.userid+"  selected='selected'>"+k.username+"</option>"
+					}else{
+							str +="<option value="+k.userid+">"+k.username+"</option>"	
 					}
-					str +="<option value="+k.userid+">"+k.username+"</option>"	
 					
 				}
 			$.getJSON("shwkrest!getAllRest.action?v=" + Math.random(), function(data){
@@ -993,8 +998,9 @@ function findmessbyid(id){
 						var k = getAllRest[i]                  
 						if (ts.mrtid==k.rtid) {
 								str2 +="<option value="+k.rtid+"  checked='checked'>"+k.rtname+"</option>"
-						}
-						str2 +="<option value="+k.rtid+">"+k.rtname+"</option>"				
+						}else{
+								str2 +="<option value="+k.rtid+">"+k.rtname+"</option>"	
+						}			
 					}
 					
 			var s = "<form  action='shwkmess!UpdaMess.action'  method='post' enctype='multipart/form-data'>";
@@ -1003,7 +1009,7 @@ function findmessbyid(id){
 			s += "<tr><td>用户：<select id='muserid' name='muserid'>"+str+"<select></td></tr>"
 			s += "<tr><td>店铺名：<select id='mrtid' name='mrtid'>"+str2+"<select></td></tr>"
 			s +="<tr><td>评论：<textarea rows='3' cols='20' id='mcontent' name='mcontent'>"+ts.mcontent+"</textarea></td></tr>"
-			s += "<tr><td>开店时间：<input type='text' id='mdate' name='mdate' value="+ts.mdate+" /></td></tr>"
+			s += "<tr><td>开店时间：<input type='date' id='mdate' name='mdate' value="+ts.mdate+" /></td></tr>"
 			s += "<tr><td><input type='submit' value='提交'/><input type='button' id='btn' value='取消'/></td></tr>"
 			s +="</table>"
 			s += "</form>"
@@ -1032,11 +1038,12 @@ function findmenubyid(id){
 			$.getJSON("shwkrest!getAllRest.action?v=" + Math.random(), function(data){
 				var getAllRest = data.rows;
 				for ( var i = 0; i < getAllRest.length; i++) {
-					var k = getAllRest[i]                  
-					if (ts.mrtid==k.rtid) {
+					var k = getAllRest[i]       
+					if (ts.murtid==k.rtid) {
 							str +="<option value="+k.rtid+"  selected='selected'>"+k.rtname+"</option>"
-					}
-					str +="<option value="+k.rtid+">"+k.rtname+"</option>"				
+					}else{
+							str +="<option value="+k.rtid+">"+k.rtname+"</option>"	
+					}			
 				}
 			var s = "<form  action='shwkmenu!UpdaMenu.action'  method='post' enctype='multipart/form-data'>";
 			s+="<table align='center'>";
@@ -1067,6 +1074,7 @@ function findmenubyid(id){
 	})
 }
 
+
 //通过id查询菜单评论
 function findmenumsgbyid(id){
 	$.ajax( {
@@ -1081,14 +1089,14 @@ function findmenumsgbyid(id){
 			var str="";
 			var str2="";
 			$.getJSON("shwk!getAllUser.action?v=" + Math.random(), function(data){
-				var getAllUser = data.rows;
-				
+				var getAllUser = data.rows;	
 				for ( var i = 0; i < getAllUser.length; i++) {
 					var k = getAllUser[i]   
 					if (ts.mmuserid==k.userid) {
 							str +="<option value="+k.userid+"  selected='selected'>"+k.username+"</option>"
-					}
-					str +="<option value="+k.userid+">"+k.username+"</option>"			
+					}else{
+						str +="<option value="+k.userid+">"+k.username+"</option>"	
+					}		
 				}
 			$.getJSON("shwkmenu!getAllMenu.action?v=" + Math.random(), function(data){
 					var getAllMenu = data.rows;
@@ -1096,8 +1104,9 @@ function findmenumsgbyid(id){
 						var k = getAllMenu[i]     
 						if (ts.mmmuid==k.muid) {
 								str2 +="<option value="+k.muid+"  selected='selected'>"+k.muname+"</option>"
-						}
-						str2 +="<option value="+k.muid+">"+k.muname+"</option>"				
+						}else{
+								str2 +="<option value="+k.muid+">"+k.muname+"</option>"		
+						}		
 					}
 					
 			var s = "<form  action='shwkmenumsg!UpdaMenuMsg.action'  method='post' enctype='multipart/form-data'>";
@@ -1106,7 +1115,6 @@ function findmenumsgbyid(id){
 			s += "<tr><td>用户：<select id='mmuserid' name='mmuserid'>"+str+"<select></td></tr>"
 			s += "<tr><td>菜名：<select id='mmmuid' name='mmmuid'>"+str2+"<select></td></tr>"
 			s +="<tr><td>评论：<textarea rows='3' cols='20' id='mmcontent' name='mmcontent'>"+ts.mmcontent+"</textarea></td></tr>"
-			s +="<tr><td>评分：</td></tr>"	
 			if (ts.mmscore==1) {
 				s += "<tr><td>评分:<input type='radio' id='mmscore' name='mmscore' value='1' checked='checked'>★☆☆☆☆" +
 						"<input type='radio' id='mmscore' name='mmscore' value='2'>★★☆☆☆" +
@@ -1138,7 +1146,7 @@ function findmenumsgbyid(id){
 						"<input type='radio' id='mmscore' name='mmscore' value='4'>★★★★☆" +
 						"<input type='radio' id='mmscore' name='mmscore' value='5' checked='checked'>★★★★★</td></tr>"
 			}
-			s += "<tr><td>评论时间：<input type='text' id='mmdate' name='mmdate' value="+ts.mmdate+" /></td></tr>"
+			s += "<tr><td>评论时间：<input type='date' id='mmdate' name='mmdate' value="+ts.mmdate+" /></td></tr>"
 			s += "<tr><td><input type='submit' value='提交'/><input type='button' id='btn' value='取消'/></td></tr>"
 			s +="</table>"
 			s += "</form>"
@@ -1163,7 +1171,6 @@ function findorderbyid(id){
 		dataType : "json",
 		success : function(data){		
 			var ts=data.order;
-			alert(ts.ouserid)
 			var str="";
 			var str2="";
 			var str3="";
@@ -1175,12 +1182,14 @@ function findorderbyid(id){
 					var k = getAllUser[i]   
 					if (ts.ouserid==k.userid) {
 							str +="<option value="+k.userid+"  selected='selected'>"+k.username+"</option>"
+					}else{
+							str +="<option value="+k.userid+">"+k.username+"</option>"		
 					}
-					str +="<option value="+k.userid+">"+k.username+"</option>"			
 					if (ts.osender==k.userid) {
 						str2 +="<option value="+k.userid+"  selected='selected'>"+k.username+"</option>"
+					}else{
+						str2 +="<option value="+k.userid+">"+k.username+"</option>"	
 					}
-					str2 +="<option value="+k.userid+">"+k.username+"</option>"			
 			
 				}
 				$.getJSON("shwkrest!getAllRest.action?v=" + Math.random(), function(data){
@@ -1188,28 +1197,32 @@ function findorderbyid(id){
 					for ( var i = 0; i < getAllRest.length; i++) {
 						var k = getAllRest[i]                  
 						if (ts.ortid==k.rtid) {
-								str3 +="<option value="+k.rtid+"  checked='checked'>"+k.rtname+"</option>"
+								str3 +="<option value="+k.rtid+"  selected='selected'>"+k.rtname+"</option>"
+						}else{
+								str3 +="<option value="+k.rtid+">"+k.rtname+"</option>"	
 						}
-						str3 +="<option value="+k.rtid+">"+k.rtname+"</option>"				
 					}
-			$.getJSON("shwkmenu!getAllMenu.action?v=" + Math.random(), function(data){
-					var getAllMenu = data.rows;
-					for ( var i = 0; i < getAllMenu.length; i++) {
-						var k = getAllMenu[i]     
-						if (ts.omuid==k.muid) {
-								str4 +="<option value="+k.muid+"  selected='selected'>"+k.muname+"</option>"
+					$.getJSON("shwkmenu!getAllMenuByRest.action?v=" + Math.random()+"&murtid="+ts.ortid, function(data){
+						var getAllMenu = data.rows;
+						
+						for ( var i = 0; i < getAllMenu.length; i++) {
+							var k = getAllMenu[i]  
+							         if (ts.omuid==k.muid) {
+							                str4 +="<option value="+k.muid+"  selected='selected'>"+k.muname+"</option>"
+							         }else{
+							                str4 +="<option value="+k.muid+">"+k.muname+"</option>"		
+							         }
+							
 						}
-						str4 +="<option value="+k.muid+">"+k.muname+"</option>"				
-					}
 			var s = "<form  action='shwkorder!UpdaOrder.action'  method='post' enctype='multipart/form-data'>";
 			s +="<table align='center'>";
 			s += "<tr><td><input type='hidden' id='oid' name='oid' value="+ts.oid+" /></td></tr>"
 			s += "<tr><td>下单用户：<select id='ouserid' name='ouserid'>"+str+"<select></td></tr>"
-			s += "<tr><td>店家：<select id='ortid' name='ortid'>"+str3+"<select></td></tr>"
+			s += "<tr><td>店家：<select id='ortid' onchange='ortidchange("+ts.omuid+")' name='ortid'>"+str3+"<select></td></tr>"
 			s += "<tr><td>菜名：<select id='omuid' name='omuid'>"+str4+"<select></td></tr>"
 			s += "<tr><td>数量：<input type='text' id='ocount' name='ocount' value="+ts.ocount+" /></td></tr>"
 			s += "<tr><td>配送员：<select id='osender' name='osender'>"+str2+"<select></td></tr>"
-			s += "<tr><td>下单日期：<input type='text' id='odate' name='odate' value="+ts.odate+" /></td></tr>"
+			s += "<tr><td>下单日期：<input type='date' id='odate' name='odate' value="+ts.odate+" /></td></tr>"
 			s += "<tr><td>OUUID：<input type='text' id='ouuid' name='ouuid' value="+ts.ouuid+" /></td></tr>"
 			if (ts.osattus==0) {
 				s += "<tr><td>订单状态:<select id='ostatus' name='ostatus'><option value='0' selected='selected'>购物车中</option><option value='1'>已下单（未支付）</option><option value='2'>已支付</option><option value='3'>商家已接单</option><option value='4'>配送中</option> <option value='5'>订单完成</option></select></td></tr>"
@@ -1238,6 +1251,7 @@ function findorderbyid(id){
 		}
 	})
 }
+
 
 //通过id查询订单支付方式
 function findpaybyid(id){
@@ -1343,7 +1357,7 @@ function findGiftRecbyid(id){
 			s += "<tr><td>兑换人：<select id='gruserid' name='gruserid'>"+str+"<select></td></tr>"
 			s += "<tr><td>礼物名：<select id='grgid' name='grgid'>"+str2+"<select></td></tr>"
 			s += "<tr><td>兑换数量：<input type='text' id='grnum' name='grnum' value="+ts.grnum+" /></td></tr>"
-			s += "<tr><td>兑换日期：<input type='text' id='grdate' name='grdate' value="+ts.grdate+" /></td></tr>"
+			s += "<tr><td>兑换日期：<input type='date' id='grdate' name='grdate' value="+ts.grdate+" /></td></tr>"
 			if (ts.grstatus==0) {
 				s += "<tr><td>是否配送:<select id='grstatus' name='grstatus'><option value='0' selected='selected'>未配送</option><option value='1'>已配送</option></select></td></tr>"
 			}else if(ts.grstatus==1){
@@ -1499,4 +1513,24 @@ function deleGiftRec(id){
 			$.getJSON("shwkgiftrec!getGiftRecordList.action?v=" + Math.random(), GiftRecrollback)
 		}
 	})
+}
+
+
+//通过店的id查询菜名
+function ortidchange(omuid){
+	$("#omuid").empty();
+	var str="";
+	$.getJSON("shwkmenu!getAllMenuByRest.action?v=" + Math.random()+"&murtid="+$("#ortid").val(), function(data){
+		var getAllMenu = data.rows;
+		
+		for ( var i = 0; i < getAllMenu.length; i++) {
+			var k = getAllMenu[i]  
+			         if (omuid==k.muid) {
+			                str +="<option value="+k.muid+"  selected='selected'>"+k.muname+"</option>"
+			         }else{
+			                str +="<option value="+k.muid+">"+k.muname+"</option>"		
+			         }
+		}
+		$("#omuid").append(str)
+	});
 }
