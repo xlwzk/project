@@ -134,8 +134,11 @@ public class XiongLiAction extends BaseAction{
 	 * @return
 	 */
 	public String getShop(){
+		Integer userid=1;
 		Integer shopid=Integer.parseInt(request.getParameter("sid")); //商店id
 		Integer money=Integer.parseInt(request.getParameter("money"));
+		//改变状态为已下单
+		odao.updateOrderStatus(userid, shopid);
 		Map<String, Object> map=odao.getShop(shopid);
 		request.setAttribute("shopDetail", map);
 		request.setAttribute("money",money);
@@ -150,8 +153,18 @@ public class XiongLiAction extends BaseAction{
 	public String account(){
 		Integer userid=1;  //指定当前用户为1 当前用户的余额为100000000
 		Integer shopid=Integer.parseInt(request.getParameter("sid")); //商店id
-		Integer menuid=Integer.parseInt(request.getParameter("meuid")); //菜的id 
-		return"";
+	
+		Integer money=Integer.parseInt(request.getParameter("money"));//需要支付的钱
+		//我需要下单之后的集合用于改变销售量
+		List<Map<String, Object>> list=odao.getOrderSale(userid, shopid);
+		odao.updateStatus(userid, shopid);
+		odao.updateMoney(userid, money);
+		//循环遍历修改销售量
+		for (Map<String, Object> map : list) {
+			System.out.println(Integer.parseInt(map.get("omuid").toString()));
+			odao.updateSale(userid, shopid, Integer.parseInt(map.get("omuid").toString()));
+		}
+		return "account";
 	}
 
 }

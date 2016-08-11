@@ -100,6 +100,20 @@ public class OrderDao extends DataDao {
 	}
 	
 	/**
+	 * 改变已下单的销售量
+	 * @param userid
+	 * @param shopid
+	 * @return
+	 */
+	public List<Map<String, Object>> getOrderSale(Integer userid, Integer shopid) {
+		String sql = "select muname,omuid,ortid,muprice,ocount,rtname from ts_order o "
+				+ "inner join ts_menu m on m.muid=o.omuid "
+				+ "inner join ts_restaurant r on o.ortid=r.rtid "
+				+ "where ouserid=?  and  ostatus=1 and r.rtid=? ";
+		return getMapList(sql, userid, shopid);
+	}
+	
+	/**
 	 * 清空购物车
 	 * @param userid
 	 * @param shopid
@@ -117,7 +131,7 @@ public class OrderDao extends DataDao {
 	 * @return
 	 */
 	public int updateStatus(Integer userid,Integer shopid){
-		String sql="update ts_order set ostatus=1 where ouserid=? and ortid=?";
+		String sql="update ts_order set ostatus=2 where ouserid=? and ortid=?";
 		return update(sql, userid,shopid);
 	}
 	
@@ -128,7 +142,7 @@ public class OrderDao extends DataDao {
 	 * @return
 	 */
 	public int updateMoney(Integer userid,Integer money){
-		String sql="update ts_order set balance=balance-? where userid=?";
+		String sql="update ts_user set balance=balance-? where userid=?";
 		return update(sql, money,userid);
 	}
 	
@@ -140,7 +154,7 @@ public class OrderDao extends DataDao {
 	 * @return
 	 */
 	public int updateSale(Integer userid,Integer shopid,Integer menuid){
-		String sql="update ts_menu set musale=musale+(select ocount from ts_order where ouserid=? and omuid=? and ortid=?) where muid=? and murtid=?";
+		String sql="update ts_menu set musale=musale+(select ocount from ts_order where ouserid=? and omuid=? and ortid=? and ostatus=2) where muid=? and murtid=?";
 		return update(sql, userid,menuid,shopid,menuid,shopid);
 	}
 	
@@ -150,7 +164,30 @@ public class OrderDao extends DataDao {
 	 * @return
 	 */
 	public Map<String, Object> getShop(Integer shopid){
-		String sql="select rtname,rtaddr,rtpic,tel from ts_restaurant r inner join ts_user u on r.rtowner=u.userid  where rtid=?";
+		String sql="select rtname,rtaddr,rtpic,tel,rtid from ts_restaurant r inner join ts_user u on r.rtowner=u.userid  where rtid=?";
 		return getObject(sql, shopid);
+	}
+	
+	/**
+	 * 提交订单后把购物车中的状态改为已下单的状态
+	 * @param userid
+	 * @param shopid
+	 * @return
+	 */
+	public int updateOrderStatus(Integer userid,Integer shopid){
+		String sql="update ts_order set ostatus=1 where ouserid=? and ortid=?";
+		return update(sql, userid,shopid);
+	} 
+	
+	/**
+	 * 返回数量用于在前台显示
+	 * @param userid
+	 * @param shopid
+	 * @param menuid
+	 * @return
+	 */
+	public int getCount(Integer userid,Integer shopid,Integer menuid){
+		String sql="select ocount from ts_order where ouserid=? and ortid=? and omuid=? and ostatus=0";
+		return scalarNumber(sql, userid,shopid,menuid);
 	}
 }

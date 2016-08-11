@@ -88,7 +88,7 @@ timer2=window.setInterval("startShow()",1000);
              </tr>
 			<tr>
 				<td align="center" colspan="2">
-					<span style="color:red;font-family:楷体;font-weight:bold;font-size:20px">确认卡支付</span>
+					<a href="shwx!account.action?sid=${shopDetail.rtid }&money=${money }"><span style="color:red;font-family:楷体;font-weight:bold;font-size:20px">确认卡支付</span></a>
 				</td>
 			</tr>
 		</table>

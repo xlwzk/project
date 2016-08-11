@@ -16,7 +16,8 @@ public class ts_restaurant_dao extends DataDao{
 	}
 	//根据商家id加载所以的菜单信息
 	public List<Map<String,Object>> getMenuList(Integer rtid){
-		String sql="select * from ts_menu tm left outer join ts_order t on tm.muid=t.omuid where murtid=?";
+		//String sql="select * from ts_menu tm left outer join ts_order t on tm.muid=t.omuid where murtid=?";
+		String sql="select * from ts_menu where murtid=?";
 		return getMapList(sql,rtid);	
 	}
 	
