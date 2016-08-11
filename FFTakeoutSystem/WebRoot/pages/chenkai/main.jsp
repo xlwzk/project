@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<li><span>${sessionScope.user.username}</span></li>
 			<li><input type="hidden" id="id" name="id" value="${sessionScope.user.userid}"> </li>
 			
-			<li><a href='<%=basePath%>pages/chenkai/reg.jsp'>退出</a></li>
+			<li><a href='user!logout.action'>退出</a></li>
 		</ul>
 	</div>
 </div>

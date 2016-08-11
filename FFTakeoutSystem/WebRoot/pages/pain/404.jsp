@@ -41,9 +41,8 @@
 						class="icon-bar"></span>
 				</button>
 				<!--品牌logo -->
-				<a class="navbar-brand"
-					href="<c:url value='/page?method=homePage'/>"><span
-					class="glyphicon glyphicon-globe">&nbsp;</span>品红商城</a>
+				<a class="navbar-brand" href="#"><span
+					class="glyphicon glyphicon-globe">&nbsp;</span>Flowing Flame 在线订餐系统</a>
 			</div>
 			<!--导航条实际内容 -->
 			<div id="navbar" class="navbar-collapse collapse">
@@ -52,68 +51,57 @@
 					<%--此项只为空一块出来 --%>
 					<li><div class="col-md-1"></div></li>
 					<li><a href="<c:url value='/page?method=goodsList' />"><span
-							class="glyphicon glyphicon-list">&nbsp;</span>商品分类</a>
-					</li>
-					<li><div class="col-md-1"></div></li>
-					<li><a href="<c:url value='/page?method=hotNews' />"><span
-							class="glyphicon glyphicon-send">&nbsp;</span>热门新闻</a>
-					</li>
-					<li><div class="col-md-1"></div></li>
-					<li><a href="<c:url value='/page?method=messageFeedback' />"><span
-							class="glyphicon glyphicon-pencil">&nbsp;</span>留言反馈</a>
-					</li>
-					<li><div class="col-md-1"></div></li>
-					<li><a href="<c:url value='/page?method=chatPage' />"><span
-							class="glyphicon glyphicon-comment">&nbsp;</span>在线聊天</a>
-					</li>
+							class="glyphicon glyphicon-list">&nbsp;</span>Default</a></li>
 				</ul>
 				<!--用于显示用户中心 -->
 				<c:choose>
-					<c:when test="${sessionScope.userid > 0}">
+					<c:when test="${not empty sessionScope.user}">
 						<ul class="nav navbar-nav navbar-right">
 							<li class="dropdown"><a id="userid"
-								userid="${sessionScope.userid}"
-								username="${sessionScope.username}" class="dropdown-toggle"
+								userid="${sessionScope.user.userid}"
+								username="${sessionScope.user.username}" class="dropdown-toggle"
 								data-toggle="dropdown" role="button" aria-haspopup="true"
-								aria-expanded="false">${sessionScope.username}
+								aria-expanded="false">${sessionScope.user.username}
 									&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 							</a>
 								<ul class="dropdown-menu">
 									<li><a
 										href="<c:url value='/page?method=userCenter&userid=${sessionScope.userid}'/>">用户中心</a>
 									</li>
-									<c:if test="${not empty sessionScope.admin}">
-										<li><a href="<c:url value='/page?method=mgtHome'/>">后台管理</a>
+									<c:if test="${sessionScope.user.authority eq 3}">
+										<li><a href="page!restaurantMain.action">店铺管理</a>
+										</li>
+									</c:if>
+									<c:if test="${sessionScope.user.authority >= 4}">
+										<li><a href="page!adminMain.action">后台管理</a>
 										</li>
 									</c:if>
 									<li role="separator" class="divider"></li>
-									<li><a href="<c:url value='/user?method=signOut'/>">退出登录</a>
+									<li><a href="user!logout.action">退出登录</a>
 									</li>
-								</ul></li>
+								</ul>
+							</li>
 						</ul>
-						<ul class="nav navbar-nav navbar-right">
+						<%--<ul class="nav navbar-nav navbar-right">
 							<li><a
 								href="<c:url value='/page?method=shoppingCart&userid=${sessionScope.userid}'/>"><span
-									class="glyphicon glyphicon-shopping-cart">&nbsp;</span>我的购物车</a>
+									class="glyphicon glyphicon-shopping-cart"></span>我的购物车</a></li>
+							<li><div class="col-md-1"></div>
 							</li>
-							<li><div class="col-md-1"></div></li>
 						</ul>
-					</c:when>
+					--%></c:when>
 					<c:otherwise>
 						<!-- 显示登录 -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a id="logMsg"
-								href="<c:url value='/page?method=loginPage'/>">
+							<li><a id="logMsg" href="user!willLog.action">
 									点击登录&nbsp;&nbsp;&nbsp;&nbsp;<span
-									class="glyphicon glyphicon-log-in"></span> </a>
-							</li>
+									class="glyphicon glyphicon-log-in"></span> </a></li>
 						</ul>
 					</c:otherwise>
 				</c:choose>
 			</div>
 		</div>
 	</nav>
-
 	<!--404-->
 	<div class="four-four">
 		<div class="container">

@@ -23,6 +23,7 @@ public class UserAction extends ActionSupport implements ServletResponseAware,
 	private UserDao userDao = new UserDao();
 	private HttpServletRequest request;
 	private HttpServletResponse response;
+	private HttpSession session;
 
 	public Boolean getRememberMe() {
 		return rememberMe;
@@ -43,6 +44,7 @@ public class UserAction extends ActionSupport implements ServletResponseAware,
 	@Override
 	public void setServletRequest(HttpServletRequest request) {
 		this.request = request;
+		this.session = request.getSession();
 	}
 
 	@Override
@@ -58,7 +60,6 @@ public class UserAction extends ActionSupport implements ServletResponseAware,
 		if (user != null) {
 			User currentUser = userDao.login(user.getUsername(), user.getPwd());
 			if (currentUser != null) {
-				HttpSession session = request.getSession();
 				session.setAttribute("user", currentUser);
 				if (rememberMe != null && rememberMe) {
 					Cookie userCookie = new Cookie("username",
@@ -78,5 +79,10 @@ public class UserAction extends ActionSupport implements ServletResponseAware,
 	public void uniqueUsername() throws IOException {
 		Integer num = userDao.uniqueUsername(user.getUsername());
 		response.getWriter().write("" + num);
+	}
+	
+	public String logout(){
+		session.removeAttribute("user");
+		return "loginFailed";
 	}
 }

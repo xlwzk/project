@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
 
-	private Long userid;
+	private Integer userid;
 	private String username;
 	private String pwd;
 	private String tel;
@@ -12,17 +12,17 @@ public class User {
 	private String address;
 	private String realname;
 	private Double balance;
-	private Long score;
+	private Integer score;
 	private String gender;
 	private Date regdate;
 	private Integer authority;
 	private String photo;
 
-	public Long getUserid() {
+	public Integer getUserid() {
 		return userid;
 	}
 
-	public void setUserid(Long userid) {
+	public void setUserid(Integer userid) {
 		this.userid = userid;
 	}
 
@@ -82,11 +82,11 @@ public class User {
 		this.balance = balance;
 	}
 
-	public Long getScore() {
+	public Integer getScore() {
 		return score;
 	}
 
-	public void setScore(Long score) {
+	public void setScore(Integer score) {
 		this.score = score;
 	}
 
@@ -136,9 +136,9 @@ public class User {
 		super();
 	}
 
-	public User(Long userid, String username, String pwd, String tel,
+	public User(Integer userid, String username, String pwd, String tel,
 			String email, String address, String realname, Double balance,
-			Long score, String gender, Date regdate, Integer authority,
+			Integer score, String gender, Date regdate, Integer authority,
 			String photo) {
 		super();
 		this.userid = userid;

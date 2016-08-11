@@ -38,7 +38,7 @@
 								<li
 									class="<c:if test="${param.purpose eq 'regist'}">active</c:if>"><a
 									href="page!registPage.action">注册</a></li>
-								<li><a href="<c:url value="/page?method=homePage"/>">主页</a>
+								<li><a href="index.jsp">主页</a>
 								</li>
 							</ul>
 						</nav>
@@ -52,8 +52,7 @@
 							<!-- 登录表单 -->
 							<form class="form-signin" id="form-login"
 								action="user!login.action" method="post">
-								<h2 class="form-signin-heading" style="color: white">Flowing
-									Flame 欢迎用户登录</h2>
+								<h2 class="form-signin-heading" style="color: white">欢迎用户登录</h2>
 								<div class="form-group">
 									<label for="input-top" class="sr-only">UserName</label> <input
 										type="text" id="input-top" name="user.username"

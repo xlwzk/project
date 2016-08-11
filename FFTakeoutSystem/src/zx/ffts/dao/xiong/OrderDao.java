@@ -27,6 +27,18 @@ public class OrderDao extends DataDao {
 	}
 
 	/**
+	* 在菜单中减数量
+	* @param userid
+	* @param menuid
+	* @param dianid
+	* @return
+	*/
+	public int minusOrder(Integer userid, Integer menuid, Integer dianid){
+		String sql="update ts_order set ocount=ocount-1 where  ouserid=? and omuid=? and ortid=? ";
+		return update(sql, userid, menuid, dianid);
+	}
+
+	/**
 	 * 点击减号将菜移除订单中
 	 * 
 	 * @param userid
@@ -58,17 +70,6 @@ public class OrderDao extends DataDao {
 			return update(sql, userid, menuid, dianid);
 	}
    /**
-    * 在菜单中减数量
-    * @param userid
-    * @param menuid
-    * @param dianid
-    * @return
-    */
-	public int deletes(Integer userid, Integer menuid, Integer dianid){
-		String sql="update ts_order set ocount=ocount-1 where  ouserid=? and omuid=? and ortid=? ";
-		return update(sql, userid, menuid, dianid);
-	}
-	/**
 	 * 点了去结算时展现所有的订单信息
 	 * 
 	 * @param userid
@@ -105,8 +106,8 @@ public class OrderDao extends DataDao {
 	 * @param shopid
 	 * @return
 	 */
-	public int deleteCar(Integer userid,Integer shopid){
-		String sql=" delete  from ts_order where ouserid=? and ortid=? and ostatus=0";
+	public int clearCart(Integer userid,Integer shopid){
+		String sql="delete from ts_order where ouserid=? and ortid=? and ostatus=0";
 		return update(sql, userid,shopid); 
 	}
 	

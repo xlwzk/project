@@ -50,8 +50,6 @@ span {
 
 	<body class="easyui-layout">
 
-
-
 		<div region="west" split="true" title="后台管理" style="width: 200px;">
 			<div id="aa" class="easyui-accordion"
 				style="width: 300px; height: 200px;">
