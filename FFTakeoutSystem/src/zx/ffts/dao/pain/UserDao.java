@@ -21,4 +21,9 @@ public class UserDao extends DataAccessObject {
 		String sql = "select count(*) from ts_user where username=?";
 		return executeScalarInteger(sql, username);
 	}
+	
+	public Integer getOrderNumber(Integer userid){
+		String sql = "select count(*) from (select ouuid from ts_order where ouserid=? group by ouuid)";
+		return executeScalarInteger(sql, userid);
+	}
 }

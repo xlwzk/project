@@ -292,6 +292,8 @@
 	}
 	function endShow() {
 		window.clearTimeout(timer2);
+		// 小bug
+		$.post("order.getDeadline.action?uuid="+$("#infos").attr("uuid")+"&ti=15.0");
 		$("#s-modal-body").text("超时！订单失效了！");
 		$("#s-modal-body-addon").removeClass().addClass("glyphicon glyphicon-exclamation-sign");
 		$("#modal").modal({"show":true});

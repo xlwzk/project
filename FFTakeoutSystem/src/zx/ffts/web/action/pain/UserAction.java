@@ -1,6 +1,8 @@
 package zx.ffts.web.action.pain;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +13,9 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
 import zx.ffts.dao.pain.UserDao;
+import zx.ffts.dao.transaction.UserCenterTransaction;
 import zx.ffts.domain.User;
+import zx.ffts.utils.PageBean;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -24,6 +28,34 @@ public class UserAction extends ActionSupport implements ServletResponseAware,
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private HttpSession session;
+	private Double ti;
+	private Integer page;
+
+	public Integer getPage() {
+		return page;
+	}
+
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+
+	public Integer getSize() {
+		return size;
+	}
+
+	public void setSize(Integer size) {
+		this.size = size;
+	}
+
+	private Integer size;
+
+	public Double getTi() {
+		return ti;
+	}
+
+	public void setTi(Double ti) {
+		this.ti = ti;
+	}
 
 	public Boolean getRememberMe() {
 		return rememberMe;
@@ -80,9 +112,21 @@ public class UserAction extends ActionSupport implements ServletResponseAware,
 		Integer num = userDao.uniqueUsername(user.getUsername());
 		response.getWriter().write("" + num);
 	}
-	
-	public String logout(){
+
+	public String logout() {
 		session.removeAttribute("user");
 		return "loginFailed";
+	}
+
+	public String getPageBean() {
+		PageBean<Map<String, Object>> bean = new PageBean<Map<String, Object>>(
+				page, size);
+		User currentuser = (User) session.getAttribute("user");
+		bean.setBeanList((List<Map<String, Object>>) userDao.doTransaction(new UserCenterTransaction(),
+				currentuser.getUserid(), (ti / 60 / 24), ((page - 1) * size + 1),
+				(page * size)));
+		bean.setTotalCounts(userDao.getOrderNumber(currentuser.getUserid()));
+		request.setAttribute("bean", bean);
+		return "centerComplete";
 	}
 }

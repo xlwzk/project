@@ -135,4 +135,8 @@ public class OrderAction implements ServletResponseAware {
 		shopinfos.put("money", money);
 		return "payPage";
 	}
+	
+	public void getDeadline(){
+		functionDao.getDeadline(ti,uuid);
+	}
 }
