@@ -1,6 +1,7 @@
 package zx.ffts.dao.chenkai;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class TsUserDao extends DataDao {
 	}
 	//分页查询用户
 	public List<TsUser>  getUserList(Integer nowPage,Integer pageSize){
-		String sql="select * from (select t.*,rownum rn from(select * from ts_user)t)where rn between ? and ?";	
+		String sql="select * from (select t.*,rownum rn from(select * from ts_user order by userid)t)where rn between ? and ?";	
 		TsUser  user=new TsUser();
 		List<TsUser>  list=getEntities(sql,user , (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;
@@ -27,9 +28,15 @@ public class TsUserDao extends DataDao {
 	
 	//查询所有用户
 	public List<TsUser>  getAllUser(){
-		String sql="select * from ts_user ";	
+		String sql="select * from ts_user order by userid";	
 		TsUser  user=new TsUser();
 		List<TsUser>  list=getEntities(sql,user);
+		return list;
+	}
+	
+	public List<Map<String, Object>> WriteUser(){
+		String sql="select * from ts_user order by userid";
+		List<Map<String, Object>> list=getMapList(sql);
 		return list;
 	}
 	
@@ -41,7 +48,7 @@ public class TsUserDao extends DataDao {
 		return ts;
 	}
 	//添加用户
-	public Integer addUser(String username,String pwd,String tel,String email,String address,String realname,Integer balance,String gender,Integer authority,String photo){
+	public Integer addUser(String username,String pwd,String tel,String email,String address,String realname,double balance,String gender,Integer authority,String photo){
 		if (photo==null) {
 			String sql="insert into ts_user values(ts_user_seq.nextval,?,?,?,?,?,?,?,0,?,sysdate,?,default)";
 			Integer i=update(sql, username,pwd,tel,email,address,realname,balance,gender,authority);

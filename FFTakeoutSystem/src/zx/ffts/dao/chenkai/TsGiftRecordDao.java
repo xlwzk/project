@@ -1,6 +1,7 @@
 package zx.ffts.dao.chenkai;
 
 import java.util.List;
+import java.util.Map;
 
 import zx.ffts.dao.DataDao;
 import zx.ffts.entity.chenkai.TsGiftRecord;
@@ -10,7 +11,7 @@ public class TsGiftRecordDao extends DataDao {
 	
 	//查询所有兑换记录
 	public List<TsGiftRecord>  getTsGiftRecordList(Integer nowPage,Integer pageSize){
-		String sql="select * from (select t.*,rownum rn from(select ts_giftrecord.*,(select gname from ts_gift where ts_gift.gid=ts_giftrecord.grgid) as grgname,(select username from ts_user where ts_user.userid=ts_giftrecord.gruserid) as grusername from ts_giftrecord)t)where rn between ? and ?";	
+		String sql="select * from (select t.*,rownum rn from(select ts_giftrecord.*,(select gname from ts_gift where ts_gift.gid=ts_giftrecord.grgid) as grgname,(select username from ts_user where ts_user.userid=ts_giftrecord.gruserid) as grusername from ts_giftrecord order by grid)t)where rn between ? and ?";	
 		TsGiftRecord  pay=new TsGiftRecord();
 		List<TsGiftRecord>  list=getEntities(sql,pay , (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;
@@ -47,5 +48,12 @@ public class TsGiftRecordDao extends DataDao {
 		String sql="select count(*) as cou from ts_giftrecord";
 		Integer i=scalarNumber(sql);
 		return i;
+	}
+	
+	//下载礼品兑换记录表
+	public List<Map<String, Object>> WriteGiftRec(){
+		String sql="select ts_giftrecord.*,(select gname from ts_gift where ts_gift.gid=ts_giftrecord.grgid) as grgname,(select username from ts_user where ts_user.userid=ts_giftrecord.gruserid) as grusername from ts_giftrecord";
+		List<Map<String, Object>> list=getMapList(sql);
+		return list;
 	}
 }

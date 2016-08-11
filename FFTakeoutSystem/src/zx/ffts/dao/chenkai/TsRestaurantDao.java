@@ -12,16 +12,23 @@ public class TsRestaurantDao extends DataDao {
 	//查询所有店家
 	public List<TsRestaurant>  getRestList(Integer nowPage,Integer pageSize){
 		TsRestaurant rest=new TsRestaurant();
-		String sql="select * from (select t.*,rownum rn from(select rtid,rtname,rtaddr,rtowner,(select username from ts_user where ts_user.userid=ts_restaurant.rtowner )as owner,rtpic,rtcontent,rtdate,rtonbuz,rtstatus from ts_restaurant)t)where rn between ? and ?";	
+		String sql="select * from (select t.*,rownum rn from(select rtid,rtname,rtaddr,rtowner,(select username from ts_user where ts_user.userid=ts_restaurant.rtowner )as owner,rtpic,rtcontent,rtdate,rtonbuz,rtstatus from ts_restaurant order by rtid)t)where rn between ? and ?";	
 		List<TsRestaurant> list=getEntities(sql,rest,(((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;
 	}
 	
 	//查询所有店家
 	public List<TsRestaurant>  getAllRest(){
-		String sql="select * from ts_restaurant";	
+		String sql="select * from ts_restaurant order by rtid";	
 		TsRestaurant  ts=new TsRestaurant();
 		List<TsRestaurant>  list=getEntities(sql,ts);
+		return list;
+	}
+	
+	//下载所有商家信息
+	public List<Map<String, Object>> WriteRest(){
+		String sql="select rtid,rtname,rtaddr,rtowner,(select username from ts_user where ts_user.userid=ts_restaurant.rtowner )as owner,rtpic,rtcontent,rtdate,rtonbuz,rtstatus from ts_restaurant order by rtid";
+		List<Map<String, Object>> list=getMapList(sql);
 		return list;
 	}
 	

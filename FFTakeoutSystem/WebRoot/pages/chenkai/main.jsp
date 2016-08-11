@@ -52,13 +52,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div class="list-item none">
             <a id="findalluser">查询所有用户</a>
             <a id="addUser">新增用户</a>
+            <a href='shwk!WriteUser.action'>下载所有用户信息</a>
           </div>
         </li>
         <li>
           <h4 class="M2"><span></span>店家管理</h4>
           <div class="list-item none">
             <a id="findallrest">查询所有店家</a>
-            <a id='addRest'>新增店家</a>   
+            <a id='addRest'>新增店家</a>
+            <a href='shwkrest!WriteRest.action'>下载所有店家信息</a>   
             <a id='findaddMess'>查询所有店家评论</a>   
            </div>
         </li>
@@ -66,6 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <h4 class="M3"><span></span>菜单管理</h4>
           <div class="list-item none">
             <a id="findallmenu">查询所有菜单</a>
+            <a href='shwkmenu!WriteMenu.action'>下载所有菜单</a>   
             <a id="findallmenumsg">查询所有菜单评论</a>
           </div>
         </li>
@@ -73,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <h4 class="M4"><span></span>订单管理</h4>
           <div class="list-item none">
             <a id='findallorder'>查询所有订单</a>
-            
+             <a href='shwkorder!WriteOrder.action'>下载所有订单</a>
           </div>
         </li>
 				<li>
@@ -87,8 +90,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <h4  class="M6"><span></span>礼品管理</h4>
           <div class="list-item none">
             <a id='findallgift'>查询所有礼品</a>
+            <a href='shwkgift!WriteGift.action'>下载所有礼品</a>
             <a id='addgift'>添加礼品</a>
             <a id='findallgiftRec'>查询所有礼品兑换记录</a>
+            <a href='shwkgiftrec!WriteGiftRec.action'>下载所有礼品兑换记录</a>
           </div>
         </li>
   </ul>

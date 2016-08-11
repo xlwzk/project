@@ -20,7 +20,7 @@ public class TsOrderDao extends DataDao {
 				"inner join ts_user b on a.ouserid =b.userid " +
 				"inner join ts_restaurant c on a.ortid=c.rtid " +
 				"inner join ts_menu d on a.omuid=d.muid " +
-				"inner join ts_user e on a.osender=e.userid)t) where rn between ? and ?";	
+				"inner join ts_user e on a.osender=e.userid order by oid)t) where rn between ? and ?";	
 		//List<TsOrder> list=getEntities(sql,rest,(((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		List<Map<String, Object>> list=getMapList(sql, (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;
@@ -28,7 +28,7 @@ public class TsOrderDao extends DataDao {
 	
 	//查询所有订单
 	public List<TsOrder>  getAllOrder(){
-		String sql="select * from ts_order ";	
+		String sql="select * from ts_order order by oid";	
 		TsOrder order=new TsOrder();
 		List<TsOrder>  list=getEntities(sql, order);
 		return list;
@@ -59,5 +59,19 @@ public class TsOrderDao extends DataDao {
 		String sql="select count(*) as cou from ts_order";
 		Integer i=scalarNumber(sql);
 		return i;
+	}
+	
+	//下载所有订单
+	public List<Map<String, Object>> WriteOrder(){
+		String sql="select a.oid,a.ouserid,a.omuid,a.ortid,a.ocount," +
+				"a.osender,a.ouuid,a.ostatus,to_char(a.odate,'yyyy-mm-dd hh24:mi:ss')as odate," +
+				"b.username as ousername,c.rtname as ortname,d.muname as omuname," +
+				"e.username as osendername from ts_order a " +
+				"inner join ts_user b on a.ouserid =b.userid " +
+				"inner join ts_restaurant c on a.ortid=c.rtid " +
+				"inner join ts_menu d on a.omuid=d.muid " +
+				"inner join ts_user e on a.osender=e.userid order by oid";
+		List<Map<String, Object>> list=getMapList(sql);
+		return list;
 	}
 }
