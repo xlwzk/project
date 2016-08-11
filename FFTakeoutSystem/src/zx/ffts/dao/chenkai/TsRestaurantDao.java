@@ -25,6 +25,13 @@ public class TsRestaurantDao extends DataDao {
 		return list;
 	}
 	
+	//下载所有商家信息
+	public List<Map<String, Object>> WriteRest(){
+		String sql="select rtid,rtname,rtaddr,rtowner,(select username from ts_user where ts_user.userid=ts_restaurant.rtowner )as owner,rtpic,rtcontent,rtdate,rtonbuz,rtstatus from ts_restaurant order by rtid";
+		List<Map<String, Object>> list=getMapList(sql);
+		return list;
+	}
+	
 	//通过id查询店家
 	public TsRestaurant findRestById(Integer id){
 		TsRestaurant rest=new TsRestaurant();

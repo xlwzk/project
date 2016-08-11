@@ -1,6 +1,7 @@
 package zx.ffts.dao.chenkai;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -33,6 +34,12 @@ public class TsUserDao extends DataDao {
 		return list;
 	}
 	
+	public List<Map<String, Object>> WriteUser(){
+		String sql="select * from ts_user order by userid";
+		List<Map<String, Object>> list=getMapList(sql);
+		return list;
+	}
+	
 	//通过id查询用户
 	public TsUser findUserById(Integer id){
 		TsUser user=new TsUser();
@@ -41,7 +48,7 @@ public class TsUserDao extends DataDao {
 		return ts;
 	}
 	//添加用户
-	public Integer addUser(String username,String pwd,String tel,String email,String address,String realname,Integer balance,String gender,Integer authority,String photo){
+	public Integer addUser(String username,String pwd,String tel,String email,String address,String realname,double balance,String gender,Integer authority,String photo){
 		if (photo==null) {
 			String sql="insert into ts_user values(ts_user_seq.nextval,?,?,?,?,?,?,?,0,?,sysdate,?,default)";
 			Integer i=update(sql, username,pwd,tel,email,address,realname,balance,gender,authority);

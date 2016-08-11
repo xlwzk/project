@@ -1,6 +1,7 @@
 package zx.ffts.dao.chenkai;
 
 import java.util.List;
+import java.util.Map;
 
 import zx.ffts.dao.DataDao;
 import zx.ffts.entity.chenkai.TsMenu;
@@ -14,6 +15,13 @@ public class TsMenuDao extends DataDao {
 		TsMenu  menu=new TsMenu();
 		List<TsMenu>  list=getEntities(sql,menu , (((nowPage-1)*pageSize)+1),(nowPage*pageSize));
 		return list;
+	}
+	
+	//下载所有菜单
+	public List<Map<String, Object>> WriteMenu(){
+		String sql="select a.*,b.rtname as mrtname from ts_menu a,ts_restaurant b where a.murtid=b.rtid order by a.murtid ";
+			List<Map<String, Object>> list =getMapList(sql);
+			return list;
 	}
 	
 	//查询所有菜单
@@ -40,7 +48,7 @@ public class TsMenuDao extends DataDao {
 		return ts;
 	}
 	//添加兑换记录
-	public Integer addMenu(Integer murtid,String muname,Integer muprice,String mupic,String mutype,String mudesc,Integer musale,Integer mustatus){
+	public Integer addMenu(Integer murtid,String muname,double muprice,String mupic,String mutype,String mudesc,Integer musale,Integer mustatus){
 		String sql="insert into ts_menu values(ts_menu_seq.nextval,?,?,?,?,?,?,?,?)";
 		Integer i=update(sql,murtid,muname,muprice,mupic,mutype,mudesc,musale,mustatus);
 		return i;
@@ -52,7 +60,7 @@ public class TsMenuDao extends DataDao {
 		
 	}
 	//修改兑换记录
-	public Integer updateMenu(Integer murtid,String muname,Integer muprice,String mupic,String mutype,String mudesc,Integer musale,Integer mustatus,Integer muid){
+	public Integer updateMenu(Integer murtid,String muname,double muprice,String mupic,String mutype,String mudesc,Integer musale,Integer mustatus,Integer muid){
 		String sql="update ts_menu set murtid=?,muname=?,muprice=?,mupic=?,mutype=?,mudesc=?,musale=?,mustatus=? where muid=? ";
 		Integer i=update(sql,murtid,muname,muprice,mupic,mutype,mudesc,musale,mustatus,muid);
 		return i;

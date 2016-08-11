@@ -1,6 +1,7 @@
 package zx.ffts.dao.chenkai;
 
 import java.util.List;
+import java.util.Map;
 
 import zx.ffts.dao.DataDao;
 import zx.ffts.entity.chenkai.TsGiftRecord;
@@ -47,5 +48,12 @@ public class TsGiftRecordDao extends DataDao {
 		String sql="select count(*) as cou from ts_giftrecord";
 		Integer i=scalarNumber(sql);
 		return i;
+	}
+	
+	//下载礼品兑换记录表
+	public List<Map<String, Object>> WriteGiftRec(){
+		String sql="select ts_giftrecord.*,(select gname from ts_gift where ts_gift.gid=ts_giftrecord.grgid) as grgname,(select username from ts_user where ts_user.userid=ts_giftrecord.gruserid) as grusername from ts_giftrecord";
+		List<Map<String, Object>> list=getMapList(sql);
+		return list;
 	}
 }
