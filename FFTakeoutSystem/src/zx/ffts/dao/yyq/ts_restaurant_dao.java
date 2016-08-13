@@ -6,6 +6,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import zx.ffts.dao.DataDao;
+import zx.ffts.dao.xiong.OrderFunctionDao;
 
 public class ts_restaurant_dao extends DataDao {
 	// 加载所有的商店信息
@@ -48,7 +49,7 @@ public class ts_restaurant_dao extends DataDao {
 
 	// 根据菜的id查看所有评价
 	public List<Map<String, Object>> MenuMessage(Integer muid, pageinfo info) {
-		String sql = "select * from (select u.username as mm,m.mmcontent,m.mmdate,rownum r from ts_menumsg m,ts_user u,ts_menu n where u.userid=m.mmuserid and n.muid=m.mmmuid and n.muid=? and rownum<=?) t where t.r>?";
+		String sql = "select * from (select u.username as mm,u.photo,m.mmcontent,m.mmdate,m.mmscore,rownum r from ts_menumsg m,ts_user u,ts_menu n where u.userid=m.mmuserid and n.muid=m.mmmuid and n.muid=? and rownum<=?) t where t.r>?";
 		return getMapList(sql, muid, info.getEnd(), info.getStar());
 
 	}
@@ -61,7 +62,7 @@ public class ts_restaurant_dao extends DataDao {
 
 	@Test
 	public void test() {
-		System.out.println(getMenuList(2));
+		System.out.println(new OrderFunctionDao().getRestaurantScore(3));
 	}
 
 	// 根据菜单id查看商店现象信息
@@ -70,4 +71,5 @@ public class ts_restaurant_dao extends DataDao {
 		return getObject(sql, muid);
 	}
 
+	
 }

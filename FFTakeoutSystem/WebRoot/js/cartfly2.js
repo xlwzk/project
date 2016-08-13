@@ -1,7 +1,66 @@
 $(function() {
 	// 用于清空无效内容
-	cleartext();
+	var badges = $(".badge");
+	for ( var i = 0; i < badges.length; i++) {
+		var texts = $(badges[i]).text();
+		var flag = false;
+		for ( var j = 0; j < texts.length; j++) {
+			var regex = /^\d+$/;
+			if(regex.test(texts[j])){
+				flag = true;
+				break;
+			}
+		}
+		if(!flag){
+			$(".badge:eq("+i+")").html("");
+		}
+	}
 	
+	
+	$(".btnAdd").addClass("sr-only");
+	var text = $(".badge").text();
+	if(text!=""){
+		$(".btnAddToCart").addClass("sr-only");
+		$(".btnAdd").removeClass("sr-only");
+	}
+	$(".btnAddToCart").click(function(event){
+		if($("#infos").attr("userid")==""){
+			$("#s-modal-body").text("请您先登录");
+			$("#s-modal-body-addon").removeClass().addClass("glyphicon glyphicon-exclamation-sign");
+			$("#logBtn").removeClass("sr-only");
+			$(this).attr("data-toggle","modal");
+			$(this).attr("data-target",".bs-example-modal-sm");
+		}else{
+			var index = $(this).attr("index");
+			$(".btnAdd").removeClass("sr-only");
+			$(".btnAddToCart").addClass("sr-only");
+			$(".carts:visible:eq(0)").attr("data-toggle","popover");
+			var addcar = $(this);
+			var index = $(this).attr("index");
+			var img = $("#goodspic").attr('src');
+			var flyer = $("<img class='u-flyer img-circle' src='"+ img + "' width='50' height='50' style='border:2px #573f2f solid;'>");
+			var offset = $(".end:visible:eq(0)").offset();
+			flyer.fly({
+				start : {
+					left : event.clientX - 50, // 开始位置（必填）#fly元素会被设置成position:
+					top : event.clientY - 50 // 开始位置（必填）
+				},
+				end : {
+					left : offset.left + 10, // 结束位置（必填）
+					top : offset.top + 10, // 结束位置（必填）
+					width : 0, // 结束时宽度
+					height : 0 // 结束时高度
+				},
+				onEnd : function() { // 结束回调
+					$(".carts:visible:eq(0)").attr("data-content","成功加入菜单").popover("show");
+					setTimeout(function(){
+						$(".carts:visible:eq(0)").popover("hide");
+					}, 1000);
+				}
+			});
+			$(".btnAdd:eq("+index+")").trigger("click");
+		}
+	});
 	
 	// 绑定添加事件
 	$(".btnAdd").click(function(event) {
@@ -21,7 +80,7 @@ $(function() {
 			$(".carts:visible:eq(0)").attr("data-toggle","popover");
 			var addcar = $(this);
 			var index = $(this).attr("index");
-			var img = $(".img60:eq("+index+")").attr('src');
+			var img = $("#goodspic").attr('src');
 			var flyer = $("<img class='u-flyer img-circle' src='"+ img + "' width='50' height='50' style='border:2px #573f2f solid;'>");
 			var offset = $(".end:visible:eq(0)").offset();
 			flyer.fly({
@@ -46,11 +105,11 @@ $(function() {
 			$.post("order!addOrder.action",{"userid":userid,"rtid":rtid,"muid":muid},function(result){
 				if(result!="fail"){
 					// 要把减号按钮显示出来
-					$(".btnMinus:eq("+index+")").removeClass("sr-only");
+					$(".btnMinus").removeClass("sr-only");
 					// 要回显数据
-					$(".badge:eq("+index+")").text(result);
+					$(".badge").text(result);
 					if(result=="1"){
-						$(".badge:eq("+index+")").removeClass("sr-only");
+						$(".badge").removeClass("sr-only");
 					}
 					loadCart(userid,rtid);
 				}
@@ -75,7 +134,7 @@ $(function() {
 			$(".carts:visible:eq(0)").attr("data-toggle","popover");
 			var addcar = $(this);
 			var index = $(this).attr("index");
-			var img = $(".img60:eq("+index+")").attr('src');
+			var img = $("#goodspic").attr('src');
 			var flyer = $("<img class='u-flyer img-circle' src='"+ img + "' width='50' height='50' style='border:2px #573f2f solid;'>");
 			var offset = $(".end:visible:eq(0)").offset();
 			flyer.fly({
@@ -101,12 +160,14 @@ $(function() {
 			$.post("order!minusOrder.action",{"userid":userid,"rtid":rtid,"muid":muid},function(result){
 				if(result!="fail"){
 					// 要回显数据
-					$(".badge:eq("+index+")").text(result);
+					$(".badge").text(result);
 					loadCart(userid,rtid);
 					if(result=="0"){
 						// 要把减号按钮隐藏
-						$(".btnMinus:eq("+index+")").addClass("sr-only");
-						$(".badge:eq("+index+")").addClass("sr-only");
+						$(".btnMinus").addClass("sr-only");
+						$(".badge").addClass("sr-only");
+						$(".btnAddToCart").removeClass("sr-only");
+						$(".btnAdd").addClass("sr-only");
 					}
 				}
 			});
@@ -219,20 +280,13 @@ $(function() {
 		var index = $(this).attr("index");
 		if(index==0){
 			$("#menu").removeClass("sr-only");
-			$("#bean").addClass("sr-only");
-			$("#restaurant").addClass("sr-only");
 		}else if(index==1){
 			$("#menu").addClass("sr-only");
-			$("#bean").removeClass("sr-only");
-			$("#restaurant").addClass("sr-only");
 		}else{
 			$("#menu").addClass("sr-only");
-			$("#bean").addClass("sr-only");
-			$("#restaurant").removeClass("sr-only");
 		}
 	});
  
-	showNav();
 	
 });
 //style="width:262px;height:270px;background-repeat:no-repeat;background-image:url(<%=path%>/${item.PICTURE});background-position:center center"
@@ -312,31 +366,5 @@ function judge() {
 	} else {
 		// 如果以上都不是，则加载以下样式
 		$("#menubar").attr("style","margin: 0px;padding: 0px;position: fixed;");
-	}
-}
-
-
-function cleartext(){
-	var badges = $(".badge");
-	for ( var i = 0; i < badges.length; i++) {
-		var texts = $(badges[i]).text();
-		var flag = false;
-		for ( var j = 0; j < texts.length; j++) {
-			var regex = /^\d+$/;
-			if(regex.test(texts[j])){
-				flag = true;
-				break;
-			}
-		}
-		if(!flag){
-			$(".badge:eq("+i+")").html("");
-		}
-	}
-}
-
-function showNav(){
-	var index = $("#infos").attr("index");
-	if(index!=""){
-		$("li[name='nav']:eq("+index+")").trigger("click");
 	}
 }

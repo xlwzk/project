@@ -5,6 +5,9 @@
 <%
 	String path = request.getContextPath();
 %>
+<c:if test="${empty shopinfos.money or shopinfos.money eq 0}">
+	<jsp:forward page="shop!ShopList.action"/>
+</c:if>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -58,9 +61,7 @@
 				<!--品牌logo -->
 				<a class="navbar-brand text-success" href="shop!ShopList.action"><span
 					class="glyphicon glyphicon-globe text-success">&nbsp;</span>F.Flame
-					在线订餐系统</a> <a class="navbar-brand visible-xs"
-					href="shop!ShopList.action"><span
-					class="glyphicon glyphicon-circle-arrow-left text-danger"></span> </a>
+					在线订餐系统</a>
 			</div>
 			<!--导航条实际内容 -->
 			<div id="navbar" class="navbar-collapse collapse">
@@ -79,8 +80,11 @@
 							</a>
 								<ul class="dropdown-menu">
 									<li><a
-										href="<c:url value='/page?method=userCenter&userid=${sessionScope.userid}'/>">用户中心</a>
+										href="user!gotoUserCenter.action">用户中心</a>
 									</li>
+									<c:if test="${sessionScope.user.authority eq 2}">
+										<li><a href="page!restaurantMain.action">外卖接单</a></li>
+									</c:if>
 									<c:if test="${sessionScope.user.authority eq 3}">
 										<li><a href="page!restaurantMain.action">店铺管理</a></li>
 									</c:if>
@@ -314,7 +318,7 @@
 			}else{
 				$.post("pay!payNow.action?"+type+"&uuid="+uuid+"&money="+money,function(result){
 					if(result!="OK"){
-						$("#s-modal-body").text("您的余额不足");
+						$("#s-modal-body").text(result);
 						$("#s-modal-body-addon").removeClass().addClass("glyphicon glyphicon-exclamation-sign");
 						$("#modal").modal({"show":true});
 					}else{

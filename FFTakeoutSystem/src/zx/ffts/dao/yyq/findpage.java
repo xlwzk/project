@@ -10,9 +10,8 @@ public class findpage {
 		int ShopCount = dd.ShopCount();
 		pageinfo info = new pageinfo();
 		info.setNowpage(nowpage);
-		info.setPagenum(5);
+		info.setPagenum(20);
 		info.setSumnum(ShopCount);
-
 		List<Map<String, Object>> li = dd.getShopList(info);
 		pagelist list = new pagelist(info, li);
 		return list;
@@ -22,7 +21,6 @@ public class findpage {
 	public pagelist findMenuMess(Integer muid, int nowpage) {
 		ts_restaurant_dao dd = new ts_restaurant_dao();
 		int MenuMessCount = dd.MenuMessCount(muid);
-		System.out.println("muid" + muid);
 		pageinfo info = new pageinfo();
 		info.setNowpage(nowpage);
 		info.setPagenum(3);
@@ -31,5 +29,4 @@ public class findpage {
 		pagelist list = new pagelist(info, li);
 		return list;
 	}
-
 }

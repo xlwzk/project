@@ -17,6 +17,11 @@
 			<result name="rtMain">/pages/chenshun/backstage.jsp</result>
 			<result name="adminMain">/pages/chenkai/main.jsp</result>
 		</action>
+		<action name="photo" class="zx.ffts.web.action.pain.PhotoAction">
+			<result name="back" type="redirectAction">user!gotoUserCenter.action?index=1</result>
+			<result name="registSuccess" type="redirectAction">user!gotoUserCenter.action</result>
+			<result name="fail">/pages/pain/login.jsp?purpose=regist;msg='发生了未知异常，请重试！'</result>
+		</action>
 	</package>
 	<package name="chenkai" extends="struts-default">
 		<action name="shwk" class="zx.ffts.web.action.chenkai.ChenKaiTsUserAction">		
@@ -73,7 +78,7 @@
 		<action name="shop" class="zx.ffts.web.action.yyq.YYQAction">
 			<result name="ShopList">/pages/yyq/ShopInfo.jsp</result>
 			<result name="MenuList">/pages/yyq/MenuList.jsp</result>
-			<result name="MenuMessage">/pages/yyq/MenuInfoById.jsp</result>
+			<result name="MenuMessage">/pages/yyq/MenuItemDetail.jsp</result>
 			<result name="shopmessage">/pages/yyq/ShopMessById.jsp</result>
 			<result name="sd">/pages/yyq/ShopInfoById.jsp</result>
 		</action>

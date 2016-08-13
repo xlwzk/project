@@ -1,5 +1,6 @@
 package zx.ffts.web.action.pain;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,15 @@ public class UserAction extends ActionSupport implements ServletResponseAware,
 	private HttpSession session;
 	private Double ti;
 	private Integer page;
+	private String from;
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
 
 	public Integer getPage() {
 		return page;
@@ -118,15 +128,54 @@ public class UserAction extends ActionSupport implements ServletResponseAware,
 		return "loginFailed";
 	}
 
-	public String getPageBean() {
+	public String gotoUserCenter() {
+		if (page == null) {
+			page = 1;
+		}
+		if (size == null) {
+			size = 10;
+		}
+		if (ti == null) {
+			ti = 15.0;
+		}
 		PageBean<Map<String, Object>> bean = new PageBean<Map<String, Object>>(
 				page, size);
 		User currentuser = (User) session.getAttribute("user");
-		bean.setBeanList((List<Map<String, Object>>) userDao.doTransaction(new UserCenterTransaction(),
-				currentuser.getUserid(), (ti / 60 / 24), ((page - 1) * size + 1),
-				(page * size)));
+		bean.setBeanList((List<Map<String, Object>>) userDao.doTransaction(
+				new UserCenterTransaction(), currentuser.getUserid(),
+				(ti / 60 / 24), ((page - 1) * size + 1), (page * size)));
 		bean.setTotalCounts(userDao.getOrderNumber(currentuser.getUserid()));
 		request.setAttribute("bean", bean);
 		return "centerComplete";
+	}
+
+	public void editGender() throws IOException {
+		int line = userDao.editGender(user.getGender(), user.getUserid());
+		((User) session.getAttribute("user")).setGender(user.getGender());
+		response.getWriter().write("" + line);
+	}
+
+	public void editTel() throws IOException {
+		int line = userDao.editTel(user.getTel(), user.getUserid());
+		((User) session.getAttribute("user")).setTel(user.getTel());
+		response.getWriter().write("" + line);
+	}
+
+	public void editAddress() throws IOException {
+		int line = userDao.editAddress(user.getAddress(), user.getUserid());
+		((User) session.getAttribute("user")).setAddress(user.getAddress());
+		response.getWriter().write("" + line);
+	}
+
+	public void editRealname() throws IOException {
+		int line = userDao.editRealname(user.getRealname(), user.getUserid());
+		((User) session.getAttribute("user")).setRealname(user.getRealname());
+		response.getWriter().write("" + line);
+	}
+
+	public void editEmail() throws IOException {
+		int line = userDao.editEmail(user.getEmail(), user.getUserid());
+		((User) session.getAttribute("user")).setEmail(user.getEmail());
+		response.getWriter().write("" + line);
 	}
 }

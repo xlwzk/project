@@ -41,8 +41,8 @@
 <script type="text/javascript" src="<%=path%>/js/lightbox.min.js"></script>
 </head>
 <body>
-		<a id="infos" class="sr-only" rtid="${sessionScope.shopid}"
-		userid="${sessionScope.user.userid}"></a>
+	<a id="infos" class="sr-only" userid="${sessionScope.user.userid}"
+		cp="${cp}"></a>
 	<!--此处是导航条 -->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
@@ -57,9 +57,8 @@
 				</button>
 				<!--品牌logo -->
 				<a class="navbar-brand text-success" href="shop!ShopList.action"><span
-					class="glyphicon glyphicon-globe text-success">&nbsp;</span>F.Flame 在线订餐系统</a><a class="navbar-brand visible-xs"
-					href="shop!ShopList.action"><span
-					class="glyphicon glyphicon-circle-arrow-left text-danger"></span> </a>
+					class="glyphicon glyphicon-globe text-success">&nbsp;</span>F.Flame
+					在线订餐系统</a>
 			</div>
 			<!--导航条实际内容 -->
 			<div id="navbar" class="navbar-collapse collapse">
@@ -71,13 +70,17 @@
 								userid="${sessionScope.user.userid}"
 								username="${sessionScope.user.username}" class="dropdown-toggle"
 								data-toggle="dropdown" role="button" aria-haspopup="true"
-								aria-expanded="false"><img src="<%=path%>/${sessionScope.user.photo}" class="img20 img-circle"/>&nbsp;&nbsp;${sessionScope.user.username}
+								aria-expanded="false"><img
+									src="<%=path%>/${sessionScope.user.photo}"
+									class="img20 img-circle" />&nbsp;&nbsp;${sessionScope.user.username}
 									&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 							</a>
 								<ul class="dropdown-menu">
-									<li><a
-										href="<c:url value='/page?method=userCenter&userid=${sessionScope.userid}'/>">用户中心</a>
-									</li>
+									<li><a href="user!gotoUserCenter.action">用户中心</a></li>
+									<c:if test="${sessionScope.user.authority eq 2}">
+										<li><a href="page!restaurantMain.action">外卖接单</a>
+										</li>
+									</c:if>
 									<c:if test="${sessionScope.user.authority eq 3}">
 										<li><a href="page!restaurantMain.action">店铺管理</a>
 										</li>
@@ -110,39 +113,105 @@
 	<div class="container">
 		<ul style="margin: 0px;padding: 0px;">
 			<c:forEach items="${shop.list}" var="s" varStatus="su">
-				<li><c:if test="${su.first}">
-						<div class="page-header"
-							style="margin:5px 0px 5px 0px;padding: 0px;"></div>
-					</c:if>
-					<div class="media panel panel-info">
-						<a href="shop!MenuList.action?rtid=${s.rtid}" class="pull-left"><img
-							src="<%=path%>/${s.rtpic}" width="143" height="112" border="0" />
-						</a>
-						 <div class="media-body panel-body">
-							<a href="shop!MenuList.action?rtid=${s.rtid}">${s.rtname}</a>
-						<h5>${s.rtaddr}</h5>
-						<h5>${s.rtcontent}</h5>
+				<li>
+					<div class="media panel panel-warning"
+						style="padding: 0px;margin: 3px 0px;">
+						<a href="shop!MenuList.action?rtid=${s.rtid}&cp=${cp}"
+							class="pull-left" style="padding: 10px;"><img
+							src="<%=path%>/${s.rtpic}" class="img60 img-rounded" /> </a>
+						<div class="media-body panel-body"
+							style="padding: 5px 0px 0px;margin: 0px;">
+							<a href="shop!MenuList.action?rtid=${s.rtid}&cp=${cp}"
+								style="font-size:15px;">${s.rtname}</a><br /> <label
+								class="label label-success pull-left"
+								style="margin:0px;font-size:12px;">${s.rtaddr}</label> <br />
+							<h5 style="margin:0px;padding:0px;font-size:10px;">${s.rtcontent}</h5>
 						</div>
-					</div>
-					<div class="page-header clearfix"
-						style="margin:5px 0px 5px 0px;padding: 0px;"></div></li>
+					</div></li>
 			</c:forEach>
 		</ul>
 	</div>
-	<h1 align="center">商店信息</h1>
-	<table align="center">
 
-		<tr>
-			<td colspan="2" align="right"><a
-				href="shop!ShopList.action?nowpage=1">首页</a> <c:if
-					test="${shop.info.nowpage==1 }">上一页</c:if> <c:if
-					test="${shop.info.nowpage>1 }">
-					<a href="shop!ShopList.action?nowpage=${shop.info.nowpage-1 }">上一页</a>
-				</c:if> <c:if test="${shop.info.nowpage<shop.info.sumpage}">
-					<a href="shop!ShopList.action?nowpage=${shop.info.nowpage+1 }">下一页</a>
-				</c:if> <c:if test="${shop.info.nowpage==shop.info.sumpage}">下一页</c:if> <a
-				href="shop!ShopList.action?nowpage=${shop.info.sumpage}">尾页</a></td>
-		</tr>
-	</table>
+	<c:choose>
+		<c:when
+			test="${not empty shop.info.sumpage and shop.info.sumpage != 0}">
+			<c:choose>
+				<c:when test="${shop.info.sumpage > 5}">
+					<c:set var="begin" value="${shop.info.nowpage - 2}" />
+					<c:set var="end" value="${shop.info.nowpage + 2}" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="begin" value="1" />
+					<c:set var="end" value="${shop.info.sumpage}" />
+				</c:otherwise>
+			</c:choose>
+			<c:if test="${begin < 1}">
+				<c:set var="begin" value="1" />
+				<c:set var="end" value="5" />
+			</c:if>
+			<c:if test="${end > shop.info.sumpage}">
+				<c:set var="begin" value="${shop.info.sumpage - 4}" />
+				<c:set var="end" value="${shop.info.sumpage}" />
+			</c:if>
+			<div class="portfolio-pagination">
+				<ul class="pagination">
+					<li><a
+						href="shop!ShopList.action?cp=1"><span>首页</span>
+					</a>
+					</li>
+					<%--设置上一页是否被激活 --%>
+					<c:choose>
+						<c:when test="${shop.info.nowpage > 1}">
+							<li><a
+								href="shop!ShopList.action?cp=${shop.info.nowpage-1}"><span
+									class="glyphicon glyphicon-chevron-left"></span> </a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="disabled"><a href="javascript:;"><span
+									class="glyphicon glyphicon-chevron-left"></span> </a></li>
+						</c:otherwise>
+					</c:choose>
+					<%--设置页数的开始页码 --%>
+					<c:forEach var="i" begin="${begin}" end="${end}">
+						<c:choose>
+							<c:when test="${shop.info.nowpage == i}">
+								<li class="disabled"><a href="javascript:;"><span>${i}</span>
+								</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a
+									href="shop!ShopList.action?cp=${i}"><span>${i}</span>
+								</a></li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<%--设置下一页是否被激活 --%>
+					<c:choose>
+						<c:when test="${shop.info.nowpage != shop.info.sumpage}">
+							<li><a
+								href="shop!ShopList.action?cp=${shop.info.nowpage+1}"><span
+									class="glyphicon glyphicon-chevron-right"></span> </a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="disabled"><a href="javascript:;"><span
+									class="glyphicon glyphicon-chevron-right"></span> </a></li>
+						</c:otherwise>
+					</c:choose>
+					<li><a
+						href="shop!ShopList.action?cp=${shop.info.sumpage}"><span>尾页</span>
+					</a>
+					</li>
+				</ul>
+			</div>
+		</c:when>
+		<c:otherwise>
+			<div class="portfolio-pagination">
+				<ul class="pagination">
+					<li>系统崩溃中...请在一小时后重试...Orz</li>
+				</ul>
+			</div>
+		</c:otherwise>
+	</c:choose>
+	<%--/页码条 --%>
 </body>
 </html>

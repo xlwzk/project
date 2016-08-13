@@ -12,13 +12,16 @@ public class PayNowTransaction implements Transactable {
 	public Object transact(SQLExecutor executor, Object... params)
 			throws SQLException {
 		// 1.修改订单状态
-		String sql = "update ts_order set ostatus=2 where ouuid=?";
-		executor.executeUpdate(sql, params[0]);
+		String sql = "update ts_order set ostatus=2 where ouuid=? and ostatus=1";
+		int line = executor.executeUpdate(sql, params[0]);
+		if (line < 1) {
+			throw new SQLException("已经支付！");
+		}
 		// 2.减少用户余额
 		sql = "select balance-? money from ts_user where userid=(select ouserid from ts_order where ouuid=? group by ouserid)";
 		Double money = executor.executeScalarDouble(sql, params[1], params[0]);
-		if(money<0){
-			throw new SQLException("余额不足");
+		if (money < 0) {
+			throw new SQLException("余额不足！");
 		}
 		sql = "update ts_user set balance = balance-? where userid=(select ouserid from ts_order where ouuid=? group by ouserid)";
 		executor.executeUpdate(sql, params[1], params[0]);

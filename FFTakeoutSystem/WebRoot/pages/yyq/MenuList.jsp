@@ -39,24 +39,10 @@
 <script type="text/javascript"
 	src="<%=path%>/js/requestAnimationFrame.js"></script>
 <script type="text/javascript" src="<%=path%>/js/cartfly.js"></script>
-<style type="text/css">
-.img60 {
-	width: 60px;
-	height: 60px;
-	background-position: center center;
-	background-size: cover;
-}
-.img20{
-	width: 20px;
-	height: 20px;
-	background-position: center center;
-	background-size: cover;
-}
-</style>
 </head>
 <body onscroll="setMenuBar(document.documentElement.scrollTop)">
-	<a id="infos" class="sr-only" rtid="${sessionScope.shopid}"
-		userid="${sessionScope.user.userid}"></a>
+	<a id="infos" class="sr-only" rtid="${rtid}"
+		userid="${sessionScope.user.userid}" index="${param.index}"></a>
 	<!--此处是导航条 -->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
@@ -71,8 +57,11 @@
 				</button>
 				<!--品牌logo -->
 				<a class="navbar-brand text-success" href="shop!ShopList.action"><span
-					class="glyphicon glyphicon-globe text-success">&nbsp;</span>F.Flame 在线订餐系统</a> <a class="navbar-brand visible-xs"
-					href="shop!ShopList.action"><span
+					class="glyphicon glyphicon-globe text-success">&nbsp;</span>F.Flame
+					在线订餐系统</a>
+				<!-- 返回按键 -->
+				<a class="navbar-brand visible-xs pull-right"
+					href="shop!ShopList.action?cp=${cp}" style="width: 80px;"><span
 					class="glyphicon glyphicon-circle-arrow-left text-danger"></span> </a>
 			</div>
 			<!--导航条实际内容 -->
@@ -85,13 +74,17 @@
 								userid="${sessionScope.user.userid}"
 								username="${sessionScope.user.username}" class="dropdown-toggle"
 								data-toggle="dropdown" role="button" aria-haspopup="true"
-								aria-expanded="false"><img src="<%=path%>/${sessionScope.user.photo}" class="img20 img-circle"/>&nbsp;&nbsp;${sessionScope.user.username}
+								aria-expanded="false"><img
+									src="<%=path%>/${sessionScope.user.photo}"
+									class="img20 img-circle" />&nbsp;&nbsp;${sessionScope.user.username}
 									&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 							</a>
 								<ul class="dropdown-menu">
-									<li><a
-										href="<c:url value='/page?method=userCenter&userid=${sessionScope.userid}'/>">用户中心</a>
-									</li>
+									<li><a href="user!gotoUserCenter.action">用户中心</a></li>
+									<c:if test="${sessionScope.user.authority eq 2}">
+										<li><a href="page!restaurantMain.action">外卖接单</a>
+										</li>
+									</c:if>
 									<c:if test="${sessionScope.user.authority eq 3}">
 										<li><a href="page!restaurantMain.action">店铺管理</a>
 										</li>
@@ -110,7 +103,7 @@
 					<c:otherwise>
 						<!-- 显示登录 -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a id="logMsg" href="user!willLog.action">
+							<li><a id="logMsg" href="user!willLog.action?from=MenuList">
 									点击登录&nbsp;&nbsp;&nbsp;&nbsp;<span
 									class="glyphicon glyphicon-log-in"></span> </a></li>
 						</ul>
@@ -129,6 +122,9 @@
 				src="<%=path%>/${shopById.rtpic}" width="67" height="67"
 				style="margin:0px;padding:0px;" /> </a>
 			<div class="media-body panel-heading">
+				<label class="pull-right" style="text-align: center"><fmt:formatNumber
+						value="${shopById.score}" pattern="0.0" /><br /> <small>综合评分</small>
+				</label>
 				<h4 class="media-heading">${shopById.rtname}</h4>
 				<label class="label label-primary">${shopById.rtaddr}</label>
 			</div>
@@ -166,9 +162,11 @@
 					<c:forEach items="${MenuList}" var="m" varStatus="s">
 						<%--找page域中有没有当前类 --%>
 						<c:if test="${empty pageScope.type or pageScope.type != m.mutype}">
-							<a name="type${tindex}" class="sr-only" style="margin-top: -60px;"></a>
+							<a name="type${tindex}" class="sr-only"
+								style="margin-top: -60px;"></a>
 							<div class="panel panel-success" style="margin: 4px 0px 4px 0px;">
-								<div class="panel-heading" style="height: 20px;line-height: 20px;font-size: 12px;padding:0px 0px 0px 10px;margin:0px;">${m.mutype}</div>
+								<div class="panel-heading"
+									style="height: 20px;line-height: 20px;font-size: 12px;padding:0px 0px 0px 10px;margin:0px;">${m.mutype}</div>
 							</div>
 							<div class="page-header"
 								style="margin:4px 0px 10px 0px;padding: 0px;"></div>
@@ -177,16 +175,24 @@
 						</c:if>
 						<li>
 							<div class="media">
-								<a href="shop!MenuMessage.action?muid=${m.muid}"><img
+								<a href="shop!getMenuItem.action?muid=${m.muid}&rtid=${rtid}"><img
 									class="img60 pull-left img-rounded" src="<%=path%>/${m.mupic}"
 									border="0" /> </a>
 								<div class="media-body">
 									<a class="pull-left clearfix" style="margin-left: 10px;"
-										href="shop!MenuMessage.action?muid=${m.muid}">${m.muname}</a>
+										href="shop!getMenuItem.action?muid=${m.muid}&rtid=${rtid}">${m.muname}</a>
 									<label class="label label-danger pull-right">${m.mudesc}</label>
 									<div style="margin: 0px;padding: 0px;">&nbsp;</div>
-									<p class="info" style="margin: 0px 0px 0px 10px;padding: 0px;">月售
-										${m.musale} 份</p>
+									<p class="info" style="margin: 0px 0px 0px 10px;padding: 0px;">
+										月售 ${m.musale} 份
+										<c:if test="${m.haoping != 0}">
+											<small class="text-mute"> 好评率 <fmt:formatNumber
+													value="${m.haoping * 100}" pattern="0.00" />% </small>
+										</c:if>
+										<c:if test="${m.haoping == 0}">
+											<small> 暂无评价</small>
+										</c:if>
+									</p>
 									<h3 class="text-danger pull-left"
 										style="margin:0px 0px 0px 10px;">
 										<span class="glyphicon glyphicon-yen"></span>:
@@ -196,7 +202,9 @@
 										<a index="${s.index}" muid="${m.muid}"
 											class="glyphicon glyphicon-minus-sign btnMinus <c:if test="${empty m.ocount or m.ocount == 0}">sr-only</c:if>"
 											style="cursor:pointer"></a> <a class=""><label id=""
-											class="label label-info badge"><c:if test="${not empty m.ocount and m.ocount != 0}">${m.ocount}</c:if></label> </a> <a index="${s.index}" muid="${m.muid}"
+											class="label label-info badge"><c:if
+													test="${not empty m.ocount and m.ocount != 0}">${m.ocount}</c:if>
+										</label> </a> <a index="${s.index}" muid="${m.muid}"
 											class="glyphicon glyphicon-plus-sign btnAdd"
 											style="cursor:pointer"></a>
 									</div>
@@ -204,16 +212,185 @@
 							</div></li>
 						<div class="page-header clearfix"
 							style="margin:10px 0px 10px 0px;padding: 0px;"></div>
-						<c:if test="${s.last}">
-							<div class="clearfix" style="margin-bottom: 60px;"></div>
-						</c:if>
 					</c:forEach>
 				</ul>
 			</div>
 		</div>
 		<%--菜单结束 --%>
+
+		<div class="sr-only" id="bean">
+			<table style="margin-top: 14px;" class="table">
+				<tbody>
+					<c:choose>
+						<c:when test="${message.totalCounts != 0}">
+							<c:forEach items="${message.beanList}" var="item" varStatus="s">
+								<c:if test="${s.last}">
+									<tr style="border-bottom: 1px #f1f1f1 solid;">
+								</c:if>
+								<c:if test="${not s.last}">
+									<tr>
+								</c:if>
+								<td>
+									<div class="media">
+										<div class="media-left">
+											<img class="img40 img-circle" src="<%=path%>/${item.photo}" />
+										</div>
+										<div class="media-body">
+											<h6 style="font-size: 12px;margin: 0px;padding-left: 10px;">
+												${item.username}<small class="pull-right">${item.mtime}</small>
+											</h6>
+											<p
+												style="padding-left: 10px;margin-bottom: 0px;margin-top: 4px;">
+												<a><span>${item.mcontent}</span> </a>
+											</p>
+											<c:choose>
+												<c:when test="${item.mscore == 5}">
+													<label class="label label-success pull-left"
+														style="margin: 5px 0px 10px 10px;">好评</label>
+												</c:when>
+												<c:when test="${item.mscore == 4}">
+													<label class="label label-primary pull-left"
+														style="margin: 5px 0px 10px 10px;">好评</label>
+												</c:when>
+												<c:when test="${item.mscore == 3}">
+													<label class="label label-default pull-left"
+														style="margin: 5px 0px 10px 10px;">中评</label>
+												</c:when>
+												<c:when test="${item.mscore == 2}">
+													<label class="label label-warning pull-left"
+														style="margin: 5px 0px 10px 10px;">差评</label>
+												</c:when>
+												<c:when test="${item.mscore == 1}">
+													<label class="label label-danger pull-left"
+														style="margin: 5px 0px 10px 10px;">差评</label>
+												</c:when>
+											</c:choose>
+										</div>
+									</div></td>
+								</tr>
+							</c:forEach>
+							<tr>
+								<td align="center">
+									<%--页码条:两个字，完美！ --%> <c:choose>
+										<c:when
+											test="${not empty message.totalPages and message.totalPages != 0}">
+											<c:choose>
+												<c:when test="${message.totalPages > 7}">
+													<c:set var="begin" value="${message.currentPage - 3}" />
+													<c:set var="end" value="${message.currentPage + 3}" />
+												</c:when>
+												<c:otherwise>
+													<c:set var="begin" value="1" />
+													<c:set var="end" value="${message.totalPages}" />
+												</c:otherwise>
+											</c:choose>
+											<c:if test="${begin < 1}">
+												<c:set var="begin" value="1" />
+												<c:set var="end" value="7" />
+											</c:if>
+											<c:if test="${end > message.totalPages}">
+												<c:set var="begin" value="${message.totalPages - 6}" />
+												<c:set var="end" value="${message.totalPages}" />
+											</c:if>
+											<div class="portfolio-pagination">
+												<ul class="pagination">
+													<li><a
+														href="shop!MenuList.action?rtid=${rtid}&cp=1&index=1"><span>首页</span>
+													</a>
+													</li>
+													<%--设置上一页是否被激活 --%>
+													<c:choose>
+														<c:when test="${message.currentPage > 1}">
+															<li><a
+																href="shop!MenuList.action?rtid=${rtid}&cp=${message.currentPage-1}&index=1"><span
+																	class="glyphicon glyphicon-chevron-left"></span> </a></li>
+														</c:when>
+														<c:otherwise>
+															<li class="disabled"><a href="javascript:;"><span
+																	class="glyphicon glyphicon-chevron-left"></span> </a></li>
+														</c:otherwise>
+													</c:choose>
+													<%--设置页数的开始页码 --%>
+													<c:forEach var="i" begin="${begin}" end="${end}">
+														<c:choose>
+															<c:when test="${message.currentPage == i}">
+																<li class="disabled"><a href="javascript:;"><span>${i}</span>
+																</a></li>
+															</c:when>
+															<c:otherwise>
+																<li><a
+																	href="shop!MenuList.action?rtid=${rtid}&cp=${i}&index=1"><span>${i}</span>
+																</a></li>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+													<%--设置下一页是否被激活 --%>
+													<c:choose>
+														<c:when
+															test="${message.currentPage != message.totalPages}">
+															<li><a
+																href="shop!MenuList.action?rtid=${rtid}&cp=${message.currentPage+1}&index=1"><span
+																	class="glyphicon glyphicon-chevron-right"></span> </a></li>
+														</c:when>
+														<c:otherwise>
+															<li class="disabled"><a href="javascript:;"><span
+																	class="glyphicon glyphicon-chevron-right"></span> </a></li>
+														</c:otherwise>
+													</c:choose>
+													<li><a
+														href="shop!MenuList.action?rtid=${rtid}&cp=${message.totalPages}&index=1"><span>尾页</span>
+													</a>
+													</li>
+												</ul>
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="portfolio-pagination">
+												<ul class="pagination">
+													<li>还没有顾客评价</li>
+												</ul>
+											</div>
+										</c:otherwise>
+									</c:choose> <%--/页码条 --%></td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td>暂时没有评价</td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
+				</tbody>
+			</table>
+		</div>
+		<%--评价结束 --%>
+		
+		<div class="sr-only" id="restaurant" style="margin-top: 14px;">
+			<div class="border4Circle">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>商家信息</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><span>${shopById.rtcontent}</span></td>
+						</tr>
+						<tr>
+							<td><span>地址 : ${shopById.rtaddr}</span></td>
+						</tr>
+						<tr>
+							<td><span>营业时间 : ${shopById.rtonbuz}</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<%--店铺信息结束 --%>
 	</div>
 
+	<div class="clearfix" style="margin-bottom: 70px;"></div>
 	<%--底部 --%>
 	<nav class="navbar navbar-default navbar-inverse navbar-fixed-bottom">
 		<div class="container">
@@ -271,11 +448,10 @@
 
 			</ul>
 		</div>
-		</div>
 	</nav>
 	<%--模态框(小) --%>
-	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
-		aria-labelledby="mySmallModalLabel">
+	<div id="modal" class="modal fade bs-example-modal-sm" tabindex="-1"
+		role="dialog" aria-labelledby="mySmallModalLabel">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -290,17 +466,16 @@
 						id="s-modal-body" class="h4"></span>
 				</div>
 				<div class="modal-footer" style="padding:5px;">
-					<a href="page!loginPage.action" id="logBtn" type="button" class="btn btn-info sr-only"
-						>登陆</a>
-					<button type="button" class="btn btn-info"
-						data-dismiss="modal">确认</button>
+					<a href="page!loginPage.action" id="logBtn" type="button"
+						class="btn btn-info sr-only">登陆</a>
+					<button type="button" class="btn btn-info" data-dismiss="modal">确认</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<%--模态框(中) --%>
-	<div class="modal fade bs-example-modal" tabindex="-1" role="dialog"
-		aria-labelledby="mySmallModalLabel">
+	<div id="modal2" class="modal fade bs-example-modal" tabindex="-1"
+		role="dialog" aria-labelledby="mySmallModalLabel">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">

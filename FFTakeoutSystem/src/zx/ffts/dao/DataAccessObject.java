@@ -170,15 +170,15 @@ public class DataAccessObject extends SQLExecutor {
 				currentPage, pageSize);
 		List<Object> paramList = new ArrayList<Object>();
 		if (params != null && params.length != 0) {
-			paramList = Arrays.asList(params);
+			paramList.addAll(Arrays.asList(params));
 		}
 		// 查询所有行数
 		String countSql = getCountSql(sql, where);
 		bean.setTotalCounts(executeScalarInteger(countSql, paramList.toArray()));
 		// 查询对应页的数据
 		String fullSql = getFullSql(sql, partition, order, where);
-		System.out.println(fullSql);
-		paramList.add((currentPage - 1) * pageSize + 1);
+		Integer begin = (currentPage - 1) * pageSize + 1;
+		paramList.add(begin);
 		paramList.add(currentPage * pageSize);
 		bean.setBeanList(getMapList(fullSql, true, paramList.toArray()));
 		return bean;

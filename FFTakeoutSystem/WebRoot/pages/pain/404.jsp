@@ -21,10 +21,21 @@
 <%--引入外部文件 --%>
 <link rel="stylesheet" href="<%=path%>/css/bootstrap.min.css"
 	type="text/css"></link>
-<link rel="stylesheet" href="<%=path%>/css/main.css"></link>
-<link rel="stylesheet" href="<%=path%>/css/error.css" type="text/css"></link>
+<%--与本页相关的css --%>
+<link href="<%=path%>/css/font-awesome.min.css" rel="stylesheet"
+	type="text/css"></link>
+<link href="<%=path%>/css/animate.min.css" rel="stylesheet"
+	type="text/css"></link>
+<link href="<%=path%>/css/lightbox.css" rel="stylesheet" type="text/css"></link>
+<link href="<%=path%>/css/responsive.css" rel="stylesheet"
+	type="text/css"></link>
+<%--通用样式 --%>
+<link href="<%=path%>/css/main.css" rel="stylesheet" type="text/css"></link>
+<link href="<%=path%>/css/page.css" rel="stylesheet" type="text/css"></link>
 <script type="text/javascript" src="<%=path%>/js/jquery-1.12.0.js"></script>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<%=path%>/js/lightbox.min.js"></script>
+<link rel="stylesheet" href="<%=path%>/css/error.css" type="text/css"></link>
 </head>
 
 <body>
@@ -41,18 +52,12 @@
 						class="icon-bar"></span>
 				</button>
 				<!--品牌logo -->
-				<a class="navbar-brand" href="#"><span
-					class="glyphicon glyphicon-globe">&nbsp;</span>Flowing Flame 在线订餐系统</a>
+				<a class="navbar-brand text-success" href="shop!ShopList.action"><span
+					class="glyphicon glyphicon-globe text-success">&nbsp;</span>F.Flame
+					在线订餐系统</a>
 			</div>
 			<!--导航条实际内容 -->
 			<div id="navbar" class="navbar-collapse collapse">
-				<!--站内导航 -->
-				<ul class="nav navbar-nav navbar-left">
-					<%--此项只为空一块出来 --%>
-					<li><div class="col-md-1"></div></li>
-					<li><a href="<c:url value='/page?method=goodsList' />"><span
-							class="glyphicon glyphicon-list">&nbsp;</span>Default</a></li>
-				</ul>
 				<!--用于显示用户中心 -->
 				<c:choose>
 					<c:when test="${not empty sessionScope.user}">
@@ -61,13 +66,17 @@
 								userid="${sessionScope.user.userid}"
 								username="${sessionScope.user.username}" class="dropdown-toggle"
 								data-toggle="dropdown" role="button" aria-haspopup="true"
-								aria-expanded="false">${sessionScope.user.username}
+								aria-expanded="false"><img
+									src="<%=path%>/${sessionScope.user.photo}"
+									class="img20 img-circle" />&nbsp;&nbsp;${sessionScope.user.username}
 									&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 							</a>
 								<ul class="dropdown-menu">
-									<li><a
-										href="<c:url value='/page?method=userCenter&userid=${sessionScope.userid}'/>">用户中心</a>
-									</li>
+									<li><a href="user!gotoUserCenter.action">用户中心</a></li>
+									<c:if test="${sessionScope.user.authority eq 2}">
+										<li><a href="page!restaurantMain.action">外卖接单</a>
+										</li>
+									</c:if>
 									<c:if test="${sessionScope.user.authority eq 3}">
 										<li><a href="page!restaurantMain.action">店铺管理</a>
 										</li>
@@ -82,14 +91,7 @@
 								</ul>
 							</li>
 						</ul>
-						<%--<ul class="nav navbar-nav navbar-right">
-							<li><a
-								href="<c:url value='/page?method=shoppingCart&userid=${sessionScope.userid}'/>"><span
-									class="glyphicon glyphicon-shopping-cart"></span>我的购物车</a></li>
-							<li><div class="col-md-1"></div>
-							</li>
-						</ul>
-					--%></c:when>
+					</c:when>
 					<c:otherwise>
 						<!-- 显示登录 -->
 						<ul class="nav navbar-nav navbar-right">
@@ -108,27 +110,13 @@
 			<h3>
 				40<span class="hlf">4</span>
 			</h3>
-			<p>数据意外消失在了宇宙的某个角落.....!</p>
+			<p style="font-size: 12px;">数据意外消失在了宇宙的某个角落.....!</p>
 			<p>
-				<a href="javascript:history.back();" class="btn btn-danger" role="button">返回</a>
+				<a href="javascript:history.back();" class="btn btn-danger"
+					role="button">返回</a>
 			</p>
 		</div>
 	</div>
 	<!--404-->
-	<footer class="navbar navbar-fixed-bottom"
-		style="background-color:#f1f1f1;">
-		<div class="container" style="padding-top:5px;">
-			<div class="nvabar-nav navbar-right">
-				<ul>
-					<li><a href="<c:url value='/page?method=homePage'/>">返回主页</a>
-					</li>
-				</ul>
-			</div>
-			<p>
-				&copy; 2016 Company, Inc. &middot; <a href="#">Pain</a> &middot; <a
-					href="#">DuoMai</a>
-			</p>
-		</div>
-	</footer>
 </body>
 </html>
