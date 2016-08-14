@@ -15,5 +15,9 @@ function assess(id){
    		  $("#"+i).find("font").attr("color","#ccc");
    		 }
      }
+	 var colors= $("#1").find("font").attr("color");
+	 if(colors=='#ccc'){
+		 $("#shopAssess").attr("hidden","true")
+	 }
 	 
 }
