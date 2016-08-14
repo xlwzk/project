@@ -122,98 +122,94 @@
 	<%--主体内容 --%>
 	<div class="hidden-xs" style="margin-top: 10px;"></div>
 	<div class="container">
-		<div class="row">
-			<%--商品图 --%>
-			<div class="col-sm-6">
-				<img id="goodspic" src="<%=path%>/${menuItem.mupic}"
-					class="img-responsive img-thumbnail img100"
-					alt="${menuItem.muname}">
-			</div>
-			<%--详情 --%>
-			<div class="col-sm-6">
-				<%--只在小窗口显示 --%>
-				<div class="visible-xs" style="margin-top: 10px;">
-					<a class="pull-left clearfix" style="margin-left: 10px;"
-						href="shop!getMenuItem.action?muid=${menuItem.muid}">${menuItem.muname}</a>
-					<label class="label label-danger pull-right">${menuItem.mudesc}</label>
-					<div style="margin: 0px;padding: 0px;">&nbsp;</div>
-					<p class="info" style="margin: 0px 0px 0px 10px;padding: 0px;">月售
-						${menuItem.musale} 份</p>
-					<h3 class="text-danger pull-left" style="margin:5px 0px 0px 10px;">
-						<span class="glyphicon glyphicon-yen"></span>:
-						<fmt:formatNumber value="${menuItem.muprice}" pattern="0.00" />
-					</h3>
-					<div class="pull-right" style="width: 120px;text-align: right;">
-						<a index="0" muid="${menuItem.muid}"
-							class="glyphicon glyphicon-minus-sign btnMinus <c:if test="${empty menuItem.ocount or menuItem.ocount == 0}">sr-only</c:if>"
-							style="cursor:pointer"></a> <a class=""><label id=""
-							class="label label-info badge"><c:if
-									test="${not empty menuItem.ocount and menuItem.ocount != 0}">${menuItem.ocount}</c:if>
-						</label> </a> <a index="0" muid="${menuItem.muid}"
-							class="glyphicon glyphicon-plus-sign btnAdd"
-							style="cursor:pointer"></a> <a index="0" class="btnAddToCart"
-							style="background-color: #a5732a;color: white;padding: 2px 10px;border-radius:10px;font-size: 12px;cursor: pointer;">加入购物车</a>
-					</div>
-					<div class="clearfix"
-						style="border-bottom: 2px #ccc solid;padding-bottom: 10px;"></div>
+		<%--商品图 --%>
+		<div class="col-sm-6">
+			<img id="goodspic" src="<%=path%>/${menuItem.mupic}"
+				class="img-responsive img-thumbnail img100" alt="${menuItem.muname}">
+		</div>
+		<%--详情 --%>
+		<div class="col-sm-6">
+			<%--只在小窗口显示 --%>
+			<div class="visible-xs" style="margin-top: 10px;">
+				<a class="pull-left clearfix" style="margin-left: 10px;"
+					href="shop!getMenuItem.action?muid=${menuItem.muid}">${menuItem.muname}</a>
+				<label class="label label-danger pull-right">${menuItem.mudesc}</label>
+				<div style="margin: 0px;padding: 0px;">&nbsp;</div>
+				<p class="info" style="margin: 0px 0px 0px 10px;padding: 0px;">月售
+					${menuItem.musale} 份</p>
+				<h3 class="text-danger pull-left" style="margin:5px 0px 0px 10px;">
+					<span class="glyphicon glyphicon-yen"></span>:
+					<fmt:formatNumber value="${menuItem.muprice}" pattern="0.00" />
+				</h3>
+				<div class="pull-right" style="width: 120px;text-align: right;">
+					<a index="0" muid="${menuItem.muid}"
+						class="glyphicon glyphicon-minus-sign btnMinus <c:if test="${empty menuItem.ocount or menuItem.ocount == 0}">sr-only</c:if>"
+						style="cursor:pointer"></a> <a class=""><label id=""
+						class="label label-info badge"><c:if
+								test="${not empty menuItem.ocount and menuItem.ocount != 0}">${menuItem.ocount}</c:if>
+					</label> </a> <a index="0" muid="${menuItem.muid}"
+						class="glyphicon glyphicon-plus-sign btnAdd"
+						style="cursor:pointer"></a> <a index="0" class="btnAddToCart"
+						style="background-color: #a5732a;color: white;padding: 2px 10px;border-radius:10px;font-size: 12px;cursor: pointer;">加入购物车</a>
 				</div>
-				<%--只在大窗口显示 --%>
-				<div class="hidden-xs">
-					<div class="project-name overflow">
-						<h3 class="bold" style="font-size:40px;">${menuItem.muname}</h3>
-					</div>
-					<div class="project-name overflow">
-						<h2></h2>
-						<ul class="nav navbar-nav navbar-default"
-							style="background:none;padding:0;">
-							<li><a href="#" class="text-danger"
-								style="font-size:12px;padding:0;padding-right:15px;"><span
-									class="glyphicon glyphicon-tag">&nbsp;</span>月售 <span
-									id="goodsSales">${menuItem.musale}</span> 份</a></li>
-						</ul>
-					</div>
-					<div class="project-name overflow">
-						<h2></h2>
-						<ul class="nav navbar-nav navbar-default"
-							style="background:none;padding:0;">
-							<li><a href="#" class="text-danger"
-								style="font-size:12px;padding:0;padding-right:15px;"> <span
-									class="glyphicon glyphicon-tag">&nbsp;</span><span>${menuItem.mutype}</span>
-							</a></li>
-						</ul>
-					</div>
-					<div class="project-name overflow">
-						<ul class="navbar-default"
-							style="background:none;margin-top:30px;padding:0;">
-							<li class="page-header"><span
-								class="glyphicon glyphicon-yen" style="font-size:30px;"></span><a
-								href="#" class="text-danger"
-								style="font-size:50px;padding:0;padding-right:15px;color:#a21e46;font-weight:bold;">
-									: <fmt:formatNumber value="${menuItem.muprice}" pattern="0.00" />
-							</a></li>
-						</ul>
-					</div>
-					<div class="pull-right" style="width: 220px;text-align: right">
-						<a index="1" muid="${menuItem.muid}"
-							class="glyphicon glyphicon-minus-sign btnMinus <c:if test="${empty menuItem.ocount or menuItem.ocount == 0}">sr-only</c:if>"
-							style="cursor:pointer;font-size: 26px;"></a> <a class=""><label
-							id="" style="font-size: 20px;margin-bottom: 16px;"
-							class="label label-info badge"><c:if
-									test="${not empty menuItem.ocount and menuItem.ocount != 0}">${menuItem.ocount}</c:if>
-						</label> </a> <a index="1" muid="${menuItem.muid}"
-							class="glyphicon glyphicon-plus-sign btnAdd"
-							style="cursor:pointer;font-size: 26px;"></a> <a index="1"
-							class="btnAddToCart"
-							style="background-color: #a5732a;color: white;padding: 5px 20px;border-radius:20px;font-size: 20px;cursor: pointer;">加入购物车</a>
-					</div>
-					<div class="pull-left">
-						<a><span style="font-size: 20px;">点击购买:</span> </a>
-					</div>
+				<div class="clearfix"
+					style="border-bottom: 2px #ccc solid;padding-bottom: 10px;"></div>
+			</div>
+			<%--只在大窗口显示 --%>
+			<div class="hidden-xs">
+				<div class="project-name overflow">
+					<h3 class="bold" style="font-size:40px;">${menuItem.muname}</h3>
+				</div>
+				<div class="project-name overflow">
+					<h2></h2>
+					<ul class="nav navbar-nav navbar-default"
+						style="background:none;padding:0;">
+						<li><a href="#" class="text-danger"
+							style="font-size:12px;padding:0;padding-right:15px;"><span
+								class="glyphicon glyphicon-tag">&nbsp;</span>月售 <span
+								id="goodsSales">${menuItem.musale}</span> 份</a></li>
+					</ul>
+				</div>
+				<div class="project-name overflow">
+					<h2></h2>
+					<ul class="nav navbar-nav navbar-default"
+						style="background:none;padding:0;">
+						<li><a href="#" class="text-danger"
+							style="font-size:12px;padding:0;padding-right:15px;"> <span
+								class="glyphicon glyphicon-tag">&nbsp;</span><span>${menuItem.mutype}</span>
+						</a></li>
+					</ul>
+				</div>
+				<div class="project-name overflow">
+					<ul class="navbar-default"
+						style="background:none;margin-top:30px;padding:0;">
+						<li class="page-header"><span class="glyphicon glyphicon-yen"
+							style="font-size:30px;"></span><a href="#" class="text-danger"
+							style="font-size:50px;padding:0;padding-right:15px;color:#a21e46;font-weight:bold;">
+								: <fmt:formatNumber value="${menuItem.muprice}" pattern="0.00" />
+						</a></li>
+					</ul>
+				</div>
+				<div class="pull-right" style="width: 220px;text-align: right">
+					<a index="1" muid="${menuItem.muid}"
+						class="glyphicon glyphicon-minus-sign btnMinus <c:if test="${empty menuItem.ocount or menuItem.ocount == 0}">sr-only</c:if>"
+						style="cursor:pointer;font-size: 26px;"></a> <a class=""><label
+						id="" style="font-size: 20px;margin-bottom: 16px;"
+						class="label label-info badge"><c:if
+								test="${not empty menuItem.ocount and menuItem.ocount != 0}">${menuItem.ocount}</c:if>
+					</label> </a> <a index="1" muid="${menuItem.muid}"
+						class="glyphicon glyphicon-plus-sign btnAdd"
+						style="cursor:pointer;font-size: 26px;"></a> <a index="1"
+						class="btnAddToCart"
+						style="background-color: #a5732a;color: white;padding: 5px 20px;border-radius:20px;font-size: 20px;cursor: pointer;">加入购物车</a>
+				</div>
+				<div class="pull-left">
+					<a><span style="font-size: 20px;">点击购买:</span> </a>
 				</div>
 			</div>
 		</div>
 
-		<div style="margin: 40px 0px 0px;">
+		<div style="margin: 40px 0px 0px;" class="col-sm-6">
 			<table class="table borderCircle2">
 				<thead>
 					<tr>
@@ -221,11 +217,14 @@
 							<h3 style="padding: 5px;margin: 0px;">
 								商品评价
 								<c:if test="${menuItem.haoping != 0}">
-									<small class="pull-right" style="margin-top: 10px;"><label class="label label-success">${menuMess.info.sumnum }个评价</label> 好评率 <fmt:formatNumber
-											value="${menuItem.haoping * 100}" pattern="0.0" />% </small>
+									<small class="pull-right" style="margin-top: 10px;"><label
+										class="label label-success">${menuMess.info.sumnum
+											}个评价</label> 好评率 <fmt:formatNumber value="${menuItem.haoping * 100}"
+											pattern="0.0" />% </small>
 								</c:if>
 								<c:if test="${menuItem.haoping == 0}">
-									<small class="pull-right" style="margin-top: 10px;"> 暂无评价</small>
+									<small class="pull-right" style="margin-top: 10px;">
+										暂无评价</small>
 								</c:if>
 							</h3></th>
 					</tr>
@@ -233,18 +232,25 @@
 				<tbody>
 					<c:forEach items="${menuMess.list}" var="m">
 						<tr>
-							<td><span class="pull-left">${m.mmdate}
-							<c:choose>
-								<c:when test="${m.mmscore == 5}"><label class="label label-success">好评</label></c:when>
-								<c:when test="${m.mmscore == 4}"><label class="label label-primary">好评</label></c:when>
-								<c:when test="${m.mmscore == 3}"><label class="label label-default">中评</label></c:when>
-								<c:when test="${m.mmscore == 2}"><label class="label label-warning">差评</label></c:when>
-								<c:when test="${m.mmscore == 1}"><label class="label label-danger">差评</label></c:when>
-							</c:choose>
-							</span> <span
-								class="pull-right">${m.mm}&nbsp;&nbsp;<img
-									class="img20 img-circle" src="<%=path%>/${m.photo}" /> </span>
-								<span class="clearfix" style="margin: 0px;padding: 0px;">&nbsp;</span>
+							<td><span class="pull-left">${m.mmdate} <c:choose>
+										<c:when test="${m.mmscore == 5}">
+											<label class="label label-success">好评</label>
+										</c:when>
+										<c:when test="${m.mmscore == 4}">
+											<label class="label label-primary">好评</label>
+										</c:when>
+										<c:when test="${m.mmscore == 3}">
+											<label class="label label-default">中评</label>
+										</c:when>
+										<c:when test="${m.mmscore == 2}">
+											<label class="label label-warning">差评</label>
+										</c:when>
+										<c:when test="${m.mmscore == 1}">
+											<label class="label label-danger">差评</label>
+										</c:when>
+									</c:choose> </span> <span class="pull-right">${m.mm}&nbsp;&nbsp;<img
+									class="img20 img-circle" src="<%=path%>/${m.photo}" /> </span> <span
+								class="clearfix" style="margin: 0px;padding: 0px;">&nbsp;</span>
 								<span class="">${m.mmcontent}</span>
 							</td>
 						</tr>
@@ -374,7 +380,7 @@
 				<!--站内导航 -->
 				<ul class="nav navbar-nav navbar-left">
 					<%--此项只为空一块出来 --%>
-					<li><a href="shop!ShopList.action"><span
+					<li><a href="shop!MenuList.action?rtid=${rtid}"><span
 							class="glyphicon glyphicon-circle-arrow-left">&nbsp;</span>返回</a></li>
 					<li><div class="col-md-1"></div></li>
 					<li><a href="#" class="orderNow"><span

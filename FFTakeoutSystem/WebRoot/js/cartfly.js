@@ -218,17 +218,17 @@ $(function() {
 		$(this).addClass("active");
 		var index = $(this).attr("index");
 		if(index==0){
-			$("#menu").removeClass("sr-only");
-			$("#bean").addClass("sr-only");
-			$("#restaurant").addClass("sr-only");
+			$("#menu").removeClass("hidden-xs");
+			$("#bean").addClass("hidden-xs");
+			$("#restaurant").addClass("hidden-xs");
 		}else if(index==1){
-			$("#menu").addClass("sr-only");
-			$("#bean").removeClass("sr-only");
-			$("#restaurant").addClass("sr-only");
+			$("#menu").addClass("hidden-xs");
+			$("#bean").removeClass("hidden-xs");
+			$("#restaurant").addClass("hidden-xs");
 		}else{
-			$("#menu").addClass("sr-only");
-			$("#bean").addClass("sr-only");
-			$("#restaurant").removeClass("sr-only");
+			$("#menu").addClass("hidden-xs");
+			$("#bean").addClass("hidden-xs");
+			$("#restaurant").removeClass("hidden-xs");
 		}
 	});
  
@@ -282,8 +282,8 @@ function orderNow(rtid,userid,i){
 function setMenuBar(top){
 	if(top==0){
 		$("#menubar").attr("style","margin: 0px;padding: 0px;position: fixed;");
-	}else if(top<=134.6){
-		$("#menubar").css("top",190.6-top);
+	}else if(top<=105.6){
+		$("#menubar").css("top",155.6-top);
 	}else{
 		$("#menubar").css("top",56);
 	}

@@ -129,7 +129,7 @@
 				<label class="label label-primary">${shopById.rtaddr}</label>
 			</div>
 		</div>
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs visible-xs">
 			<li index="0" name="nav" class="active"><a href="#">菜单</a>
 			</li>
 			<li index="1" name="nav"><a href="#">评论</a>
@@ -138,7 +138,7 @@
 			</li>
 		</ul>
 		<div id="menu">
-			<div class="col-xs-3 col-md-2" id="menubar"
+			<div class="col-xs-3 col-md-1" id="menubar"
 				style="margin: 0px;padding: 0px;position: fixed;">
 				<div class="sidebar-item categories">
 					<ul class="nav navbar-stacked">
@@ -155,7 +155,7 @@
 					</ul>
 				</div>
 			</div>
-			<div class="col-xs-10 col-xs-push-2 col-md-10 col-md-push-2"
+			<div class="col-xs-10 col-xs-push-2 col-md-8 col-md-push-1"
 				style="margin: 0px;padding: 0px;">
 				<ul class="">
 					<c:set var="tindex" value="0" scope="page" />
@@ -212,13 +212,43 @@
 							</div></li>
 						<div class="page-header clearfix"
 							style="margin:10px 0px 10px 0px;padding: 0px;"></div>
+							<c:if test="${s.last}">
+								<div class="clearfix" style="margin-bottom: 70px;"></div>
+							</c:if>
 					</c:forEach>
 				</ul>
 			</div>
 		</div>
 		<%--菜单结束 --%>
+		
+		
+		<div class="hidden-xs col-md-3 col-md-push-1" id="restaurant" style="margin-top: 14px;">
+			<div class="border4Circle">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>商家信息</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><span>${shopById.rtcontent}</span></td>
+						</tr>
+						<tr>
+							<td><span>地址 : ${shopById.rtaddr}</span></td>
+						</tr>
+						<tr>
+							<td><span>营业时间 : ${shopById.rtonbuz}</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		<div class="clearfix visible-xs" style="margin-bottom: 70px;"></div>
+		</div>
+		<%--店铺信息结束 --%>
 
-		<div class="sr-only" id="bean">
+		<div class="hidden-xs col-md-3 col-md-push-1" id="bean">
+			<h3 class="hidden-xs" style="padding-top: 20px;">最新评论</h3>
 			<table style="margin-top: 14px;" class="table">
 				<tbody>
 					<c:choose>
@@ -362,35 +392,12 @@
 					</c:choose>
 				</tbody>
 			</table>
+			<div class="clearfix visible-xs" style="margin-bottom: 70px;"></div>
 		</div>
 		<%--评价结束 --%>
 		
-		<div class="sr-only" id="restaurant" style="margin-top: 14px;">
-			<div class="border4Circle">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>商家信息</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><span>${shopById.rtcontent}</span></td>
-						</tr>
-						<tr>
-							<td><span>地址 : ${shopById.rtaddr}</span></td>
-						</tr>
-						<tr>
-							<td><span>营业时间 : ${shopById.rtonbuz}</span></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<%--店铺信息结束 --%>
 	</div>
 
-	<div class="clearfix" style="margin-bottom: 70px;"></div>
 	<%--底部 --%>
 	<nav class="navbar navbar-default navbar-inverse navbar-fixed-bottom">
 		<div class="container">
