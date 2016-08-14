@@ -57,4 +57,5 @@ public class UserCenterTransaction implements Transactable {
 		}
 		return list;
 	}
+	
 }

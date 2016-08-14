@@ -64,6 +64,7 @@
 			<result name="deleteCar">/pages/yyq/MenuList.jsp</result>
 			<result name="getDetail">/pages/xiong/orderDetail.jsp</result>
 			<result name="getShop">/pages/xiong/account.jsp</result>
+			<result name="getAssess">/pages/xiong/assess.jsp</result>
 		</action>
 		<action name="order" class="zx.ffts.web.action.xiongli.OrderAction">
 			<result name="accountPage">/pages/xiong/</result>
