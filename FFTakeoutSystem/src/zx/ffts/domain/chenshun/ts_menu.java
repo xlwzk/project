@@ -1,4 +1,4 @@
-package zx.java.entity.chenshun;
+package zx.ffts.domain.chenshun;
 
 import java.io.Serializable;
 

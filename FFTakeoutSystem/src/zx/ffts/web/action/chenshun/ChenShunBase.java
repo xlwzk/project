@@ -10,9 +10,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
-import zx.java.entity.chenshun.ts_menu;
-import zx.java.entity.chenshun.ts_order;
-import zx.java.entity.chenshun.up_load;
+import zx.ffts.domain.chenshun.ts_menu;
+import zx.ffts.domain.chenshun.ts_order;
+import zx.ffts.domain.chenshun.up_load;
 
 public class ChenShunBase  implements ServletRequestAware,ServletResponseAware{
 	

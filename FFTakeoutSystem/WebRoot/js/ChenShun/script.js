@@ -26,8 +26,8 @@ function ts_menu(){
 	
 	$('#searchDiv').panel('open');
 	 var s="   菜单名称：<input type='text'  id='name'/>";
-     s+="  菜单价格 :<input type='text'  id='price'/>"
-     s+="   菜单类型: <input  type='text'  name='type'/>"
+     s+="     菜单价格 :<input type='text'  id='price'/>"
+     s+="    菜单类型: <input  type='text'  name='type'/>"
 	  s+=" <a id='searchBtn'>查询</a>"	
      $("#searchDiv").html(s);
 	  var fiag=true;
@@ -37,8 +37,21 @@ function ts_menu(){
 		  url:"cs!LoadType.action?v="+Math.random(),
 		  valueField:"MUTYPE",
 		  textField:"MUTYPE",     
-		  panelHeight:"108"  // 设置高度
+	 	  panelHeight:"108" , // 设置高度
+	 	  editable: false, //不允许手动输入
+	      onLoadSuccess: function () { //加载完成后,设置选中第一项
+              var val = $(this).combobox("getData");
+              for (var item in val[0]) {
+                  if (item == "MUTYPE") {
+                      $(this).combobox("select", val[0][item]);
+                  }
+              }
+          }
+	 		
+	 		   
 		  });
+	
+    
 
 	  $('#searchBtn').linkbutton({  // 渲染成按钮
 	  	iconCls:'icon-search'  
@@ -55,7 +68,7 @@ function ts_menu(){
 	$("#myTable").datagrid({
 		toolbar:[
 		         {text:"新增",iconCls:"icon-add",handler:function(){ 
-		        	 
+		        	  $("#myfrm")[0].reset(); //重置表单数据 
 		        	 //添加首先添加窗口值改变
 				    	$("#mydiv").dialog({
 				    		iconCls:'icon-add',
@@ -71,7 +84,6 @@ function ts_menu(){
 				                
 				    		    	  $.messager.alert("添加提示","添加成功","info")
 				    		    	  $("#mydiv").dialog("close");//关闭
-				    	    				$("#myfrm").form("clear");  //表单清空
 				    	    				$("#myTable").datagrid("reload");  //从当前页加载
 				                 }else{
 				                	  $.messager.alert("添加提示","请填写完整信息","info")
@@ -336,8 +348,6 @@ function ts_order(){
 	$('#searchDiv').panel('open');  // 打开面板
 	 var s="订单状态：<select id='status' style='width: 110px'>";
       s+=" <option value='-1'>全部订单</option>";
-      s+=" <option value='0'>购物车中</option>";
-      s+=" <option value='1'>已下单(未支付)</option>";
       s+=" <option value='2'>已付款</option>";
       s+=" <option value='3'>已接单</option>";
       s+=" <option value='4'>配送中</option>";
@@ -378,7 +388,7 @@ function ts_order(){
 	
 		
 		 // 加载数据
-		   idField:'OID',// 標識id字段
+		  
 			url:"cs!LoadOrder.action?v="+Math.random(), // 从哪里加载数据
 			fitColumns:true,// 适应宽度，防止 出现左右滚动条
 			loadMsg:"正在加载，请稍等....",
@@ -390,11 +400,12 @@ function ts_order(){
 			pageSize:5,// 默认显示5条
 			rownumbers:true,// 显示行号
 			singleSelect:false,// 只允许中一行
+		
 			columns:[[	    
-			      {field:'OID',title:'编号',width:300,align:'center',checkbox:true},
+			      {field:'RM',title:'编号',width:300,align:'center'},
 			      {field:'USERNAME',title:'客户名称',width:300,align:'center',sortable:true},
-			     {field:'MUNAME',title:'菜单名称',width:300,align:'center',sortable:true},
-			     {field:'MUPRICE',title:'菜单单价',width:300,align:'center',sortable:true},	
+			     //{field:'MUNAME',title:'菜单名称',width:300,align:'center',sortable:true},
+			    // {field:'MUPRICE',title:'菜单单价',width:300,align:'center',sortable:true},	
 			     {field:'ODATE',title:'订单时间',width:300,align:'center',sortable:true},		
 			    {field:'OSTATUS',title:'订单状态',width:300,align:'center',sortable:true,formatter:function(value,row,index){
 		    	    if(value==0){ 
@@ -414,12 +425,19 @@ function ts_order(){
 		     }
 		     
 		     },		
-			     {field:'OCOUNT',title:'菜单数量',width:300,align:'center',sortable:true},
-			     {field:'SUM',title:'金额',width:300,align:'center',sortable:true}
+			    // {field:'OCOUNT',title:'菜单数量',width:300,align:'center',sortable:true},
+			     //{field:'SUM',title:'金额',width:300,align:'center',sortable:true}
+		     {field:'opt',title:'操作',width:160,align:'center',  
+		            formatter:function(value,rec){  
+		                var btn = '<a class="xiangqing" onclick="xiangqing(\''+rec.OUUID+'\')" href="javascript:void(0)">详情</a>';  
+		                return btn;  
+		            }  
+		        }  
 			    
-			    
-			]]		
-		
+			]],		
+			 onLoadSuccess:function(data){
+		        $('.xiangqing').linkbutton({text:'详情',plain:true,iconCls:'icon-tip'});  
+		    }  
 
 	});
 	
@@ -496,73 +514,72 @@ function  dataview(){
 function ts_order_yes(){
 	$("#myTable").html("");
 	
-	 $('div.datagrid-toolbar a').hide();  //隐藏
-	
-	
 	
 	$('#searchDiv').panel('close');  // 打开面板
 
 	$("#myTable").datagrid({
-		
-		      toolbar:[
-		         {text:"开始接单",iconCls:"icon-add",handler:function(){  
-		        	 setTimeout($("#myTable").datagrid("reload"),1000); //指定1秒刷新一次 
+		toolbar:[
+		         {text:"刷新",iconCls:"icon-reload",handler:function(){
+		        	 $("#myTable").datagrid("reload"); 	        	
 			         }},
-		         
+			         
+			   
+		           
 		         
 		         ],
-	
 		
-		 // 加载数据
-		   idField:'OID',// 標識id字段
+		 // 加载数据 
 			url:"cs!LoadOrderYes.action?v="+Math.random(), // 从哪里加载数据
 			fitColumns:true,// 适应宽度，防止 出现左右滚动条
 			loadMsg:"正在加载，请稍等....",
 			method:"post",
-		
+			checkOnSelect:false,
 			striped:true,// 奇偶行变行
 			pagination:true,// 显示分页
 			pageList:[1,2,3,5,10,20,30,50],
 			pageSize:5,// 默认显示5条
 			rownumbers:true,// 显示行号
 			singleSelect:false,// 只允许中一行
+		
 			columns:[[	    
-			      {field:'OID',title:'编号',width:300,align:'center',checkbox:true},
-			      {field:'USERNAME',title:'客户名称',width:300,align:'center',sortable:true},
-			     {field:'MUNAME',title:'菜单名称',width:300,align:'center',sortable:true},
-			     {field:'MUPRICE',title:'菜单单价',width:300,align:'center',sortable:true},	
-			     {field:'ODATE',title:'订单时间',width:300,align:'center',sortable:true},		
-			    {field:'OSTATUS',title:'订单状态',width:300,align:'center',sortable:true,formatter:function(value,row,index){
-		    	    if(value==0){ 
-		    		 return "<span style='color:green'><b>购物车中</b></span>";
-			    	 }else if(value==1){
-			    		 return "<span style='color:red'><b>已下单(未支付)</b></span>";
-			    	 }else if(value==2){
-			    		 return "<span style='color:red'><b>用户已付款</b></span>";  
-				    	 }else if(value==3){
-				    		 return "<span style='color:#FF8C00'><b>已接单</b></span>";		    
-				    		 }else if(value==4){
-		    	               	 return "<span style='color:#FFFFFF'><b>配送中</b></span>";
-				    	          }else if(value==5){
-			    		 return "<span style='color:#999999'><b>交易成功</b></span>";
-			    	 }
-                    
-		     }
-		     
-		     },		
-			     {field:'OCOUNT',title:'菜单数量',width:300,align:'center',sortable:true},
-			     {field:'SUM',title:'金额',width:300,align:'center',sortable:true},
-			     {field:'opt',title:'操作',width:160,align:'center',  
-			            formatter:function(value,rec){  
-			                var btn = '<a class="editcls" onclick="editRow(\''+rec.OID+'\')" href="javascript:void(0)">查看详情</a>';  
-			                return btn;  
-			            }  
-			        }  
-			    
+			          {field:'RM',title:'编号',width:300,align:'center'},
+					    //  {field:'USERNAME',title:'客户名称',width:300,align:'center',sortable:true},
+					    // {field:'MUNAME',title:'菜单名称',width:300,align:'center',sortable:true},
+					    // {field:'MUPRICE',title:'菜单单价',width:300,align:'center',sortable:true},
+					      
+					     {field:'ODATE',title:'订单时间',width:300,align:'center',sortable:true},		
+					    {field:'OSTATUS',title:'订单状态',width:300,align:'center',sortable:true,formatter:function(value,row,index){
+				    	    if(value==0){ 
+				    		 return "<span style='color:green'><b>购物车中</b></span>";
+					    	 }else if(value==1){
+					    		 return "<span style='color:red'><b>已下单(未支付)</b></span>";
+					    	 }else if(value==2){
+					    		 return "<span style='color:red'><b>用户已付款</b></span>";  
+						    	 }else if(value==3){
+						    		 return "<span style='color:#FF8C00'><b>已接单</b></span>";		    
+						    		 }else if(value==4){
+				    	               	 return "<span style='color:#FFFFFF'><b>配送中</b></span>";
+						    	          }else if(value==5){
+					    		 return "<span style='color:#999999'><b>交易成功</b></span>";
+					    	 }
+		                     
+				     }
+				     
+				     },		
+					    // {field:'OCOUNT',title:'菜单数量',width:300,align:'center',sortable:true},
+					    // {field:'SUM',title:'金额',width:300,align:'center',sortable:true},
+					     {field:'opt',title:'操作',width:160,align:'center',  
+					            formatter:function(value,rec){  
+					                var btn = '<a class="xiangqing" onclick="xiangqing(\''+rec.OUUID+'\')" href="javascript:void(0)">详情</a>';  
+					                return btn;  
+					            }  
+					        }  
 			]]	,	
-			 onLoadSuccess:function(data){  
-		        $('.editcls').linkbutton({text:'查看详情',plain:true,iconCls:'icon-add'});  
+			 onLoadSuccess:function(data){
+		        $('.xiangqing').linkbutton({text:'详情',plain:true,iconCls:'icon-tip'});  
 		    }  
+	   
+	
 	
 	       
 		
@@ -570,34 +587,39 @@ function ts_order_yes(){
 	});
 	
 	
-	
 }
 
 /**
  * 未处理订单
  */
+var int;
 function ts_order_no(){
 	$("#myTable").html("");
-	
-	 $('div.datagrid-toolbar a').hide();  //隐藏
-	
-	
-	
+	  
 	$('#searchDiv').panel('close');  // 打开面板
 
 	$("#myTable").datagrid({
-		
+		 
 		toolbar:[
-		         {text:"开始接单",iconCls:"icon-add",handler:function(){
-		        	 setTimeout($("#myTable").datagrid("reload"),1000); //指定1秒刷新一次 
+		         {text:"开始接单",iconCls:"icon-ok",handler:function(){    
+		        	 $.messager.alert("系统提示","已开始接单!","info");
+		        	  int=setInterval(function(){   //setInterval()定时器
+		        		 $("#myTable").datagrid("reload"); 
+		        	 },10000); //指定1秒刷新一次    	 
+		        	  
 			         }},
-		         
+			         
+			         {text:"关闭接单",iconCls:"icon-no",handler:function(){
+			        	 clearInterval(int);
+			        	 $.messager.alert("系统提示","已关闭接单!","info");
+				         }},
+		           
 		         
 		         ],
 	
 		
 		 // 加载数据
-		   idField:'OID',// 標識id字段
+		  
 			url:"cs!LoadOrderNo.action?v="+Math.random(), // 从哪里加载数据
 			fitColumns:true,// 适应宽度，防止 出现左右滚动条
 			loadMsg:"正在加载，请稍等....",
@@ -609,11 +631,13 @@ function ts_order_no(){
 			pageSize:5,// 默认显示5条
 			rownumbers:true,// 显示行号
 			singleSelect:false,// 只允许中一行
+			
 			columns:[[	    
-			      {field:'OID',title:'编号',width:300,align:'center',checkbox:true},
-			      {field:'USERNAME',title:'客户名称',width:300,align:'center',sortable:true},
-			     {field:'MUNAME',title:'菜单名称',width:300,align:'center',sortable:true},
-			     {field:'MUPRICE',title:'菜单单价',width:300,align:'center',sortable:true},	
+			      {field:'RM',title:'编号',width:300,align:'center'},
+			    //  {field:'USERNAME',title:'客户名称',width:300,align:'center',sortable:true},
+			    // {field:'MUNAME',title:'菜单名称',width:300,align:'center',sortable:true},
+			    // {field:'MUPRICE',title:'菜单单价',width:300,align:'center',sortable:true},
+			      
 			     {field:'ODATE',title:'订单时间',width:300,align:'center',sortable:true},		
 			    {field:'OSTATUS',title:'订单状态',width:300,align:'center',sortable:true,formatter:function(value,row,index){
 		    	    if(value==0){ 
@@ -633,11 +657,11 @@ function ts_order_no(){
 		     }
 		     
 		     },		
-			     {field:'OCOUNT',title:'菜单数量',width:300,align:'center',sortable:true},
-			     {field:'SUM',title:'金额',width:300,align:'center',sortable:true},
+			    // {field:'OCOUNT',title:'菜单数量',width:300,align:'center',sortable:true},
+			    // {field:'SUM',title:'金额',width:300,align:'center',sortable:true},
 			     {field:'opt',title:'操作',width:160,align:'center',  
 			            formatter:function(value,rec){  
-			                var btn = '<a class="editcls" onclick="editRow(\''+rec.OID+'\')" href="javascript:void(0)">接单</a>';  
+			                var btn = '<a class="xiangqing" onclick="xiangqing(\''+rec.OUUID+'\')" href="javascript:void(0)">详情</a>  <a class="editcls" onclick="editRow(\''+rec.ORTID+'\',\''+rec.OUUID+'\')" href="javascript:void(0)">接单</a>';  
 			                return btn;  
 			            }  
 			        }  
@@ -645,7 +669,10 @@ function ts_order_no(){
 			]]	,	
 			 onLoadSuccess:function(data){  
 		        $('.editcls').linkbutton({text:'接单',plain:true,iconCls:'icon-add'});  
+		        $('.xiangqing').linkbutton({text:'详情',plain:true,iconCls:'icon-tip'});  
 		    }  
+	   
+	
 	
 	       
 		
@@ -659,10 +686,10 @@ function ts_order_no(){
  * @param id
  * @return
  */
-function editRow(id){
-	  $.post("cs!JieDanOrder.action?v="+Math.random(),{"id":id},function(data){
+function editRow(ortid,ouuid){
+	  $.post("cs!JieDanOrder.action?v="+Math.random(),{"ortid":ortid,"uuid":ouuid},function(data){
 		  var o = eval("("+data+")");
-		  if(o.jiedan==1){
+		  if(o.jiedan>0){
 			  $("#myTable").datagrid("reload");  // 重新加载数据，但是数据会停留在当前页
 			  $.messager.show({
 	          		showType:"slide",
@@ -685,9 +712,145 @@ function editRow(id){
 		  
 		  
 		  })
+} 
+/**
+ * 查看详情
+ * @param uuid
+ * @return
+ */
+function xiangqing(uuid){	
+	//添加首先添加窗口值改变
+	
+	$("#myorder").dialog({
+		iconCls:'icon-tip',
+		title:"详细信息"	
+	});
+     	
+	
+	
+	$("#myorder").dialog("open");//打开窗口
+//	$("#addBtn").click(function(){	 
+        $.post("cs!OrderXiangQing.action?v="+Math.random(),{"uuid":uuid},function(data){
+        	var num=0;
+        	
+        	  var o = eval("("+data+")");
+        	  var list= o.XiangQing;
+        
+        	  
+        	
+        	
+        	
+        	var s="<h3  align='center'>**********欢迎光临:"+o.rtname+"*********</h3>";
+        	s+="<table align='center' style='margin-left:-30px;'>";
+  		  s+="<th>列表</th><th>数量</th><th>金额</th>" 			
+        	  $.each(list, function(idx, obj) {
+        		     num+=(obj.MUPRICE*obj.OCOUNT);
+        		    s+="<tr align='center'><td>"+obj.MUNAME+"</td><td>"+obj.OCOUNT+"</td><td>"+obj.MUPRICE+"元</td></tr>"
+        		});  
+  		      s+="<tr><td><hr style='size='1' width='200%'noshade='noshade''/></td></tr>"
+  		    	  s+="<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;合计:"+num+"元</td></tr>"
+  		         s+="<tr><td>&nbsp;&nbsp;&nbsp;用户名称:"+o.name+"</td></tr>"
+  		       s+="<tr><td>&nbsp;&nbsp;&nbsp;用户电话:"+o.tel+"</td></tr>"
+  		     s+="<tr><td>&nbsp;&nbsp;&nbsp;用户地址:"+o.address+"</td></tr>"
+  		    	  s+="</table>"
+  		        	$("#myorder").html(s);
+//		    	  $.messager.alert("添加提示","添加成功","info")
+//		    	  $("#mydiv").dialog("close");//关闭
+//	    				$("#myfrm").form("clear");  //表单清空
+//	    				$("#myTable").datagrid("reload");  //从当前页加载
+//             }else{
+//            	  $.messager.alert("添加提示","请填写完整信息","info")
+//            	 
+//             }
+//        	
+//              $('#mydiv').dialog({ 
+//            	  onClose: function () { 
+//            	  //解决弹出窗口关闭后，验证消息还显示在最上面 
+//            	  $('.tooltip.tooltip-right').hide(); 
+//            	  } 
+//            	  });
+//        })
+  
+	
+	})
+	   
+	 $("#guanbi").click(function(){         //单机取消时
+     $("#myorder").dialog("close");//关闭窗口
+ 	$("#myTable").datagrid("reload");  //从当前页加载
+})
+		
+}
+/**
+ * 修改密码
+ * @return
+ */
+function AlterPassword(){
+	$("#alterpassword").dialog({
+		iconCls:'icon-tip',
+		title:"修改密码"	
+	});
+	$("#alterpassword").dialog("open");//打开窗口
+	$("#updateBtn").click(function(){
+		  var password=$("input[name=password]").val();  //新密码
+		  var passwordx=$("input[name=passwordx]").val();//确认新密码
+		  
+		 
+		      if(password==passwordx){
+		    	  $.post("cs!UpdateUserPassword.action",{"password":password},function(data){
+		    		  var o = eval("("+data+")");
+					    if(o.UpdateUserPassword>0){
+					    	 $.messager.show({
+					          		showType:"slide",
+					          		showSpeed:600,
+					          		title:"提示",
+					          		msg:"修改成功,请妥善保管你的新密码",
+					          		timeout:3000   		
+					          	});   
+					    	  $("#alterpassword").dialog("close");//关闭窗口
+					    	
+					    }else{
+					    	 $.messager.show({
+					          		showType:"slide",
+					          		showSpeed:600,
+					          		title:"提示",
+					          		msg:"修改失败",
+					          		timeout:3000   		
+					          	});     
+					    }
+					    
+				  
+			 
+				  
+			  })  
+		    	  
+		      }else{
+		    	  $.messager.alert("修改提示","抱歉,两次密码不一致!","info");
+		      }
+		
+	})
+	
+	 $("#quxiaoxiugai").click(function(){         //单机取消时
+			    		         $("#alterpassword").dialog("close");//关闭窗口
+			    	})
+	
+	
+    
+	
+	
+}
+/**
+ * 安全退出
+ * @return
+ */
+function exit(){
+
+	  $.post("cs!exit.action",null,function(data){
+		
+})
+
 }
 
-
+ 
 
 
 
