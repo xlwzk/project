@@ -129,4 +129,6 @@ public class UserAction extends ActionSupport implements ServletResponseAware,
 		request.setAttribute("bean", bean);
 		return "centerComplete";
 	}
+	
+	
 }

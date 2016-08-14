@@ -3,7 +3,10 @@ package zx.ffts.web.action.xiongli;
 import java.util.List;
 import java.util.Map;
 
+import zx.ffts.dao.DataAccessObject;
+import zx.ffts.dao.transaction.AssessTransaction;
 import zx.ffts.dao.yyq.ts_restaurant_dao;
+import zx.ffts.domain.User;
 import zx.ffts.web.action.yyq.YYQAction;
 
 public class XiongLiAction extends BaseAction {
@@ -164,6 +167,16 @@ public class XiongLiAction extends BaseAction {
 		Integer shopid = Integer.parseInt(request.getParameter("sid")); // 商店id
 		Integer menuid = Integer.parseInt(request.getParameter("meuid")); // 菜的id
 		return "";
+	}
+	
+	//评论
+	public String getAssess(){
+//		User user=(User) session.getAttribute("user");
+//		Integer userid=user.getUserid();
+//		Integer rtid=Integer.parseInt(request.getParameter("rtid"));
+		Map<String, Object> map=(Map<String, Object>) new DataAccessObject().doTransaction(new AssessTransaction(),5,1);
+		request.setAttribute("mapshop", map);
+		return "getAssess";
 	}
 
 }
