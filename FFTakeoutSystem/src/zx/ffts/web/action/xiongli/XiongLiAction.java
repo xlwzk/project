@@ -148,10 +148,20 @@ public class XiongLiAction extends BaseAction {
 	 * 
 	 * @return
 	 */
+<<<<<<< HEAD
 	public String getShop() {
 		Integer shopid = Integer.parseInt(request.getParameter("sid")); // 商店id
 		Integer money = Integer.parseInt(request.getParameter("money"));
 		Map<String, Object> map = odao.getShop(shopid);
+=======
+	public String getShop(){
+		Integer userid=1;
+		Integer shopid=Integer.parseInt(request.getParameter("sid")); //商店id
+		Integer money=Integer.parseInt(request.getParameter("money"));
+		//改变状态为已下单
+		odao.updateOrderStatus(userid, shopid);
+		Map<String, Object> map=odao.getShop(shopid);
+>>>>>>> fe7a52b7fa10db3a4a8fe22df4bf59c61b21d93a
 		request.setAttribute("shopDetail", map);
 		request.setAttribute("money", money);
 		return "getShop";
@@ -162,6 +172,7 @@ public class XiongLiAction extends BaseAction {
 	 * 
 	 * @return
 	 */
+<<<<<<< HEAD
 	public String account() {
 		Integer userid = 1; // 指定当前用户为1 当前用户的余额为100000000
 		Integer shopid = Integer.parseInt(request.getParameter("sid")); // 商店id
@@ -177,6 +188,23 @@ public class XiongLiAction extends BaseAction {
 		Map<String, Object> map=(Map<String, Object>) new DataAccessObject().doTransaction(new AssessTransaction(),5,1);
 		request.setAttribute("mapshop", map);
 		return "getAssess";
+=======
+	public String account(){
+		Integer userid=1;  //指定当前用户为1 当前用户的余额为100000000
+		Integer shopid=Integer.parseInt(request.getParameter("sid")); //商店id
+	
+		Integer money=Integer.parseInt(request.getParameter("money"));//需要支付的钱
+		//我需要下单之后的集合用于改变销售量
+		List<Map<String, Object>> list=odao.getOrderSale(userid, shopid);
+		odao.updateStatus(userid, shopid);
+		odao.updateMoney(userid, money);
+		//循环遍历修改销售量
+		for (Map<String, Object> map : list) {
+			System.out.println(Integer.parseInt(map.get("omuid").toString()));
+			odao.updateSale(userid, shopid, Integer.parseInt(map.get("omuid").toString()));
+		}
+		return "account";
+>>>>>>> fe7a52b7fa10db3a4a8fe22df4bf59c61b21d93a
 	}
 
 }

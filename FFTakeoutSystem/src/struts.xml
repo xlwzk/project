@@ -54,6 +54,7 @@
 	</package>
 	<package name="xiongli" extends="struts-default">
 		<action name="shwx" class="zx.ffts.web.action.xiongli.XiongLiAction">
+<<<<<<< HEAD
 			<result name="addCar" type="redirect">/pages/yyq/MenuList.jsp</result>
 			<result name="searchCar">/pages/xiong/showCar.jsp</result>
 			<result name="deleteCar">/pages/yyq/MenuList.jsp</result>
@@ -68,6 +69,14 @@
 			<result name="payPage">/pages/xiong/orderPay.jsp</result>
 		</action>
 		<action name="pay" class="zx.ffts.web.action.xiongli.PayAction">
+=======
+		   <result name="addCar" type="redirect">/pages/yyq/MenuList.jsp</result>
+		   <result name="searchCar">/pages/xiong/showCar.jsp</result>
+		   <result name="deleteCar" >/pages/yyq/MenuList.jsp</result>
+		   <result name="getDetail">/pages/xiong/showDetail.jsp</result>
+		   <result name="getShop">/pages/xiong/account.jsp</result>
+		   <result name="account">/pages/xiong/showResult.jsp</result>
+>>>>>>> fe7a52b7fa10db3a4a8fe22df4bf59c61b21d93a
 		</action>
 	</package>
 	<package name="yyq" extends="struts-default">
