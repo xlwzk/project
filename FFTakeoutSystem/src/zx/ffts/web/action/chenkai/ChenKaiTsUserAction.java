@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
@@ -19,15 +18,13 @@ import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
 import net.sf.json.JSONObject;
 import zx.ffts.dao.chenkai.TsUserDao;
-import zx.ffts.entity.chenkai.TsUser;
+import zx.ffts.domain.chenkai.TsUser;
+
 
 public class ChenKaiTsUserAction extends BaseAction {
 	
@@ -49,7 +46,8 @@ public class ChenKaiTsUserAction extends BaseAction {
 	}
 	
 	//分页获得所有用户的集合（分页）
-	public void getUserList() throws IOException{
+	public void getUserList(){
+		try{
 		String pageStr = req.getParameter("page");
 		String rowStr = req.getParameter("rows");
 		
@@ -61,21 +59,26 @@ public class ChenKaiTsUserAction extends BaseAction {
 		if (rowStr!=null&&!"".equals(rowStr)) {
 			row=Integer.parseInt(rowStr);
 		}	
-		userlist=myuser.getUserList(page, row);		
+		 userlist=myuser.getUserList(page, row);	
 		int num=0;
 		if (myuser.userCount()%row==0) {
 			num=myuser.userCount()/row;
 		}else{
 			num=myuser.userCount()/row+1;
 		}
-		PrintWriter out = res.getWriter();
-		JSONObject json = new JSONObject();
+		PrintWriter out=res.getWriter();
+		JSONObject json=new JSONObject();
 		json.put("pages", page);
-		json.put("total", num);
+		json.put("total", num);	
 		json.put("rows", userlist);
 		out.write(json.toString());
+		
 		out.flush();
 		out.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	//获得所有用户的集合
@@ -102,6 +105,7 @@ public class ChenKaiTsUserAction extends BaseAction {
 		String balance=req.getParameter("balance");
 		String gender=req.getParameter("gender");
 		String authority=req.getParameter("authority");
+		//String token=req.getParameter("token");
 	
 		if (photoFileName==null) {
 			myuser.addUser(username, pwd, tel, email, address, realname, Double.parseDouble(balance), gender, Integer.parseInt(authority), null);	
@@ -113,6 +117,7 @@ public class ChenKaiTsUserAction extends BaseAction {
 			String src="image/"+photoFileName;
 			myuser.addUser(username, pwd, tel, email, address, realname, Integer.parseInt(balance), gender, Integer.parseInt(authority), src);	
 		}
+		
 		return "success";
 	}
 	

@@ -19,9 +19,9 @@
 		</action>
 	</package>
 	<package name="chenkai" extends="struts-default">
-		<action name="shwk" class="zx.ffts.web.action.chenkai.ChenKaiTsUserAction">		
+		<action name="shwk" class="zx.ffts.web.action.chenkai.ChenKaiTsUserAction">	
+					
 			<result name="success">/pages/chenkai/main.jsp</result>
-			<result name="error">/pages/chenkai/reg.jsp</result>
 		</action>
 		<action name="shwkrest"
 			class="zx.ffts.web.action.chenkai.ChenKaiTsRestaurantAction">

@@ -3,7 +3,7 @@ package zx.ffts.dao.chenkai;
 import java.util.List;
 
 import zx.ffts.dao.DataDao;
-import zx.ffts.entity.chenkai.TsMessage;
+import zx.ffts.domain.chenkai.TsMessage;
 
 public class TsMessageDao extends DataDao {
 

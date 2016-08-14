@@ -4,9 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import zx.ffts.dao.DataDao;
-import zx.ffts.entity.chenkai.TsMenu;
-import zx.ffts.entity.chenkai.TsOrder;
-import zx.ffts.entity.chenkai.TsRestaurant;
+import zx.ffts.domain.chenkai.TsOrder;
+
 
 public class TsOrderDao extends DataDao {
 	

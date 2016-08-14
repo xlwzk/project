@@ -1,4 +1,4 @@
-package zx.ffts.entity.chenkai;
+package zx.ffts.domain.chenkai;
 
 import java.io.Serializable;
 

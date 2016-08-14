@@ -5,26 +5,25 @@ $(function() {
 	});
 	
 	// 添加用户
-	$("#addUser")
-			.click(
-					function() {
-						var s = "<form  action='shwk!addUser.action'  method='post' enctype='multipart/form-data'>";
-						s += "<table align='center' >";
-						s += "<tr><td >姓名：<input type='text' id='username' name='username' onblur='inputname()'/>&nbsp;&nbsp;<span id='uname'></span></td></tr>"
-						s += "<tr><td >密码：<input type='text' id='pwd' name='pwd' onblur='userpwd()'/>&nbsp;&nbsp;<span id='upwd'></span></td></tr>"
-						s += "<tr><td >电话：<input type='text' id='tel' name='tel' onblur='usertel()'/>&nbsp;&nbsp;<span id='utel'></span></td></tr>"
-						s += "<tr><td >邮件：<input type='text' id='email' name='email' onblur='useremail()'/>&nbsp;&nbsp;<span id='uemail'></span></td></tr>"
-						s += "<tr><td >地址：<input type='text' id='address' name='address' onblur='useraddress()'/>&nbsp;&nbsp;<span id='uaddress'></span></td></tr>"
-						s += "<tr><td >真实姓名：<input type='text' id='realname' name='realname' onblur='userrealname()'/>&nbsp;&nbsp;<span id='urealname'></span></td></tr>"
-						s += "<tr><td >余额：<input type='text' id='balance' name='balance' onblur='userbalance()'/>&nbsp;&nbsp;<span id='ubalance'></span></td></tr>"
-						s += "<tr><td >性别:<input type='radio' id='gender' name='gender' value='男' checked='checked'>男<input type='radio' id='gender' name='gender' value='女'> 女</td></tr>"
-						s += "<tr><td >权限:<select id='authority' name='authority'><option value='1'>普通用户</option><option value='2'>配送员</option><option value='3'>店主</option><option value='4'>普通管理员</option><option value='5'>系统管理员</option> </select></td></tr>"
-						s += "<tr><td >图片：<input type='file' id='photo' name='photo' accept='image/gif, image/jpeg, image/png'/></td></tr>"
-						s += "<tr><td><input type='submit' value='提交'/><input type='reset' value='取消'/></td></tr>"
-						s += "</table>"
-						s += "</form>"
-						$("#mydiv").html(s);
-					});
+	$("#addUser").click(function() {
+		var s = "<form action='shwk!addUser.action' onsubmit='return dosubmit(this)'  method='post' enctype='multipart/form-data' >";
+		s += "<table align='center' >";
+		s += "<tr><td >姓名：<input type='text' id='username' name='username' onblur='inputname()'/>&nbsp;&nbsp;<span id='uname'></span></td></tr>"
+	    s += "<tr><td >密码：<input type='text' id='pwd' name='pwd' onblur='userpwd()'/>&nbsp;&nbsp;<span id='upwd'></span></td></tr>"
+		s += "<tr><td >电话：<input type='text' id='tel' name='tel' onblur='usertel()'/>&nbsp;&nbsp;<span id='utel'></span></td></tr>"
+		s += "<tr><td >邮件：<input type='text' id='email' name='email' onblur='useremail()'/>&nbsp;&nbsp;<span id='uemail'></span></td></tr>"
+		s += "<tr><td >地址：<input type='text' id='address' name='address' onblur='useraddress()'/>&nbsp;&nbsp;<span id='uaddress'></span></td></tr>"
+		s += "<tr><td >真实姓名：<input type='text' id='realname' name='realname' onblur='userrealname()'/>&nbsp;&nbsp;<span id='urealname'></span></td></tr>"
+		s += "<tr><td >余额：<input type='text' id='balance' name='balance' onblur='userbalance()'/>&nbsp;&nbsp;<span id='ubalance'></span></td></tr>"
+		s += "<tr><td >性别:<input type='radio' id='gender' name='gender' value='男' checked='checked'>男<input type='radio' id='gender' name='gender' value='女'> 女</td></tr>"
+		s += "<tr><td >权限:<select id='authority' name='authority'><option value='1'>普通用户</option><option value='2'>配送员</option><option value='3'>店主</option><option value='4'>普通管理员</option><option value='5'>系统管理员</option> </select></td></tr>"
+		s += "<tr><td >图片：<input type='file' id='photo' name='photo' accept='image/gif, image/jpeg, image/png'/></td></tr>"			
+		//s+="<tr><td><input type='hidden' value="+Math.random()+" id='token'/></td></tr>"
+		s += "<tr><td><input type='submit' value='提交' id='submit'/><input type='reset' value='取消'/></td></tr>"
+		s += "</table>"
+		s += "</form>"
+		$("#mydiv").html(s);	
+		});
 
 	// 查询所有商家
 	$("#findallrest").click(
@@ -140,8 +139,8 @@ function Userrollback(data) {
 	var page = data.pages;
 	var sum = data.total;
 	var getAllUser = data.rows;
-	var s = "<table align='center' border='1' width='90%'>";
-	s += "<tr><td>编号</td><td>姓名</td><td>密码</td><td>邮箱</td><td>地址</td><td>真实姓名</td><td>余额</td><td>积分</td><td>性别</td><td>注册日期</td><td>权限</td><td>图片</td><td>操作</td></tr>"
+	var s = "<table align='center' border='1px dotted #000' width='90%'>";
+	s += "<tr id='title'><th>编号</th><th>姓名</th><th>密码</th><th>邮箱</th><th>地址</th><th>真实姓名</th><th>余额</th><th>积分</th><th>性别</th><th>注册日期</th><th>权限</th><th>图片</th><th>操作</th></tr>"
 	for ( var i = 0; i < getAllUser.length; i++) {
 		var k = getAllUser[i];
 		var authority = "";
@@ -156,19 +155,25 @@ function Userrollback(data) {
 		} else if (k.authority == 5) {
 			authority = "系统管理员"
 		}
+		var addr=""
+		if (k.address.length>4) {
+			addr=k.address.substring(0,4)+"..."	;
+		}else{
+			addr=k.address;
+		}	
 		s += "<tr align='center'>"
-		s += "<td id='userid'>" + k.userid + "</td>";
-		s += "<td id='username'>" + k.username + "</td>";
-		s += "<td id='pwd'>" + k.pwd + "</td>";
-		s += "<td id='email'>" + k.email + "</td>";
-		s += "<td id='address'>" + k.address + "</td>";
-		s += "<td id='realname'>" + k.realname + "</td>";
-		s += "<td id='balance'>" + k.balance + "</td>";
-		s += "<td id='score'>" + k.score + "</td>";
-		s += "<td id='gender'>" + k.gender + "</td>";
-		s += "<td id='regdate'>" + k.regdate + "</td>";
-		s += "<td id='authority'>" + authority + "</td>";
-		s += "<td id='photo'> <img src=" + k.photo
+		s += "<td >" + k.userid + "</td>";
+		s += "<td >" + k.username + "</td>";
+		s += "<td >" + k.pwd + "</td>";
+		s += "<td >" + k.email + "</td>";
+		s += "<td  class='tdtype' title="+k.address+">" + addr+ "</td>";
+		s += "<td >" + k.realname + "</td>";
+		s += "<td >" + k.balance + "</td>";
+		s += "<td >" + k.score + "</td>";
+		s += "<td >" + k.gender + "</td>";
+		s += "<td >" + k.regdate + "</td>";
+		s += "<td >" + authority + "</td>";
+		s += "<td > <img src=" + k.photo
 				+ " width='50px' heigth='50px'/></td>";
 		s += "<td>";
 		if (userid == k.userid) {
@@ -183,8 +188,8 @@ function Userrollback(data) {
 		s += "</tr>";
 	}
 	s += "</table>";
-	s += "<table align='center'>"
-	s += "<tr valign='bottom' align='center'>"
+	s += "<table align='center' width='90%'>"
+	s += "<tr valign='bottom' align='center' id='last'>"
 	s += "<td colspan='3' width='100%'>"
 	if (page != 1) {
 		s += "<a  onclick='getUserList(1)'><font color='blue'>首页</font></a>"
@@ -217,7 +222,9 @@ function Userrollback(data) {
 	s += "</tr>"
 	s += "</table>"
 	$("#mydiv").html(s);
+	TableModel();
 }
+
 
 // 商家回调函数
 function Restrollback(data) {
@@ -226,7 +233,7 @@ function Restrollback(data) {
 	var getAllRest = data.rows;
 
 	var s = "<table align='center' border='1' width='90%'>";
-	s += "<tr align='center'><td>编号</td><td>店名</td><td>地址</td><td>店主名</td><td>图片</td><td>公告</td><td>开店时间</td><td>营业时间</td><td>营业状态</td><td>操作</td></tr>"
+	s += "<tr id='title'><th>编号</th><th>店名</th><th>地址</th><th>店主名</th><th>图片</th><th>公告</th><th>开店时间</th><th>营业时间</th><th>营业状态</th><th>操作</th></tr>"
 	for ( var i = 0; i < getAllRest.length; i++) {
 		var k = getAllRest[i];
 		var status = "";
@@ -235,18 +242,29 @@ function Restrollback(data) {
 		} else if (k.rtstatus == 1) {
 			status = "休息中"
 		}
+		var addr=""
+			if (k.rtaddr.length>4) {
+				addr=k.rtaddr.substring(0,4)+"..."	;
+			}else{
+				addr=k.rtaddr;
+			}	
+		var content=""
+			if (k.rtcontent.length>4) {
+				content=k.rtcontent.substring(0,4)+"..."	;
+			}else{
+				content=k.rtcontent;
+			}
 		s += "<tr align='center'>"
-		s += "<td id='userid'>" + k.rtid + "</td>";
-		s += "<td id='username'>" + k.rtname + "</td>";
-		s += "<td id='pwd'>" + k.rtaddr + "</td>";
-		s += "<td id='email'>" + k.owner + "</td>";
-		s += "<td id='photo'> <img src=" + k.rtpic
+		s += "<td >" + k.rtid + "</td>";
+		s += "<td >" + k.rtname + "</td>";
+		s += "<td class='tdtype' title="+k.rtaddr+">" + addr+ "</td>";
+		s += "<td >" + k.owner + "</td>";
+		s += "<td > <img src=" + k.rtpic
 				+ " width='50px' heigth='50px'/></td>";
-
-		s += "<td id='address'>" + k.rtcontent + "</td>";
-		s += "<td id='realname'>" + k.rtdate + "</td>";
-		s += "<td id='balance'>" + k.rtonbuz + "</td>";
-		s += "<td id='score'>" + status + "</td>";
+		s += "<td class='tdtype' title="+k.rtcontent+">" + content+ "</td>";
+		s += "<td >" + k.rtdate + "</td>";
+		s += "<td >" + k.rtonbuz + "</td>";
+		s += "<td >" + status + "</td>";
 		s += "<td>";
 		s += "<span onclick='findrestbyid(" + k.rtid + ")'>修改</span>";
 		s += "&nbsp;";
@@ -256,8 +274,8 @@ function Restrollback(data) {
 		s += "</tr>";
 	}
 	s += "</table>";
-	s += "<table align='center'>"
-	s += "<tr valign='bottom' align='center'>"
+	s += "<table align='center' width='90%'>"
+	s += "<tr valign='bottom' align='center' id='last'>"
 	s += "<td colspan='3' width='100%'>"
 	if (page != 1) {
 		s += "<a  onclick='getRestList(1)'><font color='blue'>首页</font></a>"
@@ -290,6 +308,7 @@ function Restrollback(data) {
 	s += "</tr>"
 	s += "</table>"
 	$("#mydiv").html(s);
+	TableModel();
 }
 
 // 商家评论回调函数
@@ -299,15 +318,22 @@ function Messrollback(data) {
 	var getAllMess = data.rows;
 
 	var s = "<table align='center' border='1' width='90%'>";
-	s += "<tr align='center'><td>编号</td><td>评论人</td><td>店铺名</td><td>评论内容</td><td>评论时间</td><td>操作</td></tr>"
+	s += "<tr id='title'><th>编号</th><th>评论人</th><th>店铺名</th><th>评论内容</th><th>评论时间</th><th>操作</th></tr>"
 	for ( var i = 0; i < getAllMess.length; i++) {
 		var k = getAllMess[i];
+			
+		var content=""
+			if (k.mcontent.length>4) {
+				content=k.mcontent.substring(0,4)+"..."	;
+			}else{
+				content=k.mcontent;
+			}
 		s += "<tr align='center'>"
-		s += "<td id='mid'>" + k.mid + "</td>";
-		s += "<td id='musername'>" + k.musername + "</td>";
-		s += "<td id='mrtname'>" + k.mrtname + "</td>";
-		s += "<td id='mcontent'>" + k.mcontent + "</td>";
-		s += "<td id='mdate'>" + k.mdate + "</td>";
+		s += "<td >" + k.mid + "</td>";
+		s += "<td >" + k.musername + "</td>";
+		s += "<td >" + k.mrtname + "</td>";
+		s += "<td class='tdtype' title="+k.mcontent+">" + content+ "</td>";
+		s += "<td >" + k.mdate + "</td>";
 		s += "<td>";
 		s += "<span onclick='findmessbyid(" + k.mid + ")'>修改</span>";
 		s += "&nbsp;";
@@ -317,8 +343,8 @@ function Messrollback(data) {
 		s += "</tr>";
 	}
 	s += "</table>";
-	s += "<table align='center'>"
-	s += "<tr valign='bottom' align='center'>"
+	s += "<table align='center' width='90%'>"
+	s += "<tr valign='bottom' align='center' id='last'>"
 	s += "<td colspan='3' width='100%'>"
 	if (page != 1) {
 		s += "<a  onclick='getMessList(1)'><font color='blue'>首页</font></a>"
@@ -351,6 +377,7 @@ function Messrollback(data) {
 	s += "</tr>"
 	s += "</table>"
 	$("#mydiv").html(s);
+	TableModel();
 }
 
 // 菜单回调函数
@@ -360,7 +387,7 @@ function Menurollback(data) {
 	var getAllMenu = data.rows;
 
 	var s = "<table align='center' border='1' width='90%'>";
-	s += "<tr align='center'><td>编号</td><td>店名</td><td>菜名</td><td>价格</td><td>图片</td><td>类型</td><td>描述</td><td>销量</td><td>是否售完</td><td>操作</td></tr>"
+	s += "<tr id='title'><th>编号</th><th>店名</th><th>菜名</th><th>价格</th><th>图片</th><th>类型</th><th>描述</th><th>销量</th><th>是否售完</th><th>操作</th></tr>"
 	for ( var i = 0; i < getAllMenu.length; i++) {
 		var k = getAllMenu[i];
 		var status = "";
@@ -369,17 +396,23 @@ function Menurollback(data) {
 		} else if (k.mustatus == 1) {
 			status = "已售完"
 		}
+		var content=""
+			if (k.mudesc.length>4) {
+				content=k.mudesc.substring(0,4)+"..."	;
+			}else{
+				content=k.mudesc;
+			}
 		s += "<tr align='center'>"
-		s += "<td id='muid'>" + k.muid + "</td>";
-		s += "<td id='mrtname'>" + k.mrtname + "</td>";
-		s += "<td id='muname'>" + k.muname + "</td>";
-		s += "<td id='muprice'>" + k.muprice + "</td>";
-		s += "<td id='mupic'> <img src=" + k.mupic
+		s += "<td >" + k.muid + "</td>";
+		s += "<td >" + k.mrtname + "</td>";
+		s += "<td >" + k.muname + "</td>";
+		s += "<td >" + k.muprice + "</td>";
+		s += "<td > <img src=" + k.mupic
 				+ " width='50px' heigth='50px'/></td>";
-		s += "<td id='mutype'>" + k.mutype + "</td>";
-		s += "<td id='mudesc'>" + k.mudesc + "</td>";
-		s += "<td id='musale'>" + k.musale + "</td>";
-		s += "<td id='status'>" + status + "</td>";
+		s += "<td >" + k.mutype + "</td>";
+		s += "<td class='tdtype' title="+k.mudesc+">" + content+ "</td>";
+		s += "<td >" + k.musale + "</td>";
+		s += "<td >" + status + "</td>";
 		s += "<td>";
 		s += "<span onclick='findmenubyid(" + k.muid + ")'>修改</span>";
 		s += "&nbsp;";
@@ -389,8 +422,8 @@ function Menurollback(data) {
 		s += "</tr>";
 	}
 	s += "</table>";
-	s += "<table align='center'>"
-	s += "<tr valign='bottom' align='center'>"
+	s += "<table align='center' width='90%'>"
+	s += "<tr valign='bottom' align='center' id='last'>"
 	s += "<td colspan='3' width='100%'>"
 	if (page != 1) {
 		s += "<a  onclick='getMenuList(1)'><font color='blue'>首页</font></a>"
@@ -423,6 +456,7 @@ function Menurollback(data) {
 	s += "</tr>"
 	s += "</table>"
 	$("#mydiv").html(s);
+	TableModel();
 }
 
 // 菜单评论回调函数
@@ -432,7 +466,7 @@ function MenuMsgrollback(data) {
 	var getAllMenuMsg = data.rows;
 
 	var s = "<table align='center' border='1' width='90%'>";
-	s += "<tr align='center'><td>编号</td><td>评论人</td><td>菜名</td><td>评论内容</td><td>评分</td><td>评论时间</td><td>操作</td></tr>"
+	s += "<tr align='center' id='title'><th>编号</th><th>评论人</th><th>菜名</th><th>评论内容</th><th>评分</th><th>评论时间</th><th>操作</th></tr>"
 	for ( var i = 0; i < getAllMenuMsg.length; i++) {
 		var k = getAllMenuMsg[i];
 		var str = ""
@@ -447,13 +481,19 @@ function MenuMsgrollback(data) {
 		} else if (k.mmscore == 5) {
 			str = "★★★★★"
 		}
+		var content=""
+			if (k.mmcontent.length>4) {
+				content=k.mmcontent.substring(0,4)+"..."	;
+			}else{
+				content=k.mmcontent;
+			}
 		s += "<tr align='center'>"
-		s += "<td id='mmid'>" + k.mmid + "</td>";
-		s += "<td id='mmusername'>" + k.mmusername + "</td>";
-		s += "<td id='mmmuname'>" + k.mmmuname + "</td>";
-		s += "<td id='mmcontent'>" + k.mmcontent + "</td>";
-		s += "<td id='mmscore'>" + str + "</td>";
-		s += "<td id='mmdate'>" + k.mmdate + "</td>";
+		s += "<td >" + k.mmid + "</td>";
+		s += "<td >" + k.mmusername + "</td>";
+		s += "<td >" + k.mmmuname + "</td>";
+		s += "<td class='tdtype' title="+k.mmcontent+">" + content+ "</td>";
+		s += "<td >" + str + "</td>";
+		s += "<td >" + k.mmdate + "</td>";
 		s += "<td>";
 		s += "<span onclick='findmenumsgbyid(" + k.mmid + ")'>修改</span>";
 		s += "&nbsp;";
@@ -463,8 +503,8 @@ function MenuMsgrollback(data) {
 		s += "</tr>";
 	}
 	s += "</table>";
-	s += "<table align='center'>"
-	s += "<tr valign='bottom' align='center'>"
+	s += "<table align='center' width='90%'>"
+	s += "<tr valign='bottom' align='center' id='last'>"
 	s += "<td colspan='3' width='100%'>"
 	if (page != 1) {
 		s += "<a  onclick='getMenuMsgList(1)'><font color='blue'>首页</font></a>"
@@ -497,6 +537,7 @@ function MenuMsgrollback(data) {
 	s += "</tr>"
 	s += "</table>"
 	$("#mydiv").html(s);
+	TableModel();
 }
 
 // 订单回调函数
@@ -506,7 +547,7 @@ function Orderrollback(data) {
 	var getAllOrder = data.rows;
 
 	var s = "<table align='center' border='1' width='90%'>";
-	s += "<tr align='center'><td>编号</td><td>下单用户</td><td>菜名</td><td>店名</td><td>数量</td><td>配送员</td><td>下单时间</td><td>UUID</td><td>订单状态</td><td>操作</td></tr>"
+	s += "<tr id='title'><th>编号</th><th>下单用户</th><th>菜名</th><th>店名</th><th>数量</th><th>配送员</th><th>下单时间</th><th>UUID</th><th>订单状态</th><th>操作</th></tr>"
 	for ( var i = 0; i < getAllOrder.length; i++) {
 		var k = getAllOrder[i];
 
@@ -524,16 +565,23 @@ function Orderrollback(data) {
 		} else if (k.OSTATUS == 5) {
 			str = "订单完成"
 		}
+		var content=""
+			if (k.OUUID.length>8) {
+				content=k.OUUID.substring(0,8)+"..."	;
+			}else{
+				content=k.OUUID;
+			}
 		s += "<tr align='center'>"
-		s += "<td id='oid'>" + k.OID + "</td>";
-		s += "<td id='ousername'>" + k.OUSERNAME + "</td>";
-		s += "<td id='omuname'>" + k.OMUNAME + "</td>";
-		s += "<td id='ortname'>" + k.ORTNAME + "</td>";
-		s += "<td id='ocount'>" + k.OCOUNT + "</td>";
-		s += "<td id='osendername'>" + k.OSENDERNAME + "</td>";
-		s += "<td id='odate'>" + k.ODATE + "</td>";
-		s += "<td id='ouuid'>" + k.OUUID + "</td>";
-		s += "<td id='ostatus'>" + str + "</td>";
+		s += "<td >" + k.OID + "</td>";
+		s += "<td >" + k.OUSERNAME + "</td>";
+		s += "<td >" + k.OMUNAME + "</td>";
+		s += "<td >" + k.ORTNAME + "</td>";
+		s += "<td >" + k.OCOUNT + "</td>";
+		s += "<td >" + k.OSENDERNAME + "</td>";
+		s += "<td >" + k.ODATE + "</td>";
+		s += "<td class='tdtype' title="+k.OUUID+">" + content+ "</td>";
+		
+		s += "<td >" + str + "</td>";
 		s += "<td>";
 		s += "<span onclick='findorderbyid(" + k.OID + ")'>修改</span>";
 		s += "&nbsp;";
@@ -543,8 +591,8 @@ function Orderrollback(data) {
 		s += "</tr>";
 	}
 	s += "</table>";
-	s += "<table align='center'>"
-	s += "<tr valign='bottom' align='center'>"
+	s += "<table align='center' width='90%'>"
+	s += "<tr valign='bottom' align='center' id='last'>"
 	s += "<td colspan='3' width='100%'>"
 	if (page != 1) {
 		s += "<a  onclick='getOrderList(1)'><font color='blue'>首页</font></a>"
@@ -577,6 +625,7 @@ function Orderrollback(data) {
 	s += "</tr>"
 	s += "</table>"
 	$("#mydiv").html(s);
+	TableModel();
 }
 
 // 订单支付方式回调函数
@@ -586,13 +635,13 @@ function Payrollback(data) {
 	var sum = data.total;
 	var getAllPay = data.rows;
 	var s = "<table align='center' border='1' width='90%'>";
-	s += "<tr align='center'><td>编号</td><td>支付方式</td><td>订单编号</td><td>操作</td></tr>"
+	s += "<tr id='title'><th>编号</th><th>支付方式</th><th>订单编号</th><th>操作</th></tr>"
 	for ( var i = 0; i < getAllPay.length; i++) {
 		var k = getAllPay[i];
 		s += "<tr align='center'>"
-		s += "<td id='pid'>" + k.pid + "</td>";
-		s += "<td id='ptype'>" + k.ptype + "</td>";
-		s += "<td id='poid'>" + k.poid + "</td>";
+		s += "<td >" + k.pid + "</td>";
+		s += "<td >" + k.ptype + "</td>";
+		s += "<td >" + k.poid + "</td>";
 		s += "<td>";
 		s += "<span onclick='findpaybyid(" + k.pid + ")'>修改</span>";
 		s += "&nbsp;";
@@ -602,8 +651,8 @@ function Payrollback(data) {
 		s += "</tr>";
 	}
 	s += "</table>";
-	s += "<table align='center'>"
-	s += "<tr valign='bottom' align='center'>"
+	s += "<table align='center' width='90%'>"
+	s += "<tr valign='bottom' align='center' id='last'>"
 	s += "<td colspan='3' width='100%'>"
 	if (page != 1) {
 		s += "<a  onclick='getPayList(1)'><font color='blue'>首页</font></a>"
@@ -636,6 +685,7 @@ function Payrollback(data) {
 	s += "</tr>"
 	s += "</table>"
 	$("#mydiv").html(s);
+	TableModel();
 }
 
 // 礼物回调函数
@@ -645,18 +695,25 @@ function Giftrollback(data) {
 	var getAllGift = data.rows;
 
 	var s = "<table align='center' border='1' width='90%'>";
-	s += "<tr align='center'><td>编号</td><td>礼物名</td><td>图片</td><td>所需积分</td><td>已换数量</td><td>总共库存</td><td>描述</td><td>操作</td></tr>"
+	s += "<tr id='title'><th>编号</th><th>礼物名</th><th>图片</th><th>所需积分</th><th>已换数量</th><th>总共库存</th><th>描述</th><th>操作</th></tr>"
 	for ( var i = 0; i < getAllGift.length; i++) {
 		var k = getAllGift[i];
+		var content=""
+			if (k.gdesc.length>4) {
+				content=k.gdesc.substring(0,4)+"..."	;
+			}else{
+				content=k.gdesc;
+			}
 		s += "<tr align='center'>"
-		s += "<td id='userid'>" + k.gid + "</td>";
-		s += "<td id='username'>" + k.gname + "</td>";
-		s += "<td id='photo'> <img src=" + k.gpic
+		s += "<td >" + k.gid + "</td>";
+		s += "<td >" + k.gname + "</td>";
+		s += "<td > <img src=" + k.gpic
 				+ " width='50px' heigth='50px'/></td>";
-		s += "<td id='pwd'>" + k.greqscore + "</td>";
-		s += "<td id='email'>" + k.gcount + "</td>";
-		s += "<td id='address'>" + k.gsum + "</td>";
-		s += "<td id='realname'>" + k.gdesc + "</td>";
+		s += "<td >" + k.greqscore + "</td>";
+		s += "<td >" + k.gcount + "</td>";
+		s += "<td >" + k.gsum + "</td>";
+		s += "<td class='tdtype' title="+k.gdesc+">" + content+ "</td>";
+		
 		s += "<td>";
 		s += "<span onclick='findgiftbyid(" + k.gid + ")'>修改</span>";
 		s += "&nbsp;";
@@ -666,8 +723,8 @@ function Giftrollback(data) {
 		s += "</tr>";
 	}
 	s += "</table>";
-	s += "<table align='center'>"
-	s += "<tr valign='bottom' align='center'>"
+	s += "<table align='center' width='90%'>"
+	s += "<tr valign='bottom' align='center' id='last'>"
 	s += "<td colspan='3' width='100%'>"
 	if (page != 1) {
 		s += "<a  onclick='getGiftList(1)'><font color='blue'>首页</font></a>"
@@ -700,6 +757,7 @@ function Giftrollback(data) {
 	s += "</tr>"
 	s += "</table>"
 	$("#mydiv").html(s);
+	TableModel();
 }
 
 // 礼物兑换记录
@@ -709,7 +767,7 @@ function GiftRecrollback(data) {
 	var getAllGiftRec = data.rows;
 
 	var s = "<table align='center' border='1' width='90%'>";
-	s += "<tr align='center'><td>编号</td><td>礼物名</td><td>兑换人</td><td>兑换数量</td><td>兑换时间</td><td>是否费送</td><td>操作</td></tr>"
+	s += "<tr id='title'><th>编号</th><th>礼物名</th><th>兑换人</th><th>兑换数量</th><th>兑换时间</th><th>是否费送</th><th>操作</th></tr>"
 	for ( var i = 0; i < getAllGiftRec.length; i++) {
 		var k = getAllGiftRec[i];
 		var str = ""
@@ -719,12 +777,12 @@ function GiftRecrollback(data) {
 			str = "已配送"
 		}
 		s += "<tr align='center'>"
-		s += "<td id='grid'>" + k.grid + "</td>";
-		s += "<td id='grgname'>" + k.grgname + "</td>";
-		s += "<td id='grusername'>" + k.grusername + "</td>";
-		s += "<td id='grnum'>" + k.grnum + "</td>";
-		s += "<td id='grdate'>" + k.grdate + "</td>";
-		s += "<td id='grstatus'>" + str + "</td>";
+		s += "<td >" + k.grid + "</td>";
+		s += "<td >" + k.grgname + "</td>";
+		s += "<td >" + k.grusername + "</td>";
+		s += "<td >" + k.grnum + "</td>";
+		s += "<td >" + k.grdate + "</td>";
+		s += "<td >" + str + "</td>";
 		s += "<td>";
 		s += "<span onclick='findGiftRecbyid(" + k.grid + ")'>修改</span>";
 		s += "&nbsp;";
@@ -734,8 +792,8 @@ function GiftRecrollback(data) {
 		s += "</tr>";
 	}
 	s += "</table>";
-	s += "<table align='center'>"
-	s += "<tr valign='bottom' align='center'>"
+	s += "<table align='center' width='90%'>"
+	s += "<tr valign='bottom' align='center' id='last'>"
 	s += "<td colspan='3' width='100%'>"
 	if (page != 1) {
 		s += "<a  onclick='getGiftRecList(1)'><font color='blue'>首页</font></a>"
@@ -768,7 +826,9 @@ function GiftRecrollback(data) {
 	s += "</tr>"
 	s += "</table>"
 	$("#mydiv").html(s);
+	TableModel();
 }
+
 
 // 分页查询用户
 function getUserList(pages) {
@@ -2215,3 +2275,22 @@ function mygrnum(){
 			this.$("#grnum").focus()
 	}
 }
+
+//表格样式
+function TableModel(){
+	$("table").css("margin-top","20px");
+	$("th").css("height","15px");
+	$("td").css("height","50px");
+	   
+	$("tr:first").css("background-color","#5e5e5e").css("color","#fbfbfb");						   
+	$("tr:not(#title,#last)").hover(
+			function(){
+				$(this).css("background-color","#00a5a5");
+				$(this).css("color","#fbfbfb");
+			},function(){
+				$(this).css("background-color","#f6f6f6");
+				$(this).css("color","#5e5e5e");
+			}
+		);
+}
+

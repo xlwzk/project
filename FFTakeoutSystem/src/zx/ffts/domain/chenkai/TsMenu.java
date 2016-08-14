@@ -1,4 +1,4 @@
-package zx.ffts.entity.chenkai;
+package zx.ffts.domain.chenkai;
 
 public class TsMenu {
 	private Integer muid;		//菜单编号

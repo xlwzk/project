@@ -3,7 +3,7 @@ package zx.ffts.dao.chenkai;
 import java.util.List;
 
 import zx.ffts.dao.DataDao;
-import zx.ffts.entity.chenkai.TsPay;
+import zx.ffts.domain.chenkai.TsPay;
 
 public class TsPayDao extends DataDao {
 	

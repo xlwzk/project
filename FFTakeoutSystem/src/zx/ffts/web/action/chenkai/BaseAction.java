@@ -11,15 +11,17 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
-import zx.ffts.entity.chenkai.TsGift;
-import zx.ffts.entity.chenkai.TsGiftRecord;
-import zx.ffts.entity.chenkai.TsMenu;
-import zx.ffts.entity.chenkai.TsMenuMsg;
-import zx.ffts.entity.chenkai.TsMessage;
-import zx.ffts.entity.chenkai.TsOrder;
-import zx.ffts.entity.chenkai.TsPay;
-import zx.ffts.entity.chenkai.TsRestaurant;
-import zx.ffts.entity.chenkai.TsUser;
+
+import zx.ffts.domain.chenkai.TsGift;
+import zx.ffts.domain.chenkai.TsGiftRecord;
+import zx.ffts.domain.chenkai.TsMenu;
+import zx.ffts.domain.chenkai.TsMenuMsg;
+import zx.ffts.domain.chenkai.TsMessage;
+import zx.ffts.domain.chenkai.TsOrder;
+import zx.ffts.domain.chenkai.TsPay;
+import zx.ffts.domain.chenkai.TsRestaurant;
+import zx.ffts.domain.chenkai.TsUser;
+
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -61,6 +63,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,Ser
 		this.photoFileName = photoFileName;
 	}
 
+	
+	
 	public TsUser getTsuser() {
 		return tsuser;
 	}
@@ -70,7 +74,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,Ser
 	}
 
 	
-
+	
 	public List<TsUser> getUserlist() {
 		return userlist;
 	}
@@ -78,7 +82,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,Ser
 	public void setUserlist(List<TsUser> userlist) {
 		this.userlist = userlist;
 	}
-	
+
 	public List<TsRestaurant> getRestlist() {
 		return restlist;
 	}

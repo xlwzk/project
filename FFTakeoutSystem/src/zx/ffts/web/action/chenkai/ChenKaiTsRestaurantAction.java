@@ -30,8 +30,9 @@ import org.apache.struts2.ServletActionContext;
 import net.sf.json.JSONObject;
 import zx.ffts.dao.chenkai.TsRestaurantDao;
 import zx.ffts.dao.chenkai.TsUserDao;
-import zx.ffts.entity.chenkai.TsRestaurant;
-import zx.ffts.entity.chenkai.TsUser;
+import zx.ffts.domain.chenkai.TsRestaurant;
+
+
 
 public class ChenKaiTsRestaurantAction extends BaseAction {
 	
