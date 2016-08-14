@@ -22,7 +22,11 @@ function assess(id){
      }
 	 var colors= $("#1").find("font").attr("color");
 	 if(colors=='#ccc'){
+<<<<<<< HEAD
 		 $("#shopAssess").hide();
+=======
+		 $("#shopAssess").attr("hidden","true")
+>>>>>>> 8496e5393269c2c169025030d1a8c69bfd167a94
 	 }
 	 
 }
