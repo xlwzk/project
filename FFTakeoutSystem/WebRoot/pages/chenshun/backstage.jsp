@@ -36,13 +36,15 @@
 		
 		<script type="text/javascript" src="<%=path%>/js/ChenShun/script.js"></script>
 		<style type="text/css">
-span {
+span{
 	font-size: 15px;
 	color: blue;
 	span: hover {       text-decoration :       underline;
 	color: red;
 	cursor: pointer;
 }
+
+
 
 
 </style>
@@ -52,8 +54,8 @@ span {
      <div region="north" split="true" border="false" style="overflow: hidden; height: 30px;
       background:  #87cefa repeat-x center 50%;
         line-height: 20px;color: #red; font-family: Verdana, 微软雅黑,黑体">
-        <span style="float:right; padding-right:20px;" class="head">欢迎${user.username} <a href="#" id="return">返回主页面</a>  <a href="#" id="editpass">修改密码</a> <a href="#" id="loginOut">安全退出</a></span>
-        <span style="padding-left:10px; font-size: 16px; "><img src="images/blocks.gif" width="20" height="20" align="absmiddle" /> 16素材网  www.16sucai.com</span>
+        <span style="float:right; padding-right:20px;" class="head">欢迎:${user.username} <a href="#" id="return">返回主页面</a>  <a href="javascript:void(0);" onclick="AlterPassword()">修改密码</a> <a href="#" onclick="exit()">安全退出</a></span>
+        <span style="padding-left:10px; font-size: 16px; "><img src="images/blocks.gif" width="20" height="20" align="absmiddle" />后台管理</span>
     </div>
 		<div region="west" split="true" title="后台管理" style="width: 200px;">
 			<div id="aa" class="easyui-accordion"
@@ -75,7 +77,7 @@ span {
 					style="padding: 10px; width: 300px; height: 50px;">
 					<ul style="list-style-type: none">
 						<li >
-							<span onclick='ts_menu()'>[我的菜单]</span>
+							<span onclick='ts_menu()' onmouseover="this.style.textDecoration='underline'; this.style.cursor='hand' ;this.style.color='red' " onmouseout="this.style.textDecoration='none' ;this.style.color='blue'" >[我的菜单]</span>
 		
 						</li>
 		
@@ -86,16 +88,16 @@ span {
 				<div title="订单管理" iconCls="icon-reload" selected="true"
 					style="padding: 10px; width: 300px; height: 50px;">
 					<ul style="list-style-type: none">
-						<li >
-							<span onclick='ts_order()'>[全部订单]</span>
+						<li>
+							<span onclick='ts_order()' onmouseover="this.style.textDecoration='underline' ; this.style.cursor='hand'  ;this.style.color='red'" onmouseout="this.style.textDecoration='none' ;this.style.color='blue'" >[全部订单]</span>
 							
 						</li>
 						<li>
-						   <span onclick='ts_order_no()'>[未处理订单]</span>
+						   <span onclick='ts_order_no()' onmouseover="this.style.textDecoration='underline' ; this.style.cursor='hand';this.style.color='red'" onmouseout="this.style.textDecoration='none' ;this.style.color='blue'" >[未处理订单]</span>
 						</li>
 						
 						<li>
-						   <span onclick='ts_order_yes()'>[已处理订单]</span>
+						   <span onclick='ts_order_yes()' onmouseover="this.style.textDecoration='underline' ; this.style.cursor='hand' ;this.style.color='red' " onmouseout="this.style.textDecoration='none' ;this.style.color='blue'" >[待配送订单]</span>
 						</li>
 						
 					</ul>
@@ -195,10 +197,36 @@ span {
           
 		</div>
 		
+			<!-- 订单详情 -------------------------------- -->	
+		<div id="myorder" class="easyui-dialog" closable=true closed=true title="详情" iconCls="icon-tip" style="width:400px;height:500px;margin:50px;background: silver;overflow: auto; background-color:#20b2aa">
+		       <!--   <table align="center" width="60%">
+		          <th>列表</th><th>数量</th><th>金额</th>
+		           -------------------------------------
+		           <tr align="center">
+		             
+		           </tr>
+		           <a class="easyui-linkbutton" id="guanbi" iconCls="icon-cancel" title="关闭">关闭</a>
+		         </table> -->	
+		</div>
+		
+		<!-- 修改密码 -->
+		<div id="alterpassword" class="easyui-dialog" closable=true closed=true title="详情" iconCls="icon-tip" style="width:280px;height:120px;margin:0px;>
+		             <table align="center">
+		             <tr>
+		              <td style="font-size:12px; color:#9ED7E8">请输入新密码：<input type="password" name="password"/></td>
+		             </tr>
+                        <tr></tr>
+		             <tr>
+		              <td style="font-size:12px; color:#9ED7E8">&nbsp;确认新密码：<input type="password" name="passwordx"/></td>
+		             </tr>
+		           </table>          
+		             <br/>
+		     &nbsp;&nbsp;<a class="easyui-linkbutton" id="updateBtn" iconCls="icon-ok" title="确定修改">确定修改</a>
+							&nbsp;&nbsp;<a class="easyui-linkbutton" id="quxiaoxiugai" iconCls="icon-cancel" title="取消">取消</a>
+		</div>
 		
 		
-		
-		<!-- 特效     ------------------------------------------ -->
+	
 
 		
 

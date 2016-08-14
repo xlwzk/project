@@ -1,16 +1,22 @@
-package zx.ffs.dao.chenshun;
+package zx.ffts.dao.chenshun;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Test;
+
+import net.sf.json.JSON;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 
 import zx.ffts.dao.DataDao;
-import zx.java.entity.chenshun.ts_menu;
-import zx.java.entity.chenshun.ts_order;
+import zx.ffts.domain.User;
+import zx.ffts.domain.chenshun.ts_menu;
+import zx.ffts.domain.chenshun.ts_order;
+import zx.ffts.domain.chenshun.ts_user;
 
 
 public class ChenShunDao extends DataDao {
@@ -24,7 +30,7 @@ public class ChenShunDao extends DataDao {
 	 */
 	public List<Map<String,Object>> MenuList(Integer id,Integer pageindex,Integer pagesize,String type,Integer price,String name,String sort,String order) {
 		String sql = "select * from ( select h.*,rownum r from ts_menu h where rownum<=?  and murtid=?";
-		if(type!=null && !type.equals("")){
+		if(type!=null && !type.equals("") && !type.equals("请选择类型")){
 			  sql+=" and mutype='"+type+"'";
 		}
 		if(price!=null && price!=0){
@@ -109,8 +115,12 @@ public class ChenShunDao extends DataDao {
 	 * @return
 	 */
 	public JSONArray MuType(){
-		String sql="select mutype from ts_menu group by mutype ";
-		return getJsonArray(sql);
+		String sql="select mutype from ts_menu group by mutype";
+		    JSONArray  json= getJsonArray(sql);
+		     JSONObject object=new JSONObject();
+		     object.put("MUTYPE","请选择类型");
+		     json.add(0, object);
+		return json;
 	}
 	
 	
@@ -121,28 +131,33 @@ public class ChenShunDao extends DataDao {
 	 * @param id
 	 * @return
 	 */
-	public List<Map<String, String>> OrderList(Integer pagesize,Integer id,Integer pageindex,Integer status,String sort,String order) {
+	public List<Map<String, String>> OrderList(Integer id,Integer status,Integer pageindex,Integer pagesize,String sort,String order) {
 		List<Map<String,String>> list=new ArrayList<Map<String,String>>();
-		String sql = "select  k.oid,u.username,m.muname,m.muprice,k.odate,k.ostatus,k.ocount,(m.muprice*k.ocount) as sum from ( select t.*,rownum r from ts_order t     where rownum<=?  and ortid=? ";
+		String sql = "select * from(select username,ouuid,ortid,rtname,rtpic,odate,ostatus,row_number()over(order by odate desc) rm from ts_order o  inner join ts_restaurant r   on o.ortid=r.rtid   inner join ts_user u  on u.userid=o.ouserid  and ouuid is not null and ortid=?";
     
 		if(status!=null && status!=-1)
            {
-        	   sql+="   and ostatus="+status;    	   
+        	   sql+="   and ostatus>="+status;    	   
+           }else{
+        	   sql+="   and ostatus>="+2;    	 
+        	   
            }
-           sql+=") k    inner join ts_menu m  on k.omuid=m.muid  inner join ts_user u  on u.userid=k.ouserid  where k.r>?";
+           sql+="  group by username,ouuid,ortid,rtname,rtpic,odate,ostatus) where rm between ? and ? ";
            if(sort!=null&&!sort.equals("")){
-           	 sql+=" order by   "+sort+"  "+order; 	 
+           	 sql+="   order by   "+sort+"  "+order; 	 
             }  
-           for (Map<String, Object> map : getMapList(sql,pagesize*pageindex,id,(pageindex-1)*pagesize)) {
+           for (Map<String, Object> map : getMapList(sql,id,(pageindex-1)*pagesize,pageindex*pagesize)){
 			    Map<String,String> map2=new HashMap<String, String>();
-			    map2.put("OID", map.get("OID").toString());
+			    map2.put("RM", map.get("RM").toString());
 			    map2.put("USERNAME", map.get("USERNAME").toString());
-			    map2.put("MUNAME", map.get("MUNAME").toString());
-			    map2.put("MUPRICE", map.get("MUPRICE").toString());
+			   // map2.put("MUNAME", map.get("MUNAME").toString());
+			   // map2.put("MUPRICE", map.get("MUPRICE").toString());
+			    map2.put("ORTID", map.get("ORTID").toString());
 			    map2.put("ODATE", map.get("ODATE").toString());
 			    map2.put("OSTATUS", map.get("OSTATUS").toString());
-			    map2.put("OCOUNT", map.get("OCOUNT").toString());
-			    map2.put("SUM", map.get("SUM").toString());
+			  //  map2.put("OCOUNT", map.get("OCOUNT").toString());
+			  //  map2.put("SUM", map.get("SUM").toString());
+			    map2.put("OUUID", map.get("OUUID").toString());
 			    list.add(map2);
 			   
 		}
@@ -214,19 +229,24 @@ public class ChenShunDao extends DataDao {
 	  * @param id
 	  * @return
 	  */
-	 public List<Map<String,String>> OrderListNo(Integer id){  //店的id
+	 
+	 public List<Map<String,String>> OrderListNo(Integer id,Integer pageindex,Integer pagesize,String sort,String order){  //店的id
 		 List<Map<String,String>>  list=new ArrayList<Map<String,String>>();
-		 String sql="select  k.oid,u.username,m.muname,m.muprice,k.odate,k.ostatus,k.ocount,(m.muprice*k.ocount) as sum,ouuid from ( select t.*, rownum r from ts_order t     where ortid=? and ostatus =2 )k    inner join ts_menu m  on k.omuid=m.muid  inner join ts_user u  on u.userid=k.ouserid";
-         for (Map<String, Object> map : getMapList(sql, id)) {
+		 String sql="select * from(select username,ouuid,ortid,rtname,rtpic,odate,ostatus,row_number()over(order by odate desc) rm from ts_order o  inner join ts_restaurant r   on o.ortid=r.rtid   inner join ts_user u  on u.userid=o.ouserid  and ouuid is not null and ortid=? and ostatus=2    group by username,ouuid,ortid,rtname,rtpic,odate,ostatus) where rm between ? and ?";
+		  if(sort!=null&&!sort.equals("")){
+	           	 sql+=" order by   "+sort+"  "+order; 	 
+	            }  
+         for (Map<String, Object> map : getMapList(sql, id,(pageindex-1)*pagesize,pagesize*pageindex)) {
 			   Map<String,String>  map2=new HashMap<String, String>();
-			    map2.put("OID", map.get("OID").toString());
-			    map2.put("USERNAME", map.get("USERNAME").toString());
-			    map2.put("MUNAME", map.get("MUNAME").toString());
-			    map2.put("MUPRICE", map.get("MUPRICE").toString());
-			    map2.put("ODATE", map.get("ODATE").toString());
+			    map2.put("RM", map.get("RM").toString());
+			   map2.put("USERNAME", map.get("USERNAME").toString());
+			   // map2.put("MUNAME", map.get("MUNAME").toString());
+			   // map2.put("MUPRICE", map.get("MUPRICE").toString());
+			    map2.put("ORTID", map.get("ORTID").toString());
+			     map2.put("ODATE", map.get("ODATE").toString());
 			    map2.put("OSTATUS", map.get("OSTATUS").toString());
-			    map2.put("OCOUNT", map.get("OCOUNT").toString());
-			    map2.put("SUM", map.get("SUM").toString());
+			   // map2.put("OCOUNT", map.get("OCOUNT").toString());
+			   // map2.put("SUM", map.get("SUM").toString());
 			    map2.put("OUUID", map.get("OUUID").toString());
 			    list.add(map2);
 		}
@@ -240,7 +260,8 @@ public class ChenShunDao extends DataDao {
 	  * @return
 	  */
 		public int OrderNumNo(Integer id){
-			String sql="select count(*) from ts_order where ortid=? and ostatus =2";
+			String sql="select count(*) from ts_order  where ortid=? and ouuid is not null group by ouuid";
+			
 			return scalarNumber(sql,id);
 			
 		}
@@ -249,21 +270,25 @@ public class ChenShunDao extends DataDao {
      * @param id
      * @return
      */
-	 public List<Map<String,String>> OrderListYes(Integer id){
+	 public List<Map<String,String>> OrderListYes(Integer id,Integer pageindex,Integer pagesize,String sort,String order){
 		 List<Map<String,String>>  list=new ArrayList<Map<String,String>>();
-		 String sql ="select  k.oid,u.username,m.muname,m.muprice,k.odate,k.ostatus,k.ocount,(m.muprice*k.ocount) as sum,ouuid from ( select t.*, rownum r from ts_order t     where ortid=1 and ostatus in(3,4,5) )k    inner join ts_menu m  on k.omuid=m.muid  inner join ts_user u  on u.userid=k.ouserid";
-		 for (Map<String, Object> map : getMapList(sql, id)) {
+		 String sql =" select * from(select ouuid,ortid,rtname,rtpic,odate,ostatus,row_number()over(order by odate desc) rm from  ts_order o,ts_restaurant r where o.ortid=r.rtid  and ouuid is not null and ortid=?  and ostatus=3 group by ouuid,ortid,rtname,rtpic,odate,ostatus) where rm between ? and ? ";
+		 if(sort!=null&&!sort.equals("")){
+           	 sql+=" order by   "+sort+"  "+order; 	 
+            }  
+		 for (Map<String, Object> map : getMapList(sql, id,(pageindex-1)*pagesize,pageindex*pagesize)) {
 			   Map<String,String>  map2=new HashMap<String, String>();
-			    map2.put("OID", map.get("OID").toString());
-			    map2.put("USERNAME", map.get("USERNAME").toString());
-			    map2.put("MUNAME", map.get("MUNAME").toString());
-			    map2.put("MUPRICE", map.get("MUPRICE").toString());
-			    map2.put("ODATE", map.get("ODATE").toString());
-			    map2.put("OSTATUS", map.get("OSTATUS").toString());
-			    map2.put("OCOUNT", map.get("OCOUNT").toString());
-			    map2.put("SUM", map.get("SUM").toString());
-			    map2.put("OUUID", map.get("OUUID").toString());
-			    list.add(map2);
+			    map2.put("RM", map.get("RM").toString());
+				  //  map2.put("USERNAME", map.get("USERNAME").toString());
+				   // map2.put("MUNAME", map.get("MUNAME").toString());
+				   // map2.put("MUPRICE", map.get("MUPRICE").toString());
+				    map2.put("ORTID", map.get("ORTID").toString());
+				     map2.put("ODATE", map.get("ODATE").toString());
+				    map2.put("OSTATUS", map.get("OSTATUS").toString());
+				   // map2.put("OCOUNT", map.get("OCOUNT").toString());
+				   // map2.put("SUM", map.get("SUM").toString());
+				    map2.put("OUUID", map.get("OUUID").toString());
+				    list.add(map2);
 		}
 		 
 		 return list;
@@ -275,7 +300,7 @@ public class ChenShunDao extends DataDao {
 	  * @return
 	  */
 		public int OrderNumYes(Integer id){
-			String sql="select count(*) from ts_order where ortid=? and ostatus in(3,4,5)";
+			String sql="select count(*) from ts_order where ortid=? and ostatus =3";
 			return scalarNumber(sql,id);
 			
 		}
@@ -287,12 +312,36 @@ public class ChenShunDao extends DataDao {
 		 * @param id
 		 * @return
 		 */
-	public int JieDanOrder(Integer id){  //订单的主键来修改
-		String sql="update ts_order set ostatus=3 where oid=?";
-		return update(sql, id);
-		
-		
+	public int JieDanOrder(Integer id,String ouuid){  //根据店的id和uuid
+		String sql="update ts_order set ostatus=3 where  ortid=? and ouuid=?";
+		return update(sql, id,ouuid);
+			
 	}
+	
+	/**
+	 * 根据uuid查看订单
+	 * @return
+	 */
+	public List<Map<String,Object>> OrderXiangQing(String ouuid){
+		
+		String sql="select realname,muname,ocount,muprice,(ocount*muprice) msum ,tel,address,rtname from ts_order o inner join ts_menu m on o.omuid=m.muid  inner join  ts_user t  on t.userid=o.ouserid    inner join  ts_restaurant tr  on tr.rtid=o.ortid where  ouuid=?";
+		return getMapList(sql, ouuid);
+        
+	}
+	
+	
+	/**
+	 * 修改密码
+	 * @param t
+	 * @return
+	 */
+   public int UpdateUserPassword(User t){
+	   String sql="update ts_user set pwd=? where userid=?";
+	   return update(sql,t.getPwd(),t.getUserid());   
+	   
+   }
+	
+
 	 
 	
 	

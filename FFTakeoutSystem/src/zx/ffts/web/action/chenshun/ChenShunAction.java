@@ -27,8 +27,10 @@ import jxl.write.biff.RowsExceededException;
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
-import zx.ffs.dao.chenshun.ChenShunDao;
-import zx.java.entity.chenshun.ts_menu;
+import zx.ffts.dao.chenshun.ChenShunDao;
+import zx.ffts.domain.User;
+import zx.ffts.domain.chenshun.ts_menu;
+import zx.ffts.domain.chenshun.ts_user;
 
 import net.sf.json.JSONObject;
 
@@ -106,13 +108,11 @@ public class ChenShunAction extends ChenShunBase {
 		String ids = request.getParameter("ids");
 		if (ids != null) {
 			String[] id = ids.split(",");
-			for (String i : id) {
-				System.out.println(">>>>>>>>>>>进入删除方法" + i);
+			for (String i : id) {			
 				fiag = cs.DeleteMenu(Integer.parseInt(i));
 			}
 			PrintWriter out = response.getWriter();
 			json.put("deletefiag", fiag);
-			System.out.println(fiag);
 			out.write(json.toString());
 			out.flush();
 			out.close();
@@ -220,8 +220,7 @@ public class ChenShunAction extends ChenShunBase {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		List<Map<String, String>> list = cs.OrderList(rows, 1, page, status,
-				sort, order); // 所有数据
+		List<Map<String, String>> list = cs.OrderList(1,status,page,rows,sort,order); // 所有数据
 		session.setAttribute("list", list);
 		int num = cs.OrderNum(1, status); // 数量
 		json.put("total", num); // 店主的id此处是自己设的
@@ -237,9 +236,12 @@ public class ChenShunAction extends ChenShunBase {
 	 * @throws IOException 
 	 */
 	public void LoadOrderNo() throws IOException{
-	   
+		Integer page = Integer.parseInt(request.getParameter("page"));
+		Integer rows = Integer.parseInt(request.getParameter("rows"));
+		String sort = request.getParameter("sort");
+		String order = request.getParameter("order");
 		PrintWriter out = response.getWriter();
-		List<Map<String, String>> list = cs.OrderListNo(1);  //商店的id
+		List<Map<String, String>> list = cs.OrderListNo(1,page,rows,sort,order);  //商店的id
 		int num = cs.OrderNumNo(1);   
 		json.put("total", num); // 店主的id此处是自己设的
 		json.put("rows", list);// 店主的id此处是自己设的
@@ -256,8 +258,12 @@ public class ChenShunAction extends ChenShunBase {
 	 * @throws IOException 
 	 */
 	public void LoadOrderYes() throws IOException{
+		Integer page = Integer.parseInt(request.getParameter("page"));
+		Integer rows = Integer.parseInt(request.getParameter("rows"));
+		String sort = request.getParameter("sort");
+		String order = request.getParameter("order");
 		PrintWriter out = response.getWriter();
-		List<Map<String, String>> list = cs.OrderListYes(1);  //商店的id
+		List<Map<String, String>> list = cs.OrderListYes(1,page,rows,sort,order);  //商店的id
 		int num = cs.OrderNumNo(1);   
 		json.put("total", num); // 店主的id此处是自己设的
 		json.put("rows", list);// 店主的id此处是自己设的
@@ -274,18 +280,50 @@ public class ChenShunAction extends ChenShunBase {
 	 * @throws IOException 
 	 */
 	public void JieDanOrder() throws IOException{
-		System.out.println("进入接单方法");
-		String id=request.getParameter("id");   //获取订单的主键
-		System.out.println(id);
-		int fiag=cs.JieDanOrder(Integer.parseInt(id));
-		System.out.println(fiag);
+		String id=request.getParameter("ortid");   //获取店的id
+		String ouuid=request.getParameter("uuid");  //获取uuid
+		int fiag=cs.JieDanOrder(Integer.parseInt(id),ouuid);
 		PrintWriter out = response.getWriter();
-		json.put("jiedan", fiag);// 店主的id此处是自己设的
+		json.put("jiedan", fiag);
 		out.write(json.toString());
 		out.flush();
 		out.close();
 		
 	}
+	/**
+	 * 查看订单详情
+	 * @throws IOException 
+	 */
+	public void OrderXiangQing() throws IOException{
+		String name="";    //用户真实姓名
+		String tel="";          //用户电话
+		String address="";   //用户地址
+		String rtname="";    //店的名称
+		String ouuid=request.getParameter("uuid");
+		List<Map<String,Object>> list=cs.OrderXiangQing(ouuid);
+		for (Map<String, Object> map : list) {
+			name=map.get("REALNAME").toString();
+		    tel=map.get("TEL").toString();
+		    address=map.get("ADDRESS").toString();
+		    rtname=map.get("RTNAME").toString();
+		    break;
+		}
+		PrintWriter out = response.getWriter();
+		json.put("rtname", rtname);
+		json.put("name",name);
+		json.put("tel",tel);
+		json.put("address",address);
+		json.put("XiangQing",list);
+		out.write(json.toString());
+		out.flush();
+		out.close();
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -404,7 +442,7 @@ public class ChenShunAction extends ChenShunBase {
 	}
 
 	/**
-	 * 菜单的
+	 * 菜单电子表
 	 * 
 	 * @return
 	 * @throws Exception
@@ -516,5 +554,34 @@ public class ChenShunAction extends ChenShunBase {
 		out.close();
 
 	}
+	
+	/**
+	 * 修改用户密码
+	 * @throws IOException 
+	 */
+	public void UpdateUserPassword() throws IOException{
+	      String password=request.getParameter("password");  //新密码
+	      User  t=(User)session.getAttribute("user");   //获取当前用户
+		  t.setPwd(password);  //新密码
+	      int fiag=0;
+		  fiag=cs.UpdateUserPassword(t);
+		  PrintWriter out = response.getWriter();
+			json.put("UpdateUserPassword",fiag);// 把所有的键的名称,放到set集合，返回
+			out.write(json.toString());// 输出json
+			out.flush();
+			out.close();
+	      
+		
+	
+	}
+	/**
+	 * 安全退出
+	 */
+	public void exit(){
+		if(session.getAttribute("user")!=null){
+			session.removeAttribute("user");
+		}
+	}
+	
 
 }
