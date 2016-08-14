@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import zx.ffts.dao.DataDao;
-import zx.ffts.entity.chenkai.TsGift;
-import zx.ffts.entity.chenkai.TsPay;
+import zx.ffts.domain.chenkai.TsGift;
+
 
 public class TsGiftDao extends DataDao {
 	

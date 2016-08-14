@@ -30,9 +30,9 @@ import net.sf.json.JSONObject;
 import zx.ffts.dao.chenkai.TsGiftDao;
 import zx.ffts.dao.chenkai.TsRestaurantDao;
 import zx.ffts.dao.chenkai.TsUserDao;
-import zx.ffts.entity.chenkai.TsGift;
-import zx.ffts.entity.chenkai.TsRestaurant;
-import zx.ffts.entity.chenkai.TsUser;
+import zx.ffts.domain.chenkai.TsGift;
+
+
 
 public class ChenKaiTsGiftAction extends BaseAction {
 	
@@ -44,7 +44,7 @@ public class ChenKaiTsGiftAction extends BaseAction {
 		String rowStr = req.getParameter("rows");
 		
 		Integer page=1;
-		Integer row=2;
+		Integer row=5;
 		if (pageStr!=null&&!"".equals(pageStr)) {
 			page=Integer.parseInt(pageStr);
 		}

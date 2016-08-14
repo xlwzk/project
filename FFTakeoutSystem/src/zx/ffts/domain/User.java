@@ -1,8 +1,10 @@
 package zx.ffts.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+@SuppressWarnings("serial")
+public class User implements Serializable{
 
 	private Integer userid;
 	private String username;
@@ -155,4 +157,5 @@ public class User {
 		this.authority = authority;
 		this.photo = photo;
 	}
+	
 }

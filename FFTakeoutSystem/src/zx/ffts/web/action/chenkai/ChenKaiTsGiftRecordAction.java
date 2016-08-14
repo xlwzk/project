@@ -33,11 +33,9 @@ import zx.ffts.dao.chenkai.TsMenumsgDao;
 import zx.ffts.dao.chenkai.TsMessageDao;
 import zx.ffts.dao.chenkai.TsRestaurantDao;
 import zx.ffts.dao.chenkai.TsUserDao;
-import zx.ffts.entity.chenkai.TsGiftRecord;
-import zx.ffts.entity.chenkai.TsMenuMsg;
-import zx.ffts.entity.chenkai.TsMessage;
-import zx.ffts.entity.chenkai.TsRestaurant;
-import zx.ffts.entity.chenkai.TsUser;
+import zx.ffts.domain.chenkai.TsGiftRecord;
+
+
 
 public class ChenKaiTsGiftRecordAction extends BaseAction {
 	
@@ -49,7 +47,7 @@ public class ChenKaiTsGiftRecordAction extends BaseAction {
 		String rowStr = req.getParameter("rows");
 		
 		Integer page=1;
-		Integer row=2;
+		Integer row=5;
 		if (pageStr!=null&&!"".equals(pageStr)) {
 			page=Integer.parseInt(pageStr);
 		}

@@ -6,7 +6,9 @@ import java.util.Map;
 import org.junit.Test;
 
 import zx.ffts.dao.DataDao;
-import zx.ffts.entity.chenkai.TsUser;
+import zx.ffts.domain.User;
+import zx.ffts.domain.chenkai.TsUser;
+
 
 public class TsUserDao extends DataDao {
 	
@@ -69,7 +71,6 @@ public class TsUserDao extends DataDao {
 	
 	//修改用户
 	public Integer updateUser(String username,String pwd,String tel,String email,String address,String realname,double balance,Integer score,String gender,String regdate,Integer authority,String photo,Integer userid){
-		System.out.println(regdate);
 		String sql="update ts_user set username=?,pwd=?,tel=?,email=?,address=?,realname=?,balance=?,score=?,gender=?,regdate=to_date('"+regdate+"','yyyy-MM-dd hh24:mi:ss') ,authority=?,photo=? where userid=? ";
 		Integer i=update(sql, username,pwd,tel,email,address,realname,balance,score,gender,authority,photo,userid);
 		System.out.println(sql);

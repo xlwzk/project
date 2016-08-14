@@ -31,10 +31,9 @@ import zx.ffts.dao.chenkai.TsMenuDao;
 import zx.ffts.dao.chenkai.TsMessageDao;
 import zx.ffts.dao.chenkai.TsRestaurantDao;
 import zx.ffts.dao.chenkai.TsUserDao;
-import zx.ffts.entity.chenkai.TsMenu;
-import zx.ffts.entity.chenkai.TsMessage;
-import zx.ffts.entity.chenkai.TsRestaurant;
-import zx.ffts.entity.chenkai.TsUser;
+import zx.ffts.domain.chenkai.TsMenu;
+
+
 
 public class ChenKaiTsMenuAction extends BaseAction {
 	

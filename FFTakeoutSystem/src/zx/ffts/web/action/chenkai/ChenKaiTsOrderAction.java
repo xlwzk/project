@@ -27,7 +27,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
 import zx.ffts.dao.chenkai.TsOrderDao;
-import zx.ffts.entity.chenkai.TsOrder;
+import zx.ffts.domain.chenkai.TsOrder;
+
 
 import net.sf.json.JSONObject;
 
@@ -42,7 +43,7 @@ public class ChenKaiTsOrderAction extends BaseAction {
 		String rowStr = req.getParameter("rows");
 		
 		Integer page=1;
-		Integer row=2;
+		Integer row=5;
 		if (pageStr!=null&&!"".equals(pageStr)) {
 			page=Integer.parseInt(pageStr);
 		}
