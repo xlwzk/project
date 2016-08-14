@@ -13,7 +13,7 @@ public class SuccessTransaction implements Transactable {
 			throws SQLException {
 		String sql="";
 		//给商店评论ts_message_seq.nextval,userid,rtid,content,score,sysdate);
-		sql="insert into ts_message values(ts_message_seq.nextval,?,?,?,?,sysdate) ";
+		sql="insert into ts_message values(ts_message_seq.nextval,?,?,?,sysdate,?) ";
 		executor.executeUpdate(sql, params[1],params[2],params[3],params[4]);
 		//得到需要评价的菜单id
 		sql="select muid from ts_order o,ts_menu m where o.omuid=m.muid and ouuid=?";
