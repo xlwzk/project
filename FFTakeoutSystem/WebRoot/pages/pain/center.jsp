@@ -238,7 +238,7 @@
 							<c:when test="${item.ostatus == 3 or item.ostatus == 4}">
 								<a class="btn borderSky pull-right" href="">点此催单</a>
 							</c:when>
-							<c:when test="${item.ostatus == 5}">
+							<c:when test="${item.ostatus == 5 and item.oassess == 0}">
 								<a class="btn borderOrange pull-right" href="shwx!getAssess.action?uuid=${item.ouuid}">评价得<fmt:formatNumber
 										value="${item.sum * 10}" pattern="0" />积分</a>
 							</c:when>
