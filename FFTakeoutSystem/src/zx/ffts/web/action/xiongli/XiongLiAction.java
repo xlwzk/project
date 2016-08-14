@@ -5,6 +5,7 @@ import java.util.Map;
 
 import zx.ffts.dao.DataAccessObject;
 import zx.ffts.dao.transaction.AssessTransaction;
+import zx.ffts.dao.xiong.OrderFunctionDao;
 import zx.ffts.dao.yyq.ts_restaurant_dao;
 import zx.ffts.domain.User;
 import zx.ffts.web.action.yyq.YYQAction;
@@ -18,6 +19,8 @@ public class XiongLiAction extends BaseAction {
 	YYQAction yyq = new YYQAction();
 	ts_restaurant_dao rt = new ts_restaurant_dao();
 
+	
+	
 	public String addCar() {
 		Integer rtid = Integer.parseInt(request.getParameter("shopid"));
 		Integer menuid = Integer.parseInt(request.getParameter("menuid"));
@@ -171,10 +174,10 @@ public class XiongLiAction extends BaseAction {
 	
 	//评论
 	public String getAssess(){
-//		User user=(User) session.getAttribute("user");
-//		Integer userid=user.getUserid();
+		User user=(User) session.getAttribute("user");
+		Integer userid=user.getUserid();
 //		Integer rtid=Integer.parseInt(request.getParameter("rtid"));
-		Map<String, Object> map=(Map<String, Object>) new DataAccessObject().doTransaction(new AssessTransaction(),5,1);
+		Map<String, Object> map=(Map<String, Object>) new OrderFunctionDao().doTransaction(new AssessTransaction(),userid,uuid);
 		request.setAttribute("mapshop", map);
 		return "getAssess";
 	}
