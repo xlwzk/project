@@ -233,7 +233,6 @@ $(function() {
 	});
  
 	showNav();
-	
 });
 //style="width:262px;height:270px;background-repeat:no-repeat;background-image:url(<%=path%>/${item.PICTURE});background-position:center center"
 
@@ -282,8 +281,8 @@ function orderNow(rtid,userid,i){
 function setMenuBar(top){
 	if(top==0){
 		$("#menubar").attr("style","margin: 0px;padding: 0px;position: fixed;");
-	}else if(top<=105.6){
-		$("#menubar").css("top",155.6-top);
+	}else if(top<=judge()-56){
+		$("#menubar").css("top",judge()-top);
 	}else{
 		$("#menubar").css("top",56);
 	}
@@ -298,20 +297,21 @@ function judge() {
 				if (/Android|webOS|iPhone|iPod|BlackBerry/i
 						.test(navigator.userAgent)) {
 					// 判断访问环境是 Android|webOS|iPhone|iPod|BlackBerry 则加载以下样式
-					$("#menubar").attr("style","margin: 0px;padding: 0px;");
+					return 195;
 				} else if (/iPad/i.test(navigator.userAgent)) {
 					// 判断访问环境是 iPad 则加载以下样式
-					$("#menubar").attr("style","margin: 0px;padding: 0px;");
+					return 195;
 				} else {
 					// 判断访问环境是 其他移动设备 则加载以下样式
-					$("#menubar").attr("style","margin: 0px;padding: 0px;");
+					return 200;
 				}
 			} catch (e) {
+				return 200;
 			}
 		}
 	} else {
 		// 如果以上都不是，则加载以下样式
-		$("#menubar").attr("style","margin: 0px;padding: 0px;position: fixed;");
+		return 155.6;
 	}
 }
 

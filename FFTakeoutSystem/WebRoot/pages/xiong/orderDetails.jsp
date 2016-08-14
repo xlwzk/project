@@ -123,11 +123,11 @@
 						</div>
 					</div>
 				</div>
-				<div class="panel-footer" style="font-size: 10px;padding-bottom: 16px;">
-					<span class="pull-left statusSpan">订单已提交</span>
+				<div class="panel-footer" style="font-size: 10px;padding-bottom: 16px;" id="close">
+					<span class="pull-left statusSpan">等待商家接单</span>
 					<div style="text-align: center;border-bottom: 1px #ddd dotted;">
-						<span style="padding-bottom: 5px;" class="statusSpan">等待商家接单</span>
-						<span class="pull-right statusSpan">等待送达</span>
+						<span style="padding-bottom: 5px;" class="statusSpan">配送中...</span>
+						<span class="pull-right statusSpan">已送达</span>
 					</div>
 				</div>
 			</div>

@@ -40,7 +40,7 @@
 	src="<%=path%>/js/requestAnimationFrame.js"></script>
 <script type="text/javascript" src="<%=path%>/js/cartfly.js"></script>
 </head>
-<body onscroll="setMenuBar(document.documentElement.scrollTop)">
+<body onscroll="setMenuBar(document.documentElement.scrollTop||document.body.scrollTop)">
 	<a id="infos" class="sr-only" rtid="${rtid}"
 		userid="${sessionScope.user.userid}" index="${param.index}"></a>
 	<!--此处是导航条 -->
@@ -61,7 +61,7 @@
 					在线订餐系统</a>
 				<!-- 返回按键 -->
 				<a class="navbar-brand visible-xs pull-right"
-					href="shop!ShopList.action?cp=${cp}" style="width: 80px;"><span
+					href="shop!ShopList.action?cp=${cp}" style="width: 60px;"><span
 					class="glyphicon glyphicon-circle-arrow-left text-danger"></span> </a>
 			</div>
 			<!--导航条实际内容 -->

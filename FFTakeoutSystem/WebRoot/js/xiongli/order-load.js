@@ -8,18 +8,21 @@ $(function(){
 		for ( var i = 0; i < json.length; i++) {
 			var lsum = json[i].muprice*json[i].ocount;
 			if(i==0){
-				if(json[0].ostatus<=2){
+				if(json[0].ostatus==1){
+					$("#orderStatus").text("付款超时，订单关闭");
+					$("#close").empty().append("<span class='bgBorder'>交易未完成</span>");
+				}else if(json[0].ostatus<=2){
 					$("#orderStatus").text("等待商家接单");
 					$(".statusSpan").removeClass("bgBorder").removeClass("bgNormalBorder");
 					$(".statusSpan:eq(0)").addClass("bgBorder");
 					$(".statusSpan:not(:eq(0))").addClass("bgNormalBorder");
 				}else if(json[0].ostatus==3){
-					$("#orderStatus").text("商家已接单");
+					$("#orderStatus").text("配送中...");
 					$(".statusSpan").removeClass("bgBorder").removeClass("bgNormalBorder");
 					$(".statusSpan:eq(1)").addClass("bgBorder");
 					$(".statusSpan:not(:eq(1))").addClass("bgNormalBorder");
 				}else if(json[0].ostatus==4){
-					$("#orderStatus").text("等待送达");
+					$("#orderStatus").text("已送达");
 					$(".statusSpan").removeClass("bgBorder").removeClass("bgNormalBorder");
 					$(".statusSpan:eq(2)").addClass("bgBorder");
 					$(".statusSpan:not(:eq(2))").addClass("bgNormalBorder");
